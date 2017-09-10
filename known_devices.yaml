@@ -1,0 +1,125 @@
+teresa_printer:
+  hide_if_away: false
+  icon:
+  mac: 3C:A8:2A:CC:91:22
+  name: HP Printer
+  picture:
+  track: true
+  vendor: Hewlett Packard
+
+chris_echo_show:
+  hide_if_away: false
+  icon:
+  mac: 00:FC:8B:B0:A4:7E
+  name: Chris's Echo Show
+  picture:
+  track: true
+  vendor: Amazon
+
+teresa_tablet:
+  hide_if_away: false
+  icon:
+  mac: 74:C6:3B:C4:BD:57
+  name: Teresa Tablet
+  picture:
+  track: true
+  vendor: unknown
+
+chris_laptop:
+  hide_if_away: false
+  icon:
+  mac: AC:FD:CE:4F:25:A9
+  name: Chris Laptop
+  picture:
+  track: true
+  vendor: Asus
+
+samsung_smart_tv:
+  hide_if_away: false
+  icon:
+  mac: FC:F1:36:75:EF:C0
+  name: Samsung Smart TV
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
+
+chris_xboxone:
+  hide_if_away: false
+  icon:
+  mac: 4C:0B:BE:79:A2:A2
+  name: Xbox One
+  picture:
+  track: true
+  vendor: Microsoft
+
+bruce_phone:
+  hide_if_away: false
+  icon:
+  mac: A8:81:95:31:BB:76
+  name: Bruce
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
+
+teresa_laptop:
+  hide_if_away: false
+  icon:
+  mac: 5C:93:A2:FE:C3:35
+  name: Teresa Laptop
+  picture:
+  track: true
+  vendor: Liteon Technology Corporation
+
+living_room_tv:
+  hide_if_away: false
+  icon:
+  mac: 5C:DC:96:22:A9:97
+  name: Living Room TV
+  picture:
+  track: true
+  vendor: LG Technology
+
+cassiesiphone:
+  hide_if_away: false
+  icon:
+  mac: B4:4B:D2:E0:C1:8F
+  name: Cassie Iphone
+  picture:
+  track: true
+  vendor: unknown
+
+chris_miller_phone:
+  hide_if_away: false
+  icon:
+  mac: FC:DB:B3:DD:B4:F7
+  name: Chris
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
+
+teresa_dills_phone:
+  hide_if_away: false
+  icon:
+  mac: 9C:8B:A0:13:C0:94
+  name: Teresa
+  picture:
+  track: true
+  vendor: Apple, Inc
+
+ps3:
+  hide_if_away: false
+  icon:
+  mac: 00:24:8D:B9:BA:3E
+  name: Playstation 3
+  picture:
+  track: true
+  vendor: Sony Interactive Entertainment Inc.
+
+echo_dot:
+  hide_if_away: false
+  icon:
+  mac: 68:37:E9:40:C9:0A
+  name: Echo Dot
+  picture:
+  track: true
+  vendor: Amazon Technologies Inc.

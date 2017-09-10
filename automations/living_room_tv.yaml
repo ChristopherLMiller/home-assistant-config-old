@@ -1,0 +1,48 @@
+# Turn off TV if all three devices are gone
+- alias: 'Living TV Off leaving home'
+  trigger:
+    - platform: state
+      from: 'home'
+      to: 'not_home'
+      entity_id: group.phones
+  action:
+    - service: notify.discord
+      data_template:
+        target: '355096664241078272'
+        message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] Turning off living room TV'
+    - service: media_player.turn_off
+      entity_id: media_player.lg_smart_tv
+
+# Turn on living room TV when someone arrives home, but not between night hours
+- alias: 'Living TV On Arriving Home'
+  trigger:
+    - platform: state
+      to: 'home'
+      entity_id: group.phones
+#  condition:
+#    - condition: state
+#      entity_id: media_player.lg_smart_tv
+#      state: 'off'
+#    - condition: time
+#      after: '22:00:00'
+#      weekday:
+#        - mon
+#        - tue
+#        - wed
+#        - thu
+#        - fri
+#    - condition: time
+#      before: '06:00:00'
+#      weekday:
+#        - mon
+#        - tue
+#        - wed
+#        - thu
+#        - fri
+  action:
+    - service: notify.discord
+      data_template:
+        target: '355096664241078272'
+        message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] Turning on living room TV'
+    - service: media_player.turn_on
+      entity_id: media_player.lg_smart_tv

@@ -1,0 +1,6 @@
+### CHRIS'S BEDROOM ###
+chris_bedroom:
+  name: Chris's Bedroom
+  view: yes
+  entities:
+    - media_player.samsung_tv_remote

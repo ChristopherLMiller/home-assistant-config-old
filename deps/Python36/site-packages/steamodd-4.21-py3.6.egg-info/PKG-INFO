@@ -1,0 +1,14 @@
+Metadata-Version: 1.1
+Name: steamodd
+Version: 4.21
+Summary: High level Steam API implementation with low level reusable core
+Home-page: https://github.com/Lagg/steamodd
+Author: Anthony Garcia
+Author-email: anthony@lagg.me
+License: ISC
+Description: Please see the `README <https://github.com/Lagg/steamodd/blob/master/README.md>`_ for a full description.
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: ISC License (ISCL)
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python

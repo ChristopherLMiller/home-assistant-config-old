@@ -1,0 +1,10 @@
+### DEFAULT VIEW ###
+default_view:
+  name: DEFAULT
+  icon: mdi:home
+  view: yes
+  entities:
+    - group.weather
+    - group.speedtest
+    - group.phones
+    - group.links

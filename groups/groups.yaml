@@ -1,0 +1,59 @@
+## Phones and tablets ##
+Top Devices:
+  - device_tracker.chris_miller_phone
+  - device_tracker.chris_laptop
+  - device_tracker.teresa_dills_phone
+  - device_tracker.teresa_laptop
+  - device_tracker.teresa_tablet
+  - device_tracker.bruce_phone
+Phones:
+  - device_tracker.chris_miller_phone
+  - device_tracker.teresa_dills_phone
+  - device_tracker.bruce_phone
+
+## All Network Devices Group ##
+network:
+  - sensor.hp_printer
+  - sensor.echo_show
+  - sensor.echo_dot
+  - sensor.teresa_tablet
+  - sensor.chris_laptop
+  - sensor.samsung_smart_tv
+  - sensor.chris_xboxone
+  - sensor.playstation_3
+  - sensor.bruce_phone
+  - sensor.teresa_laptop
+  - sensor.living_room_tv
+  - sensor.chris_miller_phone
+  - sensor.teresa_dills_phone
+
+## MISC GROUPS ##
+Speedtest:
+  - sensor.speedtest_ping
+  - sensor.speedtest_download
+  - sensor.speedtest_upload
+Weather:
+  - sensor.weather_conditions_temperature
+  - sensor.weather_conditions_wind_speed
+  - sensor.weather_conditions_wind_direction
+  - sensor.weather_conditions_symbol
+  - sun.sun
+Links:
+  - weblink.router
+  - weblink.unifi_wap
+
+# automation groups
+Sun Automations:
+  control: hidden
+  entities:
+    - automation.notify_discord_at_sunset
+    - automation.notify_discord_at_sunrise
+
+# Misc Automation group
+Other Automations:
+  control: hidden
+  entities:
+    - automation.people_leaving_home
+    - automation.people_returning_home
+    - automation.living_tv_off_leaving_home
+    - automation.living_tv_on_arriving_home

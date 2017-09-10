@@ -1,0 +1,7 @@
+### Owntracks Device Tracker ###
+platform: owntracks
+max_gps_accuracy: 200
+waypoints: True
+waypoints_whitelist:
+  - chris_miller
+  - teresa_dills

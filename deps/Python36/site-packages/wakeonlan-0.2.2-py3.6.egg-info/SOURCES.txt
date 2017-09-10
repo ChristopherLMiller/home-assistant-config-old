@@ -1,0 +1,11 @@
+MANIFEST.in
+README.rst
+setup.cfg
+setup.py
+script/wol
+wakeonlan/__init__.py
+wakeonlan/wol.py
+wakeonlan.egg-info/PKG-INFO
+wakeonlan.egg-info/SOURCES.txt
+wakeonlan.egg-info/dependency_links.txt
+wakeonlan.egg-info/top_level.txt

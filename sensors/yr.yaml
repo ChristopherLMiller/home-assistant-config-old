@@ -1,0 +1,8 @@
+### YR sensor ###
+platform: yr
+name: Weather Conditions
+monitored_conditions:
+  - temperature
+  - symbol
+  - windSpeed
+  - windDirection

@@ -1,0 +1,34 @@
+#!c:\users\moose\appdata\local\programs\python\python36-32\python.exe
+
+import argparse
+
+from pyunifi.controller import Controller
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--controller', default='unifi', help='the controller address (default "unifi")')
+parser.add_argument('-u', '--username', default='admin', help='the controller username (default("admin")')
+parser.add_argument('-p', '--password', default='', help='the controller password')
+parser.add_argument('-b', '--port', default='8443', help='the controller port (default "8443")')
+parser.add_argument('-v', '--version', default='v2', help='the controller base version (default "v2")')
+parser.add_argument('-s', '--siteid', default='default', help='the site ID, UniFi >=3.x only (default "default")')
+args = parser.parse_args()
+
+c = Controller(args.controller, args.username, args.password, args.port, args.version, args.siteid)
+
+aps = c.get_aps()
+ap_names = dict([(ap['mac'], ap.get('name')) for ap in aps])
+clients = c.get_clients()
+clients.sort(key=lambda x: -x['rssi'])
+
+FORMAT = '%-16s  %18s  %-12s  %4s  %4s  %3s  %3s'
+print(FORMAT % ('NAME', 'MAC', 'AP', 'CHAN', 'RSSI', 'RX', 'TX'))
+for client in clients:
+    ap_name = ap_names[client['ap_mac']]
+    name = client.get('hostname') or client.get('ip', 'Unknown')
+    rssi = client['rssi']
+    mac = client['mac']
+    rx = int(client['rx_rate'] / 1000)
+    tx = int(client['tx_rate'] / 1000)
+    channel = client['channel']
+
+    print(FORMAT % (name, mac, ap_name, channel, rssi, rx, tx))

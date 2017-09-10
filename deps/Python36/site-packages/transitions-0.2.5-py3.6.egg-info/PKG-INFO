@@ -1,0 +1,11 @@
+Metadata-Version: 1.1
+Name: transitions
+Version: 0.2.5
+Summary: A lightweight, object-oriented Python state machine implementation.
+Home-page: http://github.com/tyarkoni/transitions
+Author: Tal Yarkoni
+Author-email: tyarkoni@gmail.com
+License: UNKNOWN
+Download-URL: https://github.com/tyarkoni/transitions/archive/0.2.5.tar.gz
+Description: UNKNOWN
+Platform: UNKNOWN

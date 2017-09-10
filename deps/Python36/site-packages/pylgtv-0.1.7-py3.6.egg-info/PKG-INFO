@@ -1,0 +1,12 @@
+Metadata-Version: 1.1
+Name: pylgtv
+Version: 0.1.7
+Summary: Library to control webOS based LG Tv devices
+Home-page: https://github.com/TheRealLink/pylgtv
+Author: Dennis Karpienski
+Author-email: dennis@karpienski.de
+License: UNKNOWN
+Download-URL: https://github.com/TheRealLink/pylgtv/archive/0.1.6.tar.gz
+Description: UNKNOWN
+Keywords: webos,tv
+Platform: UNKNOWN

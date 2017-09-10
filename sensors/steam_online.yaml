@@ -1,0 +1,5 @@
+### Steam ###
+platform: steam_online
+api_key: D80EE672DCAC8281865B659A45789263
+accounts:
+  - 76561197993303163

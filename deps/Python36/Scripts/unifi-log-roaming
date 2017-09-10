@@ -1,0 +1,39 @@
+#!c:\users\moose\appdata\local\programs\python\python36-32\python.exe
+
+from __future__ import print_function
+
+import argparse
+import time
+
+from pyunifi.controller import Controller
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--controller', default='unifi', help='the controller address (default "unifi")')
+parser.add_argument('-u', '--username', default='admin', help='the controller username (default "admin")')
+parser.add_argument('-p', '--password', default='', help='the controller password')
+parser.add_argument('-b', '--port', default='8443', help='the controller port (default "8443")')
+parser.add_argument('-v', '--version', default='v2', help='the controller base version (default "v2")')
+parser.add_argument('-s', '--siteid', default='default', help='the site ID, UniFi >=3.x only (default "default")')
+args = parser.parse_args()
+
+c = Controller(args.controller, args.username, args.password, args.port, args.version, args.siteid)
+
+aps = c.get_aps()
+ap_names = dict([(ap['mac'], ap.get('name')) for ap in aps])
+
+client_aps = {}
+while True:
+    clients = c.get_clients()
+    for client in clients:
+        ap = ap_names[client['ap_mac']]
+        mac = client['mac']
+        name = client['hostname'] or client['ip'] or client['mac']
+        channel = client['channel']
+        rssi = client['rssi']
+        key = '%s/%d' % (ap, channel)
+
+        if mac in client_aps:
+            if client_aps[mac] != key:
+                print('%s roamed %s -> %s' % (name, client_aps[mac], key))
+        client_aps[mac] = key
+    time.sleep(10)

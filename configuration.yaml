@@ -1,0 +1,83 @@
+homeassistant:
+  name: !secret ha_name
+  latitude: !secret zone_home_lat
+  longitude: !secret zone_home_long
+  elevation: !secret ha_elevation
+  unit_system: imperial
+  time_zone: !secret ha_timezone
+  customize: !include customize.yaml
+  packages: !include_dir_named packages
+
+## INCLUDE ##
+config:
+conversation:
+
+# MQTT Configuration
+mqtt: !include mqtt.yaml
+
+# Sun component
+sun:
+
+# Devices #
+media_player: !include_dir_list devices/media_players/
+
+# Sensors #
+sensor: !include_dir_list sensors/
+
+# Device trackers #
+device_tracker: !include_dir_list device_trackers/
+
+# Notifiers #
+notify: !include_dir_list notifiers/
+
+# Web links #
+weblink: !include web_links.yaml
+
+# Front End #
+frontend: !include front_end.yaml
+
+# Http #
+http:
+  api_password: !secret http_pass
+
+# Updater #
+updater:
+  include_used_components: true
+
+# TTS #
+tts:
+  - platform: google
+
+# Zones #
+zone:
+  name: Home
+  latitude: !secret zone_home_lat
+  longitude: !secret zone_home_long
+  radius: 150
+  icon: mdi:home
+zone 2:
+  name: Masterbrand
+  latitude: !secret zone_masterbrand_lat
+  longitude: !secret zone_masterbrand_long
+  radius: 300
+  icon: mdi:worker
+zone 3:
+  name: Cass & Bills house
+  latitude: !secret zone_cassie_lat
+  longitude: !secret zone_cassie_long
+  radius: 150
+  icon: mdi:account
+
+## LOAD AUTOMATIONS ##
+automation: !include_dir_merge_list automations/
+
+## LOAD GROUPS ##
+group: !include_dir_merge_named groups/
+
+## LOAD SCRIPTS ##
+script: !include scripts.yaml
+
+## ACTIVATE ##
+alexa:
+history:
+logbook:
