@@ -1,0 +1,14 @@
+Metadata-Version: 2.0
+Name: pynetgear
+Version: 0.3.3
+Summary: Access Netgear routers using their SOAP API
+Home-page: http://github.com/balloob/pynetgear
+Author: Paulus Schoutsen
+Author-email: Paulus@PaulusSchoutsen.nl
+License: MIT
+Platform: UNKNOWN
+Requires-Dist: requests (>=2.0)
+
+UNKNOWN
+
+

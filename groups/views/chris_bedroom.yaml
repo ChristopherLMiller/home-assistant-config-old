@@ -3,4 +3,5 @@ chris_bedroom:
   name: Chris's Bedroom
   view: yes
   entities:
-    - media_player.samsung_tv_remote
+    - media_player.samsung_smart_tv
+    - camera.random_image

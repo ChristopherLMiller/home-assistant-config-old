@@ -30,6 +30,12 @@ device_tracker: !include_dir_list device_trackers/
 # Notifiers #
 notify: !include_dir_list notifiers/
 
+# Zones #
+zone: !include_dir_list zones/
+
+# Cameras #
+camera: !include_dir_list cameras/
+
 # Web links #
 weblink: !include web_links.yaml
 
@@ -48,25 +54,8 @@ updater:
 tts:
   - platform: google
 
-# Zones #
-zone:
-  name: Home
-  latitude: !secret zone_home_lat
-  longitude: !secret zone_home_long
-  radius: 150
-  icon: mdi:home
-zone 2:
-  name: Masterbrand
-  latitude: !secret zone_masterbrand_lat
-  longitude: !secret zone_masterbrand_long
-  radius: 300
-  icon: mdi:worker
-zone 3:
-  name: Cass & Bills house
-  latitude: !secret zone_cassie_lat
-  longitude: !secret zone_cassie_long
-  radius: 150
-  icon: mdi:account
+discovery:
+
 
 ## LOAD AUTOMATIONS ##
 automation: !include_dir_merge_list automations/

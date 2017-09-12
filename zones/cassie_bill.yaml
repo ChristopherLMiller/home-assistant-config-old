@@ -1,0 +1,6 @@
+## Zone Cass & Bills ##
+name: Cass & Bills house
+latitude: !secret zone_cassie_lat
+longitude: !secret zone_cassie_long
+radius: 150
+icon: mdi:account
