@@ -18,6 +18,11 @@ mqtt: !include mqtt.yaml
 # Sun component
 sun:
 
+# USPS Component
+usps:
+  username: !secret usps_username
+  password: !secret usps_password
+
 # Devices #
 media_player: !include_dir_list devices/media_players/
 
