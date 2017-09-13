@@ -1,6 +1,0 @@
-Weather:
-  - sensor.weather_conditions_temperature
-  - sensor.weather_conditions_wind_speed
-  - sensor.weather_conditions_wind_direction
-  - sensor.weather_conditions_symbol
-  - sun.sun

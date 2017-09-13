@@ -1,0 +1,70 @@
+################################################################
+## Packages / USPS
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'usps'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Camera
+    ################################################
+
+    camera.usps_mail:
+      <<: *customize
+      friendly_name: "USPS Mail"
+      hidden: true
+
+    ################################################
+    ## Group
+    ################################################
+
+    group.usps_mail:
+      <<: *expose
+      friendly_name: "USPS Mail"
+      icon: mdi:mailbox
+
+    ################################################
+    ## Sensor
+    ################################################
+
+    sensor.usps_mail:
+      <<: *customize
+      friendly_name: "USPS Mail"
+
+    sensor.usps_packages:
+      <<: *customize
+      friendly_name: "USPS Packages"
+
+################################################
+## Group
+################################################
+
+group:
+  usps_mail:
+    entities:
+      - sensor.usps_mail
+      - sensor.usps_packages
+
+################################################
+## USPS
+################################################
+
+usps:
+    username: !secret usps_username
+    password: !secret usps_password

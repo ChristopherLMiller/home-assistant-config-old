@@ -1,5 +1,0 @@
-Sun Automations:
-  control: hidden
-  entities:
-    - automation.notify_discord_at_sunset
-    - automation.notify_discord_at_sunrise

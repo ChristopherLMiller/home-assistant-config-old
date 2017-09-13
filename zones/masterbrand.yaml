@@ -1,6 +1,0 @@
-## Zone masterbrand ##
-name: Masterbrand
-latitude: !secret zone_masterbrand_lat
-longitude: !secret zone_masterbrand_long
-radius: 300
-icon: mdi:worker

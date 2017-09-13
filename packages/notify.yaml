@@ -1,0 +1,31 @@
+################################################################
+## Packages / Notify
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'notify'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## Notify
+################################################
+
+notify:
+  - platform: discord
+    name: discord
+    token: !secret discord_token

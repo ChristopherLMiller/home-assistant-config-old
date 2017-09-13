@@ -1,0 +1,65 @@
+################################################################
+## Packages / LG TV
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'lg_tv'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Media Player
+    ################################################
+
+    media_player.lg_tv_living_room:
+      <<: *customize
+      friendly_name: "LG Smart TV (Living Room)"
+      icon: mdi:monitor
+    
+    automation.tv_off_nobody_home:
+      <<: *customize
+      friendly_name: "Living TV off nobody home"
+
+################################################
+## Media Player
+################################################
+
+media_player:
+  - platform: lg_netcast
+    name: lg_tv_living_room
+    host: !secret lg_tv_living_room_host
+    port: 8001
+    access_token: !secret lg_tv_living_room_access_token
+    mac: !secret lg_tv_living_room_mac
+
+################################################
+## Automation
+################################################
+automation:
+  - alias: tv_off_nobody_home
+    trigger:
+      - platform: state
+        from: 'home'
+        to: 'not_home'
+        entity_id: group.people
+    action:
+      - service: notify.discord
+        data_template:
+          target: '355096664241078272'
+          message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] Turning off living room TV'
+      - service: media_player.turn_off
+        entity_id: media_player.lg_tv_living_room

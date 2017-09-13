@@ -1,0 +1,115 @@
+################################################################
+## Packages / Views
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'views'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Group
+    ################################################
+
+    group.automation:
+      <<: *customize
+      friendly_name: "Automation"
+      icon: mdi:settings
+
+    group.default_view:
+      <<: *customize
+      friendly_name: "Home"
+      icon: mdi:home
+
+    group.household:
+      <<: *customize
+      friendly_name: "Household"
+      icon: mdi:human-greeting
+
+    group.network:
+      <<: *customize
+      friendly_name: "Network"
+      icon: mdi:switch
+
+    group.media:
+      <<: *customize
+      friendly_name: "Media"
+      icon: mdi:play-circle-outline
+
+    group.gaming:
+      <<: *customize
+      friendly_name: "Gaming"
+      icon: mdi:gamepad-variant
+
+    group.weather:
+      <<: *customize
+      friendly_name: "Weather"
+      icon: mdi:weather-partlycloudy
+
+################################################
+## Group
+################################################
+
+group:
+  default_view:
+    view: yes
+    entities:
+      - group.chris_bedroom
+      - group.computer_room
+      - group.living_room
+      - group.usps_mail
+
+  household:
+    view: yes
+    entities:
+      - group.people
+      - group.guests
+
+  network:
+    view: yes
+    entities:
+      - group.network_devices
+      - group.speedtest
+      - group.utilities
+
+  automation:
+    view: yes
+    entities:
+      - group.automation_override
+      - group.all_automations
+      - group.all_scripts
+      - group.house_mode
+
+  media:
+    view: yes
+    entities:
+      - group.media_components
+      - group.media_players
+  
+  gaming:
+    view: yes
+    entities:
+      - group.gaming_profiles
+
+  weather:
+    view: yes
+    entities:
+      - group.weather_general
+      - group.weather_radar
+      - group.weather_darksky
+      - group.weather_wunderground
+      - group.weather_yr

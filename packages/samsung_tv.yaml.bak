@@ -1,0 +1,42 @@
+################################################################
+## Packages / Samsung Smart TV
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'samsung_tv'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Media Player
+    ################################################
+
+    media_player.samsung_tv_chris_bedroom:
+      <<: *customize
+      friendly_name: "Samsung Smart TV (Chris)"
+      icon: mdi:monitor
+
+################################################
+## Media Player
+################################################
+
+media_player:
+  - platform: samsungtv
+    name: samsung_tv_chris_bedroom
+    host: !secret samsung_tv_chris_bedroom_host
+    port: 8001
+    mac: !secret samsung_tv_chris_bedroom_mac

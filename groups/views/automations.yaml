@@ -1,8 +1,0 @@
-### AUTOMATIONS ###
-automations:
-  name: Automations & Devices 
-  view: yes
-  entities:
-    - group.sun_automations
-    - group.other_automations
-    - group.network

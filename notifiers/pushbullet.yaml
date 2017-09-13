@@ -1,4 +1,0 @@
-### Pushbullet notifications ###
-name: Pushbullet
-platform: pushbullet
-api_key: !secret pushbullet_key

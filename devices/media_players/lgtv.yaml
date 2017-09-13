@@ -1,6 +1,0 @@
-### LG Smart TV ###
-platform: lg_netcast
-host: 192.168.1.2
-name: LG Smart TV
-access_token: 284044
-mac: 5C:DC:96:22:A9:97

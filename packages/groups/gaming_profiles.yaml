@@ -1,0 +1,42 @@
+################################################################
+## Packages / Groups / Gaming Profiles
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'groups/gaming_profiles'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Group
+    ################################################
+
+    group.gaming_profiles:
+      <<: *customize
+      friendly_name: "Gaming Profiles"
+      icon: mdi:gamepad-variant
+    
+################################################
+## Group
+################################################
+
+group:
+  gaming_profiles:
+    control: hidden
+    entities:
+      - sensor.lckyby517
+      - sensor.steam_76561197993303163

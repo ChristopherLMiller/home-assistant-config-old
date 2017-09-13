@@ -1,7 +1,0 @@
-Other Automations:
-  control: hidden
-  entities:
-    - automation.people_leaving_home
-    - automation.people_returning_home
-    - automation.living_tv_off_leaving_home
-    - automation.living_tv_on_arriving_home

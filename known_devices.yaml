@@ -1,4 +1,4 @@
-teresa_printer:
+net_printer_computer_room:
   hide_if_away: false
   icon:
   mac: 3C:A8:2A:CC:91:22
@@ -7,7 +7,7 @@ teresa_printer:
   track: true
   vendor: Hewlett Packard
 
-chris_echo_show:
+net_echo_show_chris_bedroom:
   hide_if_away: false
   icon:
   mac: 00:FC:8B:B0:A4:7E
@@ -16,7 +16,7 @@ chris_echo_show:
   track: true
   vendor: Amazon
 
-teresa_tablet:
+net_asus_tablet:
   hide_if_away: false
   icon:
   mac: 74:C6:3B:C4:BD:57
@@ -25,7 +25,7 @@ teresa_tablet:
   track: true
   vendor: unknown
 
-chris_laptop:
+net_asus_laptop_gaming:
   hide_if_away: false
   icon:
   mac: AC:FD:CE:4F:25:A9
@@ -34,7 +34,7 @@ chris_laptop:
   track: true
   vendor: Asus
 
-samsung_smart_tv:
+net_samsung_smart_tv_chris_bedroom:
   hide_if_away: false
   icon:
   mac: FC:F1:36:75:EF:C0
@@ -43,7 +43,7 @@ samsung_smart_tv:
   track: true
   vendor: Samsung Electronics Co.,Ltd
 
-chris_xboxone:
+net_xbox_one_chris_bedroom:
   hide_if_away: false
   icon:
   mac: 4C:0B:BE:79:A2:A2
@@ -61,7 +61,7 @@ bruce_phone:
   track: true
   vendor: Samsung Electronics Co.,Ltd
 
-teresa_laptop:
+net_lenovo_laptop:
   hide_if_away: false
   icon:
   mac: 5C:93:A2:FE:C3:35
@@ -70,7 +70,7 @@ teresa_laptop:
   track: true
   vendor: Liteon Technology Corporation
 
-living_room_tv:
+net_lg_smart_tv_living_room:
   hide_if_away: false
   icon:
   mac: 5C:DC:96:22:A9:97
@@ -79,14 +79,14 @@ living_room_tv:
   track: true
   vendor: LG Technology
 
-cassiesiphone:
+cassie_iphone:
   hide_if_away: false
   icon:
   mac: B4:4B:D2:E0:C1:8F
   name: Cassie Iphone
   picture:
   track: true
-  vendor: unknown
+  vendor: Apple, Inc.
 
 chris_miller_phone:
   hide_if_away: false
@@ -104,9 +104,9 @@ teresa_dills_phone:
   name: Teresa
   picture:
   track: true
-  vendor: Apple, Inc
+  vendor: Apple, Inc.
 
-ps3:
+net_ps3_chris_bedroom:
   hide_if_away: false
   icon:
   mac: 00:24:8D:B9:BA:3E
@@ -115,7 +115,7 @@ ps3:
   track: true
   vendor: Sony Interactive Entertainment Inc.
 
-echo_dot:
+net_echo_living_room:
   hide_if_away: false
   icon:
   mac: 68:37:E9:40:C9:0A

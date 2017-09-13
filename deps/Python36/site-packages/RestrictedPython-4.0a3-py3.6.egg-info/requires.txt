@@ -1,0 +1,15 @@
+setuptools
+
+[develop]
+pdbpp
+isort
+
+[docs]
+Sphinx
+
+[release]
+zest.releaser
+
+[test]
+pytest
+pytest-mock

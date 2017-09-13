@@ -1,0 +1,156 @@
+################################################################
+## Packages / Groups / People
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'groups/people'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Device Tracker
+    ################################################
+
+    device_tracker.bruce_phone:
+      <<: *customize
+      friendly_name: "Bruce (Android)"
+      icon: mdi:cellphone-android
+
+    device_tracker.chris_miller_phone:
+      <<: *customize
+      friendly_name: "Chris (Android)"
+      icon: mdi:cellphone-android
+
+    device_tracker.cassie_iphone:
+      <<: *customize
+      friendly_name: "Cassie (iPhone)"
+      icon: mdi:cellphone-iphone
+
+    device_tracker.teresa_dills_phone:
+      <<: *customize
+      friendly_name: "Teresa (iPhone)"
+      icon: mdi:cellphone-iphone
+
+    ################################################
+    ## Group
+    ################################################
+
+    group.guests:
+      <<: *customize
+      friendly_name: "Guests"
+      icon: mdi:human-male-female
+      order: 1
+    
+    group.people:
+      <<: *customize
+      friendly_name: "Household"
+      icon: mdi:human-male-female
+      order: 0
+
+    group.person_chris:
+      <<: *customize
+      friendly_name: "Chris"
+      icon: mdi:human-male
+
+    group.person_cassie:
+      <<: *customize
+      friendly_name: "Cassie"
+      icon: mdi:human-female
+    
+    group.person_teresa:
+      <<: *customize
+      friendly_name: "Teresa"
+      icon: mdi:human-female
+
+    group.person_bruce:
+      <<: *customize
+      friendly_name: "Bruce"
+      icon: mdi:human-male
+
+    automation.people_leaving_home:
+      <<: *customize
+      friendly_name: "People Leaving Home"
+
+    automation.people_returning_home:
+      <<: *customize
+      friendly_name: "People Returning Home"
+
+################################################
+## Group
+################################################
+
+group:
+  guests:
+    control: hidden
+    entities:
+      - group.person_cassie
+
+  people:
+    control: hidden
+    entities:
+      - group.person_chris
+      - group.person_teresa
+      - group.person_bruce
+
+  person_bruce:
+    control: hidden
+    entities:
+      - device_tracker.bruce_phone
+
+  person_chris:
+    control: hidden
+    entities:
+      - device_tracker.chris_miller_phone
+
+  person_cassie:
+    control: hidden
+    entities:
+      - device_tracker.cassie_iphone
+  
+  person_teresa:
+    control: hidden
+    entities:
+      - device_tracker.teresa_dills_phone
+
+################################################
+## Automations
+################################################
+
+automation:
+  - alias: people_leaving_home
+    trigger:
+      - platform: state
+        from: 'home'
+        to: 'not_home'
+        entity_id: group.person_chris, group.person_bruce, group.person_teresa
+    action:
+      - service: notify.discord
+        data_template:
+          target: '355096664241078272'
+          message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] {{ trigger.to_state.attributes.friendly_name }} has left home.'
+
+  - alias: people_returning_home
+    trigger:
+      - platform: state
+        from: 'not_home'
+        to: 'home'
+        entity_id: group.person_chris, group.person_bruce, group.person_teresa
+    action:
+      - service: notify.discord
+        data_template:
+          target: '355096664241078272'
+          message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] {{ trigger.to_state.attributes.friendly_name }} has returned home.'

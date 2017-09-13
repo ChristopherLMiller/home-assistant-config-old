@@ -1,0 +1,40 @@
+################################################################
+## Packages / Steam Online
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'steam_online'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Sensor
+    ################################################
+
+    sensor.steam_76561197993303163:
+      <<: *customize
+      friendly_name: "Moose517"
+
+################################################
+## Sensor
+################################################
+
+sensor:
+  - platform: steam_online
+    api_key: !secret steam_api_key
+    accounts:
+      - !secret steam_user_id

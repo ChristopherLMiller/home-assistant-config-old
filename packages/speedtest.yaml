@@ -1,0 +1,54 @@
+################################################################
+## Packages / Speedtest
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'speedtest'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Group
+    ################################################
+
+    group.speedtest:
+      <<: *customize
+      friendly_name: "Speedtest"
+
+################################################
+## Group
+################################################
+
+group:
+  speedtest:
+    control: hidden
+    entities:
+      - sensor.speedtest_ping
+      - sensor.speedtest_download
+      - sensor.speedtest_upload
+################################################
+## Sensor
+################################################
+sensor:
+  - platform: speedtest
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+    minute:
+      - 0
+      - 30

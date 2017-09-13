@@ -1,0 +1,72 @@
+################################################################
+## Packages / Sun
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'sun'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Sun
+    ################################################
+
+    sun.sun:
+      <<: *customize
+      friendly_name: "Sun"
+
+    automation.sunset:
+      <<: *customize
+      friendly_name: "Sunset"
+
+    automation.sunrise:
+      <<: *customize
+      friendly_name: "Sunrise"
+
+################################################
+## Sun
+################################################
+
+sun:
+  elevation: !secret ha_elevation
+
+################################################
+## Automation
+################################################
+
+automation:
+  - alias: sunset
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: '+00:00:00'
+    action:
+      - service: notify.discord
+        data_template:
+          target: '355096664241078272'
+          message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] The sun has set and will return tomorrow at {{ as_timestamp(states.sun.sun.attributes.next_dawn) | timestamp_custom("%H:%M%p") }}.'
+
+  - alias: sunrise
+    trigger:
+      - platform: sun
+        event: sunrise
+        offset: '+00:00:00'
+    action:
+      - service: notify.discord
+        data_template:
+          target: '355096664241078272'
+          message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] Sunrise.  Projected sunset for today is {{ as_timestamp(states.sun.sun.attributes.next_dusk) | timestamp_custom("%H:%M%p") }}.'
