@@ -123,3 +123,21 @@ net_echo_living_room:
   picture:
   track: true
   vendor: Amazon Technologies Inc.
+
+mikayla_phone:
+  hide_if_away: false
+  icon:
+  mac: A0:CC:2B:1B:6F:D3
+  name: MiKayla Phone
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
+
+corey_phone:
+  hide_if_away: false
+  icon:
+  mac: 14:56:8E:7C:20:87
+  name: Corey Phone
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd

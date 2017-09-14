@@ -1,0 +1,44 @@
+################################################################
+## Packages / Alexa
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'alexa'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+################################################
+## Alexa
+################################################
+
+#alexa:
+
+################################################
+## Intent Scripts
+################################################
+intent_script:
+  WhereAreWeIntent:
+    speech:
+      text: >
+        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') and is_state('device_tracker.chris_miller_phone', 'home') -%}
+          Everyone is currently home
+        {%- else -%}
+        The last known locations of the household are as follows:  
+          {% if is_state('device_tracker.chris_miller_phone', 'home') %}Chris is at home.{% else %}Chris is at {{ states.sensor.chris_location.attributes['Street'] }}, {{states.sensor.chris_location.attributes['City'] }}{% endif %}
+          {% if is_state('device_tracker.teresa_dills_phone', 'home') %}Teresa is at home.{% else %}Teresa is at {{ states.sensor.teresa_location.attributes['Street'] }}, {{states.sensor.teresa_location.attributes['City'] }}{% endif %}
+          {% if is_state('device_tracker.bruce_phone', 'home') %}Bruce is at home.{% else %}Bruce is at {{ states.sensor.bruce_location.attributes['Street'] }}, {{states.sensor.bruce_location.attributes['City'] }}{% endif %}
+        {% endif %}

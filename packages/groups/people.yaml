@@ -45,6 +45,14 @@ homeassistant:
       friendly_name: "Teresa (iPhone)"
       icon: mdi:cellphone-iphone
 
+    device_tracker.mikayla_phone:
+      <<: *customize
+      friendly_name: "MiKayla (Android)"
+    
+    device_tracker.corey_phone:
+      <<: *customize
+      friendly_name: "Corey (Android)"
+
     ################################################
     ## Group
     ################################################
@@ -81,6 +89,39 @@ homeassistant:
       friendly_name: "Bruce"
       icon: mdi:human-male
 
+    group.person_mikayla:
+      <<: *customize
+      friendly_name: "MiKayla"
+      icon: mdi:human-female
+
+    group.person_corey:
+      <<: *customize
+      friendly_name: "Corey"
+      icon: mdi:human-male
+
+    ################################################
+    ## Sensor
+    ################################################
+    
+    sensor.chris_location:
+      <<: *customize
+      friendly_name: "Chris Location"
+      icon: mdi:google-maps
+    
+    sensor.teresa_location:
+      <<: *customize
+      friendly_name: "Teresa Location"
+      icon: mdi:google-maps
+
+    sensor.bruce_location:
+      <<: *customize
+      friendly_name: "Bruce Location"
+      icon: mdi:google-maps
+
+    ################################################
+    ## Automation
+    ################################################
+
     automation.people_leaving_home:
       <<: *customize
       friendly_name: "People Leaving Home"
@@ -98,6 +139,8 @@ group:
     control: hidden
     entities:
       - group.person_cassie
+      - group.person_corey
+      - group.person_mikayla
 
   people:
     control: hidden
@@ -110,21 +153,57 @@ group:
     control: hidden
     entities:
       - device_tracker.bruce_phone
+      - sensor.bruce_location
 
   person_chris:
     control: hidden
     entities:
       - device_tracker.chris_miller_phone
+      - sensor.chris_location
 
   person_cassie:
     control: hidden
     entities:
       - device_tracker.cassie_iphone
+    
+  person_corey:
+    control: hidden
+    entities:
+      - device_tracker.corey_phone
+
+  person_mikayla:
+    control: hidden
+    entities:
+      - device_tracker.mikayla_phone
   
   person_teresa:
     control: hidden
     entities:
       - device_tracker.teresa_dills_phone
+      - sensor.teresa_location
+
+################################################
+## Sensor
+################################################
+
+sensor:
+  - platform: google_geocode
+    origin: device_tracker.chris_miller_phone
+    options: street, city
+    name: chris_location
+    api_key: !secret google_api_key
+
+  - platform: google_geocode
+    origin: device_tracker.teresa_dills_phone
+    options: street, city
+    name: teresa_location
+    api_key: !secret google_api_key
+
+  - platform: google_geocode
+    origin: device_tracker.bruce_phone
+    options: street, city
+    name: bruce_location
+    api_key: !secret google_api_key
 
 ################################################
 ## Automations

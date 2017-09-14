@@ -14,22 +14,8 @@ conversation:
 history:
 #python_script:
 frontend:
-
+logbook:
+alexa:
 # Updater #
 updater:
   include_used_components: true
-
-# TTS #
-tts:
-  - platform: google
-
-## LOAD AUTOMATIONS ##
-automation: !include_dir_merge_list automations/
-
-## LOAD SCRIPTS ##
-script: !include scripts.yaml
-
-## ACTIVATE ##
-alexa:
-
-logbook:

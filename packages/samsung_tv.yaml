@@ -40,3 +40,4 @@ media_player:
     host: !secret samsung_tv_chris_bedroom_host
     port: 8001
     mac: !secret samsung_tv_chris_bedroom_mac
+    timeout: 60

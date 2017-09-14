@@ -31,3 +31,6 @@ http:
   use_x_forwarded_for: true
   ip_ban_enabled: true
   login_attempts_threshold: 3
+  ssl_certificate: certificate.pem
+  ssl_key: private-key.pem
+  server_port: 443
