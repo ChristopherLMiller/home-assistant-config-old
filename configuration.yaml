@@ -13,9 +13,9 @@ conversation:
 #discovery:
 history:
 #python_script:
-frontend:
 logbook:
 alexa:
+apiai:
 # Updater #
 updater:
   include_used_components: true

@@ -21,18 +21,26 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
-    ################################################
-    ## Sensor
-    ################################################
+    group.steam:
+      <<: *customize
+      friendly_name: "Steam"
 
     sensor.steam_76561197993303163:
       <<: *customize
       friendly_name: "Moose517"
 
 ################################################
+## Group
+################################################
+group:
+  steam:
+    control: hidden
+    entities:
+      - sensor.steam_76561197993303163
+
+################################################
 ## Sensor
 ################################################
-
 sensor:
   - platform: steam_online
     api_key: !secret steam_api_key

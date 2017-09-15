@@ -60,6 +60,16 @@ homeassistant:
       friendly_name: "Weather"
       icon: mdi:weather-partlycloudy
 
+    group.finance:
+      <<: *customize
+      friendly_name: "Finances"
+      icon: mdi:cash-multiple
+
+    group.misc:
+      <<: *customize
+      friendly_name: "Misc."
+      icon: mdi:puzzle
+
 ################################################
 ## Group
 ################################################
@@ -103,13 +113,27 @@ group:
   gaming:
     view: yes
     entities:
-      - group.gaming_profiles
+      - group.xbox_live
+      - group.steam
+      - group.twitch
 
   weather:
     view: yes
     entities:
       - group.weather_general
+      - group.moon
       - group.weather_radar
       - group.weather_darksky
       - group.weather_wunderground
       - group.weather_yr
+      - group.airvisual_general
+
+  finance:
+    view: yes
+    entities:
+      - group.bitcoin_general
+  
+  misc:
+    view: yes
+    entities:
+      - group.iss

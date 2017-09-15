@@ -53,6 +53,10 @@ homeassistant:
       <<: *customize
       friendly_name: "Corey (Android)"
 
+    device_tracker.kennady_phone:
+      <<: *customize
+      friendly_name: "Kennady (Android)"
+
     ################################################
     ## Group
     ################################################
@@ -99,6 +103,11 @@ homeassistant:
       friendly_name: "Corey"
       icon: mdi:human-male
 
+    group.person_kennady:
+      <<: *customize
+      friendly_name: "Kennady"
+      icon: mdi:human-female
+
     ################################################
     ## Sensor
     ################################################
@@ -117,6 +126,26 @@ homeassistant:
       <<: *customize
       friendly_name: "Bruce Location"
       icon: mdi:google-maps
+
+    sensor.kennady_state:
+      <<: *customize
+      friendly_name: "Kennady"
+      icon: mdi:human-female
+
+    sensor.cassie_state:
+      <<: *customize
+      friendly_name: "Cassie"
+      icon: mdi:human-female
+
+    sensor.mikayla_state:
+      <<: *customize
+      friendly_name: "MiKayla"
+      icon: mdi:human-female
+
+    sensor.corey_state:
+      <<: *customize
+      friendly_name: "Corey"
+      icon: mdi:human-male
 
     ################################################
     ## Automation
@@ -138,9 +167,14 @@ group:
   guests:
     control: hidden
     entities:
-      - group.person_cassie
-      - group.person_corey
-      - group.person_mikayla
+      #- group.person_cassie
+      #- group.person_corey
+      #- group.person_kennady
+      #- group.person_mikayla
+      - sensor.cassie_state
+      - sensor.corey_state
+      - sensor.kennady_state
+      - sensor.mikayla_state
 
   people:
     control: hidden
@@ -170,6 +204,11 @@ group:
     control: hidden
     entities:
       - device_tracker.corey_phone
+
+  person_kennady:
+    control: hidden
+    entities:
+      - sensor.kennady_state
 
   person_mikayla:
     control: hidden
@@ -204,6 +243,20 @@ sensor:
     options: street, city
     name: bruce_location
     api_key: !secret google_api_key
+
+  - platform: template
+    sensors:
+      kennady_state:
+        value_template: "{{'Visiting' if is_state('device_tracker.kennady_phone', 'home') else 'Away'}}"
+      
+      corey_state:
+        value_template: "{{'Visiting' if is_state('device_tracker.corey_phone', 'home') else 'Away'}}"
+      
+      mikayla_state:
+        value_template: "{{'Visiting' if is_state('device_tracker.mikayla_phone', 'home') else 'Away'}}"
+      
+      cassie_state:
+        value_template: "{{'Visiting' if is_state('device_tracker.cassie_iphone', 'home') else 'Away'}}"
 
 ################################################
 ## Automations

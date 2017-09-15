@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Groups / Gaming Profiles
+## Packages / Front End
 ################################################################
 
 ################################################
@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'groups/gaming_profiles'
+        package: 'frontend'
 
       expose: &expose
         <<: *customize
@@ -24,19 +24,21 @@ homeassistant:
     ################################################
     ## Group
     ################################################
-
-    group.gaming_profiles:
+    group.moon:
       <<: *customize
-      friendly_name: "Gaming Profiles"
-      icon: mdi:gamepad-variant
-    
+      friendly_name: "Moon Phase"
+
 ################################################
 ## Group
 ################################################
-
 group:
-  gaming_profiles:
+  moon:
     control: hidden
     entities:
-      - sensor.lckyby517
-      - sensor.steam_76561197993303163
+      - sensor.moon
+
+################################################
+## Sensor
+################################################
+sensor:
+  - platform: moon

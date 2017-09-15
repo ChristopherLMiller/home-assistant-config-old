@@ -1,0 +1,54 @@
+################################################################
+## Packages / Bitcoin
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'bitcoin'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Group
+    ################################################
+    group.bitcoin_general:
+      <<: *customize
+      friendly_name: "Bitcoin Rates"
+
+###############################################
+## Group
+###############################################
+group:
+  bitcoin_general:
+    control: hidden
+    entities:
+      - sensor.exchange_rate_1_btc
+      - sensor.market_price
+      - sensor.trade_volume
+      - sensor.trade_volume_2
+      - sensor.hash_rate
+
+###############################################
+## Sensor
+###############################################
+sensor:
+  - platform: bitcoin
+    display_options:
+       - exchangerate
+       - trade_volume_btc
+       - trade_volume_usd
+       - hash_rate
+       - market_price_usd

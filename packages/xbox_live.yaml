@@ -21,18 +21,26 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
-    ################################################
-    ## Sensor
-    ################################################
+    group.xbox_live:
+      <<: *customize
+      friendly_name: "Xbox Live"
 
     sensor.lckyby517:
       <<: *customize
       friendly_name: "LckyBy517"
 
 ################################################
+## Group
+################################################
+group:
+  xbox_live:
+    control: hidden
+    entities:
+      - sensor.lckyby517
+
+################################################
 ## Sensor
 ################################################
-
 sensor:
   - platform: xbox_live
     api_key: !secret xbox_live_api_key

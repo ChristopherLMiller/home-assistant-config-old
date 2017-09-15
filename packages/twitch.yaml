@@ -1,0 +1,48 @@
+################################################################
+## Packages / Twitch
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'twitch'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    group.twitch:
+      <<: *customize
+      friendly_name: "Twitch Streams"
+
+##################################################
+## Group
+##################################################
+group:
+  twitch:
+    control: hidden
+    entities:
+      - sensor.moose517
+      - sensor.juhstinfx
+      - sensor.khanjal
+
+##################################################
+## Sensor
+##################################################
+sensor:
+  platform: twitch
+  channels:
+    - moose517
+    - juhstinfx
+    - khanjal
+

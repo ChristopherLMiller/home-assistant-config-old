@@ -1,0 +1,8 @@
+setup.cfg
+setup.py
+pyiss/__init__.py
+pyiss.egg-info/PKG-INFO
+pyiss.egg-info/SOURCES.txt
+pyiss.egg-info/dependency_links.txt
+pyiss.egg-info/requires.txt
+pyiss.egg-info/top_level.txt

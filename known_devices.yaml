@@ -141,3 +141,12 @@ corey_phone:
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
+
+kennady_phone:
+  hide_if_away: false
+  icon:
+  mac: A8:81:95:31:BC:48
+  name: Kennady Phone
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
