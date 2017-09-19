@@ -27,10 +27,10 @@ homeassistant:
 
 http:
   api_password: !secret http_pass
-  #base_url: !secret http_base_url
+  base_url: !secret http_base_url
   use_x_forwarded_for: true
   ip_ban_enabled: true
   login_attempts_threshold: 3
-  ssl_certificate: certificate.pem
-  ssl_key: private-key.pem
+  ssl_certificate: C:\Users\Moose\AppData\Roaming\.homeassistant\domain-crt.crt
+  ssl_key: C:\Users\Moose\AppData\Roaming\.homeassistant\domain-key.key
   server_port: 443

@@ -3,3 +3,8 @@ secrets.yaml
 .uuid
 home-assistant_v2.db
 home-assistant.log
+
+domain-crt.crt
+domain-csr.txt
+domain-key.key
+account-key.txt

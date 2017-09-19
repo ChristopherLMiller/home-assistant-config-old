@@ -150,3 +150,12 @@ kennady_phone:
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
+
+net_sonoff_chris_bedroom:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:BC:4F:8E
+  name: Sonoff Basic
+  picture:
+  track: true
+  vendor: Espressif Inc.
