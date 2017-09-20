@@ -159,3 +159,12 @@ net_sonoff_chris_bedroom:
   picture:
   track: true
   vendor: Espressif Inc.
+
+net_sonoff_chris_bedroom_2:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:BC:42:C7
+  name: Sonoff Basic
+  picture:
+  track: true
+  vendor: Espressif Inc.

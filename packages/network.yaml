@@ -93,6 +93,11 @@ homeassistant:
       friendly_name: "Sonoff Basic (Chris)"
       hidden: true
 
+    device_tracker.net_sonoff_chris_bedroom_2:
+      <<: *customize
+      friendly_name: "Sonoff Basic #2 (Chris)"
+      hidden: true
+
     ################################################
     ## Sensor
     ################################################
@@ -141,6 +146,10 @@ homeassistant:
       <<: *customize
       friendly_name: "Sonoff Basic (Chris Room)"
 
+    sensor.net_sonoff_chris_bedroom_2:
+      <<: *customize
+      friendly_name: "Sonoff Basic #2 (Chris Room)"
+
 ################################################
 ## Group
 ################################################
@@ -159,6 +168,7 @@ group:
       - device_tracker.net_lg_smart_tv_living_room
       - device_tracker.net_echo_living_room
       - device_tracker.net_sonoff_chris_bedroom
+      - device_tracker.net_sonoff_chris_bedroom_2
 
   network_devices:
     control: hidden
@@ -173,6 +183,7 @@ group:
       - sensor.net_lg_smart_tv_living_room
       - sensor.net_echo_living_room
       - sensor.net_sonoff_chris_bedroom
+      - sensor.net_sonoff_chris_bedroom_2
 
 ################################################
 ## Sensor
@@ -221,6 +232,10 @@ sensor:
         value_template: "{{ 'online' if is_state('device_tracker.net_sonoff_chris_bedroom', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_sonoff_chris_bedroom', 'home') else 'mdi:alert-circle' }}"
 
+      net_sonoff_chris_bedroom_2:
+        value_template: "{{ 'online' if is_state('device_tracker.net_sonoff_chris_bedroom_2', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_sonoff_chris_bedroom_2', 'home') else 'mdi:alert-circle' }}"
+
 ################################################
 ## Automation
 ################################################
@@ -241,6 +256,7 @@ automation:
           - sensor.net_lg_smart_tv_living_room
           - sensor.net_echo_living_room
           - sensor.net_sonoff_chris_bedroom
+          - sensor.net_sonoff_chris_bedroom_2
         to: 'offline'
         for:
           minutes: 5
