@@ -29,6 +29,4 @@ class HTMLParserTreeBuilderSmokeTest(SoupTest, HTMLTreeBuilderSmokeTest):
         loaded = pickle.loads(dumped)
         self.assertTrue(isinstance(loaded.builder, type(tree.builder)))
 
-    def test_redundant_empty_element_closing_tags(self):
-        self.assertSoupEquals('<br></br><br></br><br></br>', "<br/><br/><br/>")
-        self.assertSoupEquals('</br></br></br>', "")
+

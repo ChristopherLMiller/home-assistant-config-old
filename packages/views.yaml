@@ -81,7 +81,6 @@ group:
       - group.chris_bedroom
       - group.computer_room
       - group.living_room
-      - group.usps_mail
 
   household:
     view: yes
@@ -137,3 +136,4 @@ group:
     view: yes
     entities:
       - group.iss
+      - group.mail_packages

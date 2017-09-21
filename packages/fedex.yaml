@@ -1,0 +1,59 @@
+################################################################
+## Packages / Fedex
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'fedex'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Group
+    ################################################
+
+    group.fedex_packages:
+      <<: *expose
+      friendly_name: "Fedex Packages"
+
+    ################################################
+    ## Sensor
+    ################################################
+
+    sensor.fedex:
+      <<: *customize
+      friendly_name: "Fedex packages"
+      icon: mdi:package-variant-closed
+      unit-measurement: 'packages'
+
+
+################################################
+## Group
+################################################
+
+group:
+  fedex_packages:
+    control: hidden
+    entities:
+      - sensor.fedex
+
+################################################
+## Sensor
+################################################
+sensor:
+  - platform: fedex
+    username: !secret fedex_username
+    password: !secret fedex_password

@@ -1,0 +1,44 @@
+################################################################
+## Packages / Groups / Mail
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'groups/mail'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    ################################################
+    ## Group
+    ################################################
+
+    group.mail_packages:
+      <<: *customize
+      friendly_name: "Mail / Packages"
+
+################################################
+## Group
+################################################
+
+group:
+  mail_packages:
+    control: hidden
+    entities:
+      - sensor.fedex
+      - sensor.ups
+      - sensor.usps_mail
+      - sensor.usps_packages
+      - camera.usps_mail
