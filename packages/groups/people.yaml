@@ -66,12 +66,22 @@ homeassistant:
       friendly_name: "Guests"
       icon: mdi:human-male-female
       order: 1
+
+    group.guests_source:
+      <<: *customize
+      friendly_name: "Guests"
+      hidden: true
     
     group.people:
       <<: *customize
       friendly_name: "Household"
       icon: mdi:human-male-female
       order: 0
+
+    group.people_source:
+      <<: *customize
+      friendly_name: "Household"
+      hidden: true
 
     group.person_chris:
       <<: *customize
@@ -167,14 +177,18 @@ group:
   guests:
     control: hidden
     entities:
-      #- group.person_cassie
-      #- group.person_corey
-      #- group.person_kennady
-      #- group.person_mikayla
       - sensor.cassie_state
       - sensor.corey_state
       - sensor.kennady_state
       - sensor.mikayla_state
+
+  guests_source:
+    control: hidden
+    entities:
+      - device_tracker.cassie_iphone
+      - device_tracker.corey_phone
+      - device_tracker.kennady_phone
+      - device_tracker.mikayla_phone
 
   people:
     control: hidden
@@ -182,6 +196,13 @@ group:
       - group.person_chris
       - group.person_teresa
       - group.person_bruce
+
+  people_source:
+    control: hidden
+    entities:
+      - device_tracker.chris_miller_phone
+      - device_tracker.teresa_dills_phone
+      - device_tracker.bruce_phone
 
   person_bruce:
     control: hidden
@@ -208,7 +229,7 @@ group:
   person_kennady:
     control: hidden
     entities:
-      - sensor.kennady_state
+      - device_tracker.kennady_phone
 
   person_mikayla:
     control: hidden
@@ -286,3 +307,29 @@ automation:
         data_template:
           target: '355096664241078272'
           message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] {{ trigger.to_state.attributes.friendly_name }} has returned home.'
+
+##################################################
+## Intent Scripts
+##################################################
+intent_script:
+  # Give status of household members
+  WhereAreWeIntent:
+    speech:
+      text: >
+        {%- if is_state('device_tracker.bruce_phone.household', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') -%}
+          Everyone is currently home
+        {%- else -%}
+          Chris is at {% if is_state('device_tracker.chris_miller_phone', 'home') %}home{% else %}{% if not is_state('states.sensor.chris_location', 'Awaiting Update') %}Unknown Location{% else %}{{ states.sensor.chris_location.attributes['Street'] }}, {{ states.sensor.chris_location.attributes['City'] }}{% endif %}{% endif %}, Teresa is at {% if is_state('device_tracker.teresa_dills_phone', 'home') %}home{% else %}{% if not is_state('states.sensor.teresa_location', 'Awaiting Update') %}Unknown Location{% else %}{{ states.sensor.teresa_location.attributes['Street'] }}, {{ states.sensor.teresa_location.attributes['City'] }}{% endif %}{% endif %}, and Bruce is at {% if is_state('device_tracker.bruce_phone', 'home') %}home{% else %}{% if not is_state('states.sensor.bruce_location', 'Awaiting Update') %}{% if as_timestamp(now())  | timestamp_custom('%H', true) | int >= 15 and as_timestamp(now()) | timestamp_custom('%H', true) | int <= 23 %}work most likely{% else %}unknown location{% endif %}{% else %}{{ states.sensor.bruce_location.attributes['Street'] }}, {{ states.sensor.bruce_location.attributes['City'] }}{% endif %}{% endif %}.
+        {% endif %}
+
+  # List off who is currently at home
+  WhosHomeIntent:
+    speech:
+      text: >
+        {% if is_state('states.group.people.state', 'home') %}I show everyone as currently home.{% elif is_state('states.group.people.state', 'not_home') %}I show the house as empty, should i be concerned that someone is talking to me?{% else %}I see people.  Specifically{% if is_state('device_tracker.chris_miller_phone', 'home') %}, Chris{%endif %}{% if is_state('device_tracker.teresa_dills_phone', 'home') %}, Teresa{%endif %}{% if is_state('device_tracker.bruce_phone', 'home') %}, Bruce{%endif%}.{% endif %}
+
+  # Guests visiting
+  WhosVisitingIntent:
+    speech:
+      text: >
+        {% if is_state('states.group.guests', 'home') %}I'm showing at least one guest.  They are{% if is_state('device_tracker.cassie_iphone', 'home') %}, Cassie{%endif%}{% if is_state('device_tracker.corey_phone', 'home') %}, Corey{%endif%}{% if is_state('device_tracker.kennady_phone', 'home') %}, Kennady Paige{%endif%}{% if is_state('device_tracker.mikayla_phone', 'home') %}, MiKayla{%endif%}{% else %}Currently you have no guests.{% endif %}
