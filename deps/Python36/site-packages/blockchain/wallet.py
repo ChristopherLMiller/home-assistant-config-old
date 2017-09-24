@@ -31,7 +31,7 @@ class Wallet:
         self.second_password = second_password
         self.api_code = api_code
     
-    def send(self, to, amount, from_address=None, fee=None, note=None):
+    def send(self, to, amount, from_address=None, fee=None):
         """Send bitcoin from your wallet to a single address.
 
         :param str to: recipient bitcoin address
@@ -39,21 +39,19 @@ class Wallet:
         :param str from_address: specific address to send from (optional)
         :param int fee: transaction fee in satoshi. Must be greater than the default
                         fee (optional).
-        :param str note: public note to include with the transaction (optional)
         :return: an instance of :class:`PaymentResponse` class
         """
         
         recipient = {to: amount}
-        return self.send_many(recipient, from_address, fee, note)
+        return self.send_many(recipient, from_address, fee)
 
-    def send_many(self, recipients, from_address=None, fee=None, note=None):
+    def send_many(self, recipients, from_address=None, fee=None):
         """Send bitcoin from your wallet to multiple addresses.
 
         :param dictionary recipients: dictionary with the structure of 'address':amount
         :param str from_address: specific address to send from (optional)
         :param int fee: transaction fee in satoshi. Must be greater than the default
                         fee (optional).
-        :param str note: public note to include with the transaction (optional)
         :return: an instance of :class:`PaymentResponse` class
         """
         
@@ -72,8 +70,6 @@ class Wallet:
             params['from'] = from_address
         if fee is not None:
             params['fee'] = fee
-        if note is not None:
-            params['note'] = note
             
         response = util.call_api("merchant/{0}/{1}".format(self.identifier, method), params,
                                  base_url=self.service_url)
@@ -98,17 +94,13 @@ class Wallet:
         self.parse_error(json_response)
         return json_response.get('balance')
     
-    def list_addresses(self, confirmations=0):
+    def list_addresses(self):
         """List all active addresses in the wallet.
-        
-        :param int confirmations: minimum number of confirmations transactions 
-                                    must have before being included in balance of 
-                                    addresses (optional)
+
         :return: an array of :class:`Address` objects
         """
         
         params = self.build_basic_request()
-        params['confirmations'] = confirmations
         response = util.call_api("merchant/{0}/list".format(self.identifier), params, base_url=self.service_url)
 
         json_response = json.loads(response)
@@ -121,19 +113,15 @@ class Wallet:
             
         return addresses
         
-    def get_address(self, address, confirmations=0):
+    def get_address(self, address):
         """Retrieve an address from the wallet.
         
         :param str address: address in the wallet to look up
-        :param int confirmations: minimum number of confirmations transactions 
-                                    must have before being included in the balance
-                                    (optional)
         :return: an instance of :class:`Address` class
         """
         
         params = self.build_basic_request()
         params['address'] = address
-        params['confirmations'] = confirmations
 
         response = util.call_api("merchant/{0}/address_balance".format(self.identifier), params,
                                  base_url=self.service_url)

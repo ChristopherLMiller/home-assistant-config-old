@@ -22,6 +22,49 @@ def get(api_code=None):
     return Stats(json_response)
 
 
+def get_chart(chart_type, time_span=None, rolling_average=None, api_code=None):
+    """Get chart data of a specific chart type.
+
+    :param str chart_type: type of chart
+    :param str time_span: duration of the chart.
+    Default is 1 year for most charts, 1 week for mempool charts (optional)
+    (Example: 5weeks)
+    :param str rolling_average: duration over which the data should be averaged (optional)
+    :param str api_code: Blockchain.info API code (optional)
+    :return: an instance of :class:`Chart` class
+    """
+
+    resource = 'charts/' + chart_type + '?format=json'
+    if time_span is not None:
+        resource += '&timespan=' + time_span
+    if rolling_average is not None:
+        resource += '&rollingAverage=' + rolling_average
+    if api_code is not None:
+        resource += '&api_code=' + api_code
+    response = util.call_api(resource)
+    json_response = json.loads(response)
+    return Chart(json_response)
+
+
+def get_pools(time_span=None, api_code=None):
+    """Get number of blocks mined by each pool.
+
+    :param str time_span: duration of the chart.
+    Default is 4days (optional)
+    :param str api_code: Blockchain.info API code (optional)
+    :return: an instance of dict:{str,int}
+    """
+
+    resource = 'pools'
+    if time_span is not None:
+        resource += '?timespan=' + time_span
+    if api_code is not None:
+        resource += '&api_code=' + api_code
+    response = util.call_api(resource, base_url='https://api.blockchain.info/')
+    json_response = json.loads(response)
+    return {k: v for (k, v) in json_response.items()}
+
+
 class Stats:
     def __init__(self, s):
         self.trade_volume_btc = s['trade_volume_btc']
@@ -44,3 +87,19 @@ class Stats:
         self.estimated_transaction_volume_usd = s['estimated_transaction_volume_usd']
         self.miners_revenue_btc = s['miners_revenue_btc']
         self.market_price_usd = s['market_price_usd']
+
+
+class Chart:
+    def __init__(self, c):
+        self.status = c['status']
+        self.name = c['name']
+        self.unit = c['unit']
+        self.period = c['period']
+        self.description = c['description']
+        self.values = [Point(point) for point in c['values']]
+
+
+class Point:
+    def __init__(self, p):
+        self.x = p['x']
+        self.y = p['y']

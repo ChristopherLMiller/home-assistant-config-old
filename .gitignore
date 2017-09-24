@@ -8,3 +8,7 @@ domain-crt.crt
 domain-csr.txt
 domain-key.key
 account-key.txt
+
+fedexdeliverymanager_cookies.pickle
+upsmychoice_cookies.pickle
+usps_cookies.pickle

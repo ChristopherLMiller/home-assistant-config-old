@@ -316,7 +316,7 @@ intent_script:
   WhereAreWeIntent:
     speech:
       text: >
-        {%- if is_state('device_tracker.bruce_phone.household', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') -%}
+        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') -%}
           Everyone is currently home
         {%- else -%}
           Chris is at {% if is_state('device_tracker.chris_miller_phone', 'home') %}home{% else %}{% if not is_state('states.sensor.chris_location', 'Awaiting Update') %}Unknown Location{% else %}{{ states.sensor.chris_location.attributes['Street'] }}, {{ states.sensor.chris_location.attributes['City'] }}{% endif %}{% endif %}, Teresa is at {% if is_state('device_tracker.teresa_dills_phone', 'home') %}home{% else %}{% if not is_state('states.sensor.teresa_location', 'Awaiting Update') %}Unknown Location{% else %}{{ states.sensor.teresa_location.attributes['Street'] }}, {{ states.sensor.teresa_location.attributes['City'] }}{% endif %}{% endif %}, and Bruce is at {% if is_state('device_tracker.bruce_phone', 'home') %}home{% else %}{% if not is_state('states.sensor.bruce_location', 'Awaiting Update') %}{% if as_timestamp(now())  | timestamp_custom('%H', true) | int >= 15 and as_timestamp(now()) | timestamp_custom('%H', true) | int <= 23 %}work most likely{% else %}unknown location{% endif %}{% else %}{{ states.sensor.bruce_location.attributes['Street'] }}, {{ states.sensor.bruce_location.attributes['City'] }}{% endif %}{% endif %}.
@@ -326,10 +326,25 @@ intent_script:
   WhosHomeIntent:
     speech:
       text: >
-        {% if is_state('states.group.people.state', 'home') %}I show everyone as currently home.{% elif is_state('states.group.people.state', 'not_home') %}I show the house as empty, should i be concerned that someone is talking to me?{% else %}I see people.  Specifically{% if is_state('device_tracker.chris_miller_phone', 'home') %}, Chris{%endif %}{% if is_state('device_tracker.teresa_dills_phone', 'home') %}, Teresa{%endif %}{% if is_state('device_tracker.bruce_phone', 'home') %}, Bruce{%endif%}.{% endif %}
+        {% if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') %}I show everyone as currently home.{% elif is_state('states.group.people.state', 'not_home') %}I show the house as empty, should i be concerned that someone is talking to me?{% else %}I see people.  Specifically{% if is_state('device_tracker.chris_miller_phone', 'home') %}, Chris{%endif %}{% if is_state('device_tracker.teresa_dills_phone', 'home') %}, Teresa{%endif %}{% if is_state('device_tracker.bruce_phone', 'home') %}, Bruce{%endif%}.{% endif %}
 
   # Guests visiting
   WhosVisitingIntent:
     speech:
       text: >
-        {% if is_state('states.group.guests', 'home') %}I'm showing at least one guest.  They are{% if is_state('device_tracker.cassie_iphone', 'home') %}, Cassie{%endif%}{% if is_state('device_tracker.corey_phone', 'home') %}, Corey{%endif%}{% if is_state('device_tracker.kennady_phone', 'home') %}, Kennady Paige{%endif%}{% if is_state('device_tracker.mikayla_phone', 'home') %}, MiKayla{%endif%}{% else %}Currently you have no guests.{% endif %}
+        {% if is_state('group.guests_source', 'not_home') %}
+          There are currently no guests visiting.
+        {% else %}
+          {%- set comma = joiner(', ') -%}
+          {%- set entities = states.group.guests_source.attributes.entity_id -%}
+          Guests currently visiting are
+          {{- ' ' -}}
+          {%- for entity_id in entities if is_state(entity_id, 'home') -%}
+            {%- set entity_parts = entity_id.split('.') -%}
+            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
+            {{- comma() -}}
+            {% if loop.first and loop.last %}{% elif loop.last %}and {% endif %}
+            {{- entity.name.split(' ')[0]  -}}
+          {%- endfor -%}
+          {{- '.' -}}
+        {% endif %}
