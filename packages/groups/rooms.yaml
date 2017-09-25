@@ -55,3 +55,4 @@ group:
   computer_room:
     control: hidden
     entities:
+      - sensor.net_printer_computer_room
