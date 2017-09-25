@@ -14,32 +14,54 @@
       groups:
         - name: Temp Sensors
           entities:
-            - sensor.pws_temp_f
-            - sensor.pws_feelslike_f
-          text_template: '${entity.state ? Math.ceil(entity.state) : "undefined"}°'
-          class_template: 'temperature'  
+            - sensor.dark_sky_temperature
+            - sensor.dark_sky_apparent_temperature
+          text_template: '${entity.state ? Math.ceil(entity.state) : "undefined"}°' 
 
         - name: Humidity
           entities:
-            - sensor.pws_relative_humidity
-          text_template: '${entity.state }%'
+            - sensor.dark_sky_humidity
 
         - name: Devices
           entities:
-            - device_tracker.chris_miller_phone
             - sensor.chris_location
             - sensor.teresa_location
             - sensor.bruce_location
-          class_template: '
-            var state = entity.state;
-            if (state == "home")
-              return "state-home";
-            else
-              return "state-away";
-            '
 
         - name: Time
           entities:
-             - sensor.date
-             - sensor.time
-          text_template: '${entity.state}'
+             - sensor.floorplan_date
+             - sensor.floorplan_time
+
+        - name: Weather Icon
+          entities:
+            - sensor.dark_sky_icon
+          image_template: '
+            var imageName = "";
+            
+            switch (entity.state) {
+              case "clear-day":
+                imageName = "day";
+                break;
+              case "clear-night":
+                imageName = "night";
+                break;
+              case "partly-cloudy-day":
+                imageName = "cloudy-day-1";
+                break;
+              case "partly-cloudy-night":
+                imageName = "cloudy-night-1";
+                break;
+              case "cloudy":
+                imageName = "cloudy";
+                break;
+              case "rain":
+                imageName = "rainy-1";
+                break;
+              case "snow":
+                imageName = "snowy-1";
+                break;
+            }
+            
+            return "/local/custom_ui/floorplan/images/weather/" + imageName + ".svg";
+          '

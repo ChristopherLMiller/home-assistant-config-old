@@ -4,6 +4,7 @@ svg,
 svg * {
     vector-effect: non-scaling-stroke !important;
     pointer-events: all !important;
+    background-color: var(--primary-background-color);
 }
 
 

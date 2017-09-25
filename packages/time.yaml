@@ -21,6 +21,14 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
+    sensor.floorplan_date:
+      <<: *customize
+      friendly_name: Date
+    
+    sensor.floorplan_time:
+      <<: *customize
+      friendly_name: Time
+
 ################################################
 ## Sensor
 ################################################
@@ -33,3 +41,13 @@ sensor:
       - 'time_date'
       - 'time_utc'
       - 'beat'
+
+  - platform: template
+    sensors:
+      floorplan_date:
+        value_template: >-
+          {{now().strftime("%A")}}, {{now().strftime("%B")}} {{now().strftime("%d")}}
+      
+      floorplan_time:
+        value_template: >-
+          {{now().strftime("%I")}}:{{now().strftime("%M")}} {{now().strftime("%p")}}
