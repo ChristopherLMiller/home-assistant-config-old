@@ -12,18 +12,34 @@
       #last_motion_class: last-motion
 
       groups:
-        - name: Sensors
+        - name: Temp Sensors
           entities:
-            - sensor.dark_sky_temperature
-          #text_template: '${entity.state ? entity.state : "unknown"}'
-          # An example of rounding up a number, i.e. a temperature of 90.1 becomes 91
-          text_template: '${entity.state ? Math.ceil(entity.state) : "undefined"}'  
+            - sensor.pws_temp_f
+            - sensor.pws_feelslike_f
+          text_template: '${entity.state ? Math.ceil(entity.state) : "undefined"}°'
+          class_template: 'temperature'  
+
+        - name: Humidity
+          entities:
+            - sensor.pws_relative_humidity
+          text_template: '${entity.state }%'
+
+        - name: Devices
+          entities:
+            - device_tracker.chris_miller_phone
+            - sensor.chris_location
+            - sensor.teresa_location
+            - sensor.bruce_location
           class_template: '
-            var temp = parseFloat(entity.state.replace("°", ""));
-            if (temp < 10)
-              return "temp-low";
-            else if (temp < 30)
-              return "temp-medium";
+            var state = entity.state;
+            if (state == "home")
+              return "state-home";
             else
-              return "temp-high";
+              return "state-away";
             '
+
+        - name: Time
+          entities:
+             - sensor.date
+             - sensor.time
+          text_template: '${entity.state}'

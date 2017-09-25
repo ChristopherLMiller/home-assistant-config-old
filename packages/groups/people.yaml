@@ -35,27 +35,10 @@ homeassistant:
       friendly_name: "Chris (Android)"
       icon: mdi:cellphone-android
 
-    device_tracker.cassie_iphone:
-      <<: *customize
-      friendly_name: "Cassie (iPhone)"
-      icon: mdi:cellphone-iphone
-
     device_tracker.teresa_dills_phone:
       <<: *customize
       friendly_name: "Teresa (iPhone)"
       icon: mdi:cellphone-iphone
-
-    device_tracker.mikayla_phone:
-      <<: *customize
-      friendly_name: "MiKayla (Android)"
-    
-    device_tracker.corey_phone:
-      <<: *customize
-      friendly_name: "Corey (Android)"
-
-    device_tracker.kennady_phone:
-      <<: *customize
-      friendly_name: "Kennady (Android)"
 
     ################################################
     ## Group
@@ -72,90 +55,55 @@ homeassistant:
       friendly_name: "Guests"
       hidden: true
     
-    group.people:
+    group.household_members:
       <<: *customize
       friendly_name: "Household"
       icon: mdi:human-male-female
       order: 0
 
-    group.people_source:
+    group.household_members_source:
       <<: *customize
       friendly_name: "Household"
       hidden: true
-
-    group.person_chris:
-      <<: *customize
-      friendly_name: "Chris"
-      icon: mdi:human-male
-
-    group.person_cassie:
-      <<: *customize
-      friendly_name: "Cassie"
-      icon: mdi:human-female
-    
-    group.person_teresa:
-      <<: *customize
-      friendly_name: "Teresa"
-      icon: mdi:human-female
-
-    group.person_bruce:
-      <<: *customize
-      friendly_name: "Bruce"
-      icon: mdi:human-male
-
-    group.person_mikayla:
-      <<: *customize
-      friendly_name: "MiKayla"
-      icon: mdi:human-female
-
-    group.person_corey:
-      <<: *customize
-      friendly_name: "Corey"
-      icon: mdi:human-male
-
-    group.person_kennady:
-      <<: *customize
-      friendly_name: "Kennady"
-      icon: mdi:human-female
 
     ################################################
     ## Sensor
     ################################################
     
-    sensor.chris_location:
-      <<: *customize
-      friendly_name: "Chris Location"
-      icon: mdi:google-maps
-    
-    sensor.teresa_location:
-      <<: *customize
-      friendly_name: "Teresa Location"
-      icon: mdi:google-maps
-
-    sensor.bruce_location:
-      <<: *customize
-      friendly_name: "Bruce Location"
-      icon: mdi:google-maps
-
-    sensor.kennady_state:
+    sensor.kennady_location:
       <<: *customize
       friendly_name: "Kennady"
       icon: mdi:human-female
 
-    sensor.cassie_state:
+    sensor.cassie_location:
       <<: *customize
       friendly_name: "Cassie"
       icon: mdi:human-female
 
-    sensor.mikayla_state:
+    sensor.mikayla_location:
       <<: *customize
       friendly_name: "MiKayla"
       icon: mdi:human-female
 
-    sensor.corey_state:
+    sensor.corey_location:
       <<: *customize
       friendly_name: "Corey"
       icon: mdi:human-male
+
+    sensor.bruce_location:
+      <<: *customize
+      friendly_name: "Bruce"
+      icon: mdi:human-male
+
+    sensor.chris_location:
+      <<: *customize
+      friendly_name: "Chris"
+      icon: mdi:human-male
+    
+    sensor.teresa_location:
+      <<: *customize
+      friendly_name: "Teresa"
+      icon: mdi:human-female
 
     ################################################
     ## Automation
@@ -177,10 +125,10 @@ group:
   guests:
     control: hidden
     entities:
-      - sensor.cassie_state
-      - sensor.corey_state
-      - sensor.kennady_state
-      - sensor.mikayla_state
+      - sensor.cassie_location
+      - sensor.corey_location
+      - sensor.kennady_location
+      - sensor.mikayla_location
 
   guests_source:
     control: hidden
@@ -190,57 +138,19 @@ group:
       - device_tracker.kennady_phone
       - device_tracker.mikayla_phone
 
-  people:
+  household_members:
     control: hidden
     entities:
-      - group.person_chris
-      - group.person_teresa
-      - group.person_bruce
-
-  people_source:
-    control: hidden
-    entities:
-      - device_tracker.chris_miller_phone
-      - device_tracker.teresa_dills_phone
-      - device_tracker.bruce_phone
-
-  person_bruce:
-    control: hidden
-    entities:
-      - device_tracker.bruce_phone
-      - sensor.bruce_location
-
-  person_chris:
-    control: hidden
-    entities:
-      - device_tracker.chris_miller_phone
       - sensor.chris_location
-
-  person_cassie:
-    control: hidden
-    entities:
-      - device_tracker.cassie_iphone
-    
-  person_corey:
-    control: hidden
-    entities:
-      - device_tracker.corey_phone
-
-  person_kennady:
-    control: hidden
-    entities:
-      - device_tracker.kennady_phone
-
-  person_mikayla:
-    control: hidden
-    entities:
-      - device_tracker.mikayla_phone
-  
-  person_teresa:
-    control: hidden
-    entities:
-      - device_tracker.teresa_dills_phone
       - sensor.teresa_location
+      - sensor.bruce_location
+  
+  household_members_source:
+    control: hidden
+    entities:
+      - device_tracker.chris_miller_phone
+      - device_tracker.teresa_dills_phone
+      - device_tracker.bruce_phone
 
 ################################################
 ## Sensor
@@ -250,34 +160,70 @@ sensor:
   - platform: google_geocode
     origin: device_tracker.chris_miller_phone
     options: street, city
-    name: chris_location
+    name: chris_google_location
     api_key: !secret google_api_key
 
   - platform: google_geocode
     origin: device_tracker.teresa_dills_phone
     options: street, city
-    name: teresa_location
+    name: teresa_google_location
     api_key: !secret google_api_key
 
   - platform: google_geocode
     origin: device_tracker.bruce_phone
     options: street, city
-    name: bruce_location
+    name: bruce_google_location
     api_key: !secret google_api_key
 
   - platform: template
     sensors:
-      kennady_state:
+      kennady_location:
         value_template: "{{'Visiting' if is_state('device_tracker.kennady_phone', 'home') else 'Away'}}"
       
-      corey_state:
+      corey_location:
         value_template: "{{'Visiting' if is_state('device_tracker.corey_phone', 'home') else 'Away'}}"
       
-      mikayla_state:
+      mikayla_location:
         value_template: "{{'Visiting' if is_state('device_tracker.mikayla_phone', 'home') else 'Away'}}"
       
-      cassie_state:
+      cassie_location:
         value_template: "{{'Visiting' if is_state('device_tracker.cassie_iphone', 'home') else 'Away'}}"
+
+      chris_location:
+        value_template: >
+          {%- if is_state('device_tracker.chris_miller_phone', 'home') -%}
+            Home
+          {%- else -%}
+            {% if is_state('sensor.chris_google_location', 'Awaiting Update') -%}
+              Away
+            {%- else -%}
+              {{ states.sensor.chris_google_location.attributes['Street'] }} {{ states.sensor.chris_google_location.attributes['City'] }}, {{ states.sensor.chris_google_location.attributes['State'] }}
+            {%- endif -%}
+          {%- endif -%}
+
+      teresa_location:
+        value_template: >
+          {%- if is_state('device_tracker.teresa_dills_phone', 'home') -%}
+            Home
+          {%- else -%}
+            {% if is_state('sensor.teresa_google_location', 'Awaiting Update') -%}
+              Away
+            {%- else -%}
+              {{ states.sensor.teresa_google_location.attributes['Street'] }} {{ states.sensor.teresa_google_location.attributes['City'] }}, {{ states.sensor.teresa_google_location.attributes['State'] }}
+            {%- endif -%}
+          {%- endif -%}
+
+      bruce_location:
+        value_template: >
+          {%- if is_state('device_tracker.bruce_dills_phone', 'home') -%}
+            Home
+          {%- else -%}
+            {% if is_state('sensor.bruce_google_location', 'Awaiting Update') -%}
+              Away
+            {%- else -%}
+              {{ states.sensor.bruce_google_location.attributes['Street'] }} {{ states.sensor.bruce_google_location.attributes['City'] }}, {{ states.sensor.bruce_google_location.attributes['State'] }}
+            {%- endif -%}
+          {%- endif -%}
 
 ################################################
 ## Automations

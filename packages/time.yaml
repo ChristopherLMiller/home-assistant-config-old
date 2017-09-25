@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Unifi
+## Packages / Time
 ################################################################
 
 ################################################
@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'unifi'
+        package: 'time'
 
       expose: &expose
         <<: *customize
@@ -22,24 +22,14 @@ homeassistant:
         homebridge_hidden: false
 
 ################################################
-## Device Trackers
+## Sensor
 ################################################
-device_tracker:
-  - platform: unifi
-    host: !secret unifi_host
-    username: !secret unifi_username
-    password: !secret unifi_password
-    site_id: !secret unifi_site_id
-    verify_ssl: false
-    track_new_devices: true
-    interval_seconds: 1
-    consider_home: 10
-
-##################################################
-## Iframe Panel
-##################################################
-panel_iframe:
-  unifi:
-    title: 'Unifi Manager'
-    url: !secret unifi_manage_url
-    icon: mdi:access-point
+sensor:
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'time_date'
+      - 'time_utc'
+      - 'beat'
