@@ -88,15 +88,15 @@ sensor:
   - platform: template
     sensors:
       household:
-        entity_id: group.household_members_source
+        entity_id: group.household
         value_template: >-
-          {% if is_state('group.household', 'home') %}
+          {% if is_state('group.household_members_source', 'home') %}
             home
           {% else %}
             away
           {% endif %}
         icon_template: >-
-          {% if is_state('group.household', 'home') %}
+          {% if is_state('group.household_members_source', 'home') %}
             mdi:home
           {% else %}
             mdi:home-outline

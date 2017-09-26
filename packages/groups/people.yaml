@@ -263,10 +263,38 @@ intent_script:
     speech:
       text: >
         {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') -%}
-          Everyone is currently home
+          Everyone is currently home.
         {%- else -%}
-          Chris is at {% if is_state('device_tracker.chris_miller_phone', 'home') %}home{% else %}{% if not is_state('states.sensor.chris_location', 'Awaiting Update') %}Unknown Location{% else %}{{ states.sensor.chris_location.attributes['Street'] }}, {{ states.sensor.chris_location.attributes['City'] }}{% endif %}{% endif %}, Teresa is at {% if is_state('device_tracker.teresa_dills_phone', 'home') %}home{% else %}{% if not is_state('states.sensor.teresa_location', 'Awaiting Update') %}Unknown Location{% else %}{{ states.sensor.teresa_location.attributes['Street'] }}, {{ states.sensor.teresa_location.attributes['City'] }}{% endif %}{% endif %}, and Bruce is at {% if is_state('device_tracker.bruce_phone', 'home') %}home{% else %}{% if not is_state('states.sensor.bruce_location', 'Awaiting Update') %}{% if as_timestamp(now())  | timestamp_custom('%H', true) | int >= 15 and as_timestamp(now()) | timestamp_custom('%H', true) | int <= 23 %}work most likely{% else %}unknown location{% endif %}{% else %}{{ states.sensor.bruce_location.attributes['Street'] }}, {{ states.sensor.bruce_location.attributes['City'] }}{% endif %}{% endif %}.
+          {%- set comma = joiner('. ') -%}
+          {%- set entities = states.group.household_members.attributes.entity_id -%}
+          I pulled the latest data for you, here is the last known location of everyone.
+          {{- ' ' -}}
+          {%- for entity_id in entities -%}
+            {%- set entity_parts = entity_id.split('.') -%}
+            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
+            {{- comma() -}}
+            {{- entity.name.split(' ')[0]  }} is currently at {{ entity.state -}}
+          {%- endfor -%}
         {% endif %}
+    card:
+      type: simple
+      title: Current Locations of the household
+      content: >
+        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') -%}
+          Everyone is currently home.
+        {%- else -%}
+          {%- set comma = joiner('\n') -%}
+          {%- set entities = states.group.household_members.attributes.entity_id -%}
+          Current Locations:
+          {{- '\n' -}}
+          {%- for entity_id in entities -%}
+            {%- set entity_parts = entity_id.split('.') -%}
+            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
+            {{- comma() -}}
+            {{- entity.name.split(' ')[0]  }} - {{ entity.state -}}
+          {%- endfor -%}
+        {% endif %}
+
 
   # List off who is currently at home
   WhosHomeIntent:
