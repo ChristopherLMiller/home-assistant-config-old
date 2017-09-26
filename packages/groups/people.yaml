@@ -258,6 +258,17 @@ automation:
 ## Intent Scripts
 ##################################################
 intent_script:
+  # Locate certain person
+  LocateIntent:
+    speech:
+      text: >
+        {{ User }} is currently at {{ states['sensor'][User + '_location'].state }}
+    card:
+      type: simple
+      title: Household Member Location
+      content: >
+        {{ User }} is currently at {{ states['sensor'][User + '_location'].state }}
+
   # Give status of household members
   WhereAreWeIntent:
     speech:
