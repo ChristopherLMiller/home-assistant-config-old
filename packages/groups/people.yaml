@@ -262,12 +262,20 @@ intent_script:
   LocateIntent:
     speech:
       text: >
-        {{ User }} is currently at {{ states['sensor'][User + '_location'].state }}
+        {% if states['sensor'][User + '_location'] %}
+          {{ User }} is currently at {{ states['sensor'][User + '_location'].state }}
+        {% else %}
+          The person you seek doesn't seem to exist.
+        {% endif %}
     card:
       type: simple
       title: Household Member Location
       content: >
-        {{ User }} is currently at {{ states['sensor'][User + '_location'].state }}
+        {% if states['sensor'][User + '_location'] %}
+          {{ User }} is currently at {{ states['sensor'][User + '_location'].state }}
+        {% else %}
+          The person you seek doesn't seem to exist.
+        {% endif %}
 
   # Give status of household members
   WhereAreWeIntent:
