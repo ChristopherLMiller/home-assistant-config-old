@@ -272,7 +272,43 @@ intent_script:
   WhosHomeIntent:
     speech:
       text: >
-        {% if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') %}I show everyone as currently home.{% elif is_state('states.group.people.state', 'not_home') %}I show the house as empty, should i be concerned that someone is talking to me?{% else %}I see people.  Specifically{% if is_state('device_tracker.chris_miller_phone', 'home') %}, Chris{%endif %}{% if is_state('device_tracker.teresa_dills_phone', 'home') %}, Teresa{%endif %}{% if is_state('device_tracker.bruce_phone', 'home') %}, Bruce{%endif%}.{% endif %}
+        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') -%}
+          Everyone is currently home.
+        {%- elif is_state('states.group.people.state', 'not_home') -%}
+          The house is currently empty.  Should I be worried that you're talking to me?
+        {%- else -%}
+          {%- set comma = joiner(', ') -%}
+          {%- set entities = states.group.household_members_source.attributes.entity_id -%}
+          There are a few people home, they are
+          {{- ' ' -}}
+          {%- for entity_id in entities if is_state(entity_id, 'home') -%}
+            {%- set entity_parts = entity_id.split('.') -%}
+            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
+            {{- comma() -}}
+            {% if loop.first and loop.last %}{% elif loop.last %}and {% endif %}
+            {{- entity.name.split(' ')[0]  -}}
+          {%- endfor -%}
+        {%- endif -%}
+    card:
+      type: simple
+      title: "Who's home"
+      content: >
+        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') -%}
+          Everyone is currently home.
+        {%- elif is_state('states.group.people.state', 'not_home') -%}
+          The house is currently empty.  Should I be worried that you're talking to me?
+        {%- else -%}
+          {%- set comma = joiner('\n') -%}
+          {%- set entities = states.group.household_members_source.attributes.entity_id -%}
+          Currently Home:
+          {{- '\n' -}}
+          {%- for entity_id in entities if is_state(entity_id, 'home') -%}
+            {%- set entity_parts = entity_id.split('.') -%}
+            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
+            {{- comma() -}}
+            {{- entity.name.split(' ')[0]  -}}
+          {%- endfor -%}
+        {%- endif -%}
 
   # Guests visiting
   WhosVisitingIntent:
@@ -283,7 +319,7 @@ intent_script:
         {% else %}
           {%- set comma = joiner(', ') -%}
           {%- set entities = states.group.guests_source.attributes.entity_id -%}
-          Guests currently visiting are
+          Guests currently visiting include 
           {{- ' ' -}}
           {%- for entity_id in entities if is_state(entity_id, 'home') -%}
             {%- set entity_parts = entity_id.split('.') -%}
@@ -292,5 +328,22 @@ intent_script:
             {% if loop.first and loop.last %}{% elif loop.last %}and {% endif %}
             {{- entity.name.split(' ')[0]  -}}
           {%- endfor -%}
-          {{- '.' -}}
+        {% endif %}
+    card:
+      type: simple
+      title: "Current Guests"
+      content: >
+        {% if is_state('group.guests_source', 'not_home') %}
+          There are currently no guests visiting.
+        {% else %}
+          {%- set comma = joiner('\n') -%}
+          {%- set entities = states.group.guests_source.attributes.entity_id -%}
+          Guests currently visiting:
+          {{- '\n' -}}
+          {%- for entity_id in entities if is_state(entity_id, 'home') -%}
+            {%- set entity_parts = entity_id.split('.') -%}
+            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
+            {{- comma() -}}
+            {{- entity.name.split(' ')[0]  -}}
+          {%- endfor -%}
         {% endif %}

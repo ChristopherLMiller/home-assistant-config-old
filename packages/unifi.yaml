@@ -38,8 +38,8 @@ device_tracker:
 ##################################################
 ## Iframe Panel
 ##################################################
-panel_iframe:
-  unifi:
-    title: 'Unifi Manager'
-    url: !secret unifi_manage_url
-    icon: mdi:access-point
+#panel_iframe:
+#  unifi:
+#    title: 'Unifi Manager'
+#    url: !secret unifi_manage_url
+#    icon: mdi:access-point

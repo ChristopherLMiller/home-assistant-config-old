@@ -63,5 +63,5 @@
                 break;
             }
             
-            return "/local/custom_ui/floorplan/images/weather/" + imageName + ".svg";
+            return "/local/custom_ui/floorplan/images/weather/night.svg";
           '
