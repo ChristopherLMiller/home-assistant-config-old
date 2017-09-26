@@ -234,8 +234,7 @@ automation:
     trigger:
       - platform: state
         from: 'home'
-        to: 'not_home'
-        entity_id: group.person_chris, group.person_bruce, group.person_teresa
+        entity_id: sensor.chris_location, sensor.teresa_location, sensor.bruce_location
     action:
       - service: notify.discord
         data_template:
@@ -245,9 +244,8 @@ automation:
   - alias: people_returning_home
     trigger:
       - platform: state
-        from: 'not_home'
         to: 'home'
-        entity_id: group.person_chris, group.person_bruce, group.person_teresa
+        entity_id: sensor.chris_location, sensor.teresa_location, sensor.bruce_location
     action:
       - service: notify.discord
         data_template:
