@@ -203,6 +203,7 @@ sensor:
       - temperature
       - icon
       - apparent_temperature
+      - minutely_summary
 
   - platform: wunderground
     api_key: !secret wunderground_api_key

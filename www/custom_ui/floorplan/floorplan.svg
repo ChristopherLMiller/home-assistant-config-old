@@ -41,9 +41,9 @@
      inkscape:window-height="1137"
      id="namedview817"
      showgrid="false"
-     inkscape:zoom="2.1444527"
-     inkscape:cx="194.32292"
-     inkscape:cy="440.93586"
+     inkscape:zoom="4.2889054"
+     inkscape:cx="312.64674"
+     inkscape:cy="495.11962"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
@@ -51,7 +51,8 @@
      id="g823"
      inkscape:groupmode="layer"
      inkscape:label="house_upstairs"
-     transform="matrix(1.3333333,0,0,-1.3333333,0,600)"><path
+     transform="matrix(1.3333333,0,0,-1.3333333,0,600)"
+     style="display:inline"><path
        d="m 543.4722,285.3071 0.0136,-161.64966 -3.0425,-2.7e-4 v -6.12505 l 3.0425,4.1e-4 V 97.326219 h -29.84313 l -21.46058,20.204401 11.75007,9.9e-4 v 6.12506 l -18.25462,-0.001 -74.03899,69.7053 -0.0136,91.93836 97.35891,0.0137 v 3.03092 h 28.39653 v -3.03079 h 6.08487 z"
        style="fill:#f9f9f9;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.14517593"
        id="device_tracker.chris_miller_phone"
@@ -565,16 +566,7 @@
        height="0.94862235"
        x="15.275693"
        y="-394.97427"
-       transform="scale(1,-1)" /><rect
-       style="display:inline;fill:none;fill-opacity:0.5;stroke:none;stroke-width:0.73529381;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0;paint-order:fill markers stroke"
-       id="sensor.dark_sky_icon"
-       width="36.764706"
-       height="36.764709"
-       x="165.45961"
-       y="-438.38235"
-       transform="scale(1,-1)"
-       inkscape:label="#sensor.dark_sky_icon"><title
-         id="title967">Current Conditions</title></rect><flowRoot
+       transform="scale(1,-1)" /><flowRoot
        xml:space="preserve"
        id="flowRoot950"
        style="font-style:normal;font-weight:normal;font-size:96px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"><flowRegion
@@ -669,4 +661,13 @@
          x="45.016087"
          y="-378.75"
          style="stroke-width:0.75">XX</tspan></text>
-</g></svg>
+<rect
+       style="opacity:1;fill:none;fill-opacity:0.83333333;stroke:none;stroke-width:4.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0;paint-order:fill markers stroke"
+       id="sensor.dark_sky_icon"
+       width="37.5"
+       height="37.5"
+       x="157.5"
+       y="-438.75"
+       transform="scale(1,-1)"
+       inkscape:label="sensor.dark_sky_icon"><title
+         id="title5517">Current Conditions</title></rect></g></svg>
