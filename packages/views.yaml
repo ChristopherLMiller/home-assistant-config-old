@@ -120,12 +120,11 @@ group:
     view: yes
     entities:
       - group.weather_general
-      - group.moon
       - group.weather_radar
       - group.weather_darksky
       - group.weather_wunderground
       - group.weather_yr
-      - group.airvisual_general
+      - group.airvisual
 
   finance:
     view: yes

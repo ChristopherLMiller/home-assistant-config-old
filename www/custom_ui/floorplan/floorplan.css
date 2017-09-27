@@ -215,11 +215,11 @@ svg * {
 /* Occupancy */
 
 .state-home {
-    fill: rgba(0, 255, 0, 0.5) !important;
+    fill: rgba(0, 255, 0, 0.25) !important;
 }
 
 .state-away {
-    fill: rgba(255, 0, 0, 0.5) !important;
+    fill: rgba(255, 0, 0, 0.25) !important;
 }
 
 

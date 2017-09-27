@@ -27,6 +27,12 @@
             - sensor.chris_location
             - sensor.teresa_location
             - sensor.bruce_location
+          class_template: '
+            if (entity.state == "Home")
+              return "state-home";
+            else
+              return "state-away";
+            '
 
         - name: Time
           entities:
@@ -63,5 +69,5 @@
                 break;
             }
             
-            return "/local/custom_ui/floorplan/images/weather/night.svg";
+            return "/local/custom_ui/floorplan/images/weather/" + imageName + ".svg";
           '

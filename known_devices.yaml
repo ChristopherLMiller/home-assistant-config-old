@@ -52,7 +52,7 @@ net_xbox_one_chris_bedroom:
   track: true
   vendor: Microsoft
 
-bruce_phone:
+bruce_dills_phone:
   hide_if_away: false
   icon:
   mac: A8:81:95:31:BB:76

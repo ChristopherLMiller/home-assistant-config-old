@@ -40,6 +40,7 @@ homeassistant:
     group.weather_general:
       <<: *customize
       friendly_name: "General"
+      order: 0
 
     group.weather_wunderground:
       <<: *customize
@@ -52,6 +53,12 @@ homeassistant:
     group.weather_radar:
       <<: *customize
       friendly_name: "Radar"
+      order: 1
+
+    group.airvisual:
+      <<: *customize
+      friendly_name: AirVisual
+      order: 3
 
     ################################################
     ## Sensor
@@ -136,6 +143,10 @@ homeassistant:
       friendly_name: "Temperature"
       icon: mdi:thermometer
 
+    sensor.moon:
+      <<: *customize
+      friendly_name: "Moon Phase"
+
 ################################################
 ## Camera
 ################################################
@@ -154,6 +165,7 @@ group:
     control: hidden
     entities:
       - sun.sun
+      - sensor.moon
       - sensor.season
 
   weather_radar:
@@ -164,7 +176,6 @@ group:
   weather_darksky:
     control: hidden
     entities:
-      - sensor.dark_sky_icon
       - sensor.dark_sky_temperature
       - sensor.dark_sky_apparent_temperature
       - sensor.dark_sky_humidity
@@ -188,6 +199,13 @@ group:
       - sensor.yr_humidity
       - sensor.yr_precipitation
       - sensor.yr_temperature
+
+  airvisual:
+    control: hidden
+    entities:
+      - sensor.us_air_pollution_level
+      - sensor.us_air_quality_index
+      - sensor.us_main_pollutant
 
 ################################################
 ## Sensor
@@ -224,3 +242,11 @@ sensor:
 
   - platform: season
     type: astronomical
+
+  - platform: moon
+
+  - platform: airvisual
+    api_key: !secret air_visual_api_key
+    monitored_conditions:
+      - us
+    radius: 500
