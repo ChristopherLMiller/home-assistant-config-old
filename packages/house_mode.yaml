@@ -88,7 +88,7 @@ sensor:
   - platform: template
     sensors:
       household:
-        entity_id: group.household
+        entity_id: group.household_members_source
         value_template: >-
           {% if is_state('group.household_members_source', 'home') %}
             home

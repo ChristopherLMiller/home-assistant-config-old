@@ -155,7 +155,6 @@ group:
 ################################################
 ## Sensor
 ################################################
-
 sensor:
   - platform: google_geocode
     origin: device_tracker.chris_miller_phone
@@ -228,7 +227,6 @@ sensor:
 ################################################
 ## Automations
 ################################################
-
 automation:
   - alias: people_leaving_home
     initial_state: 'on'

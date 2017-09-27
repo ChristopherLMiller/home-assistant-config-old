@@ -56,14 +56,11 @@ automation:
       - platform: state
         from: 'home'
         to: 'not_home'
-        entity_id: group.people
+        entity_id: group.household_members_source
     condition:
-
-      # check that the guest mode is off, if so we can turn off TV
       - condition: state
-        entity_id: sensor.household
+        entity_id: sensor.house_mode
         state: 'home'
-
     action:
       - service: notify.discord
         data_template:
