@@ -127,3 +127,36 @@ sensor:
           {% else %}
             mdi:home-outline
           {% endif %}
+
+##################################################
+## Intent Scripts
+##################################################
+intent_script:
+  HouseModeIntent:
+    speech:
+      text: "Setting house to {{ Mode }} mode"
+    card:
+      type: simple
+      title: House Mode
+      content: "Enabled {{ Mode }} mode"
+    action:
+      service: scene.turn_on
+      data_template:
+        entity_id: scene.mode_{{ Mode }}
+
+##################################################
+## Scenes
+##################################################
+scene:
+  - name: mode_house
+    entities:
+      input_boolean.guest_mode: off
+      input_boolean.vacation_mode: off
+  - name: mode_guest
+    entities:
+      input_boolean.guest_mode: on 
+      input_boolean.vacation_mode: off
+  - name: mode_vacation
+    entities:
+      input_boolean.guest_mode: off
+      input_boolean.vacation_mode: on
