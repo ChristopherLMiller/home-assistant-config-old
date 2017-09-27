@@ -8,7 +8,6 @@ homeassistant:
   packages: !include_dir_named packages
 
 ## INCLUDE ##
-config:
 conversation:
 #discovery:
 history:
@@ -25,3 +24,5 @@ panel_custom:
     sidebar_icon: mdi:home
     url_path: floorplan
     config: !include floorplan.yaml
+
+config:

@@ -51,6 +51,7 @@ media_player:
 ################################################
 automation:
   - alias: tv_off_nobody_home
+    initial_state: 'on'
     trigger:
       - platform: state
         from: 'home'

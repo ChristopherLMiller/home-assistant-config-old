@@ -1,0 +1,104 @@
+################################################################
+## Packages / Battery
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'battery'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    group.batteries:
+      <<: *customize
+      friendly_name: "Batteries"
+
+    sensor.battery_chris_phone:
+      <<: *customize
+      friendly_name: "Chris Phone"
+      unit_of_measurement: "%"
+
+    sensor.battery_teresa_phone:
+      <<: *customize
+      friendly_name: "Teresa Phone"
+      unit_of_measurement: "%"
+
+
+##################################################
+## Group
+##################################################
+group:
+  batteries_source:
+    control: hidden
+    entities:
+      - sensor.battery_chris_phone_source
+      - sensor.battery_teresa_phone_source
+
+  batteries:
+    control: hidden
+    entities:
+      - sensor.battery_chris_phone
+      - sensor.battery_teresa_phone
+
+##################################################
+## Sensor
+##################################################
+sensor:
+  - platform: mqtt
+    state_topic: "owntracks/chris_miller/phone"
+    name: battery_chris_phone_source
+    value_template: '{{ value_json.batt }}'
+
+  - platform: mqtt
+    state_topic: "owntracks/teresa_dills/phone"
+    name: battery_teresa_phone_source
+    value_template: '{{ value_json.batt }}'
+    
+
+  - platform: template
+    sensors:
+      battery_chris_phone:
+        value_template: '{{ states.sensor.battery_chris_phone_source.state }}'
+        icon_template: >-
+          {% set battery_level = states('sensor.battery_chris_phone_source')|int('unknown') %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% set battery_round = (battery_level|int / 10)|int * 10 %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
+            {% else %}
+              mdi:battery-alert
+            {% endif %}
+          {% endif %}
+
+      battery_teresa_phone:
+        value_template: '{{ states.sensor.battery_teresa_phone_source.state }}'
+        icon_template: >-
+          {% set battery_level = states('sensor.battery_teresa_phone_source')|int('unknown') %}
+          {% if battery_level == 'unknown' %}
+            mdi:battery-unknown
+          {% else %}
+            {% set battery_round = (battery_level|int / 10)|int * 10 %}
+            {% if battery_round >= 100 %}
+              mdi:battery
+            {% elif battery_round > 0 %}
+              mdi:battery-{{ battery_round }}
+            {% else %}
+              mdi:battery-alert
+            {% endif %}
+          {% endif %}
