@@ -56,6 +56,8 @@ automation:
       - platform: state
         from: 'home'
         to: 'not_home'
+        for:
+          minutes: 5
         entity_id: group.household_members_source
     condition:
       - condition: state
