@@ -257,8 +257,6 @@ automation:
           - sensor.net_echo_living_room
           - sensor.net_sonoff_chris_bedroom
           - sensor.net_sonoff_chris_bedroom_2
-        for:
-          minutes: 5
     action:
       - service: notify.discord
         data_template:

@@ -1,0 +1,39 @@
+################################################################
+## Packages / Switch
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'switch'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    switch.sonoff_1:
+      <<: *customize
+      friendly_name: Reading Light
+
+#################################################
+## Switch
+#################################################
+switch:
+  - platform: mqtt
+    name: sonoff_1
+    state_topic: "stat/sonoff/POWER"
+    command_topic: "cmnd/sonoff/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true
