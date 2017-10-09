@@ -28,7 +28,6 @@ homeassistant:
     camera.usps_mail:
       <<: *customize
       friendly_name: "USPS Mail"
-      hidden: true
 
     ################################################
     ## Group

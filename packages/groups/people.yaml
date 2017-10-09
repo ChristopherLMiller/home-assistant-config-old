@@ -48,7 +48,7 @@ homeassistant:
       <<: *customize
       friendly_name: "Guests"
       icon: mdi:human-male-female
-      order: 1
+      order: 2
 
     group.guests_source:
       <<: *customize
@@ -59,7 +59,7 @@ homeassistant:
       <<: *customize
       friendly_name: "Household"
       icon: mdi:human-male-female
-      order: 0
+      order: 1
 
     group.household_members_source:
       <<: *customize

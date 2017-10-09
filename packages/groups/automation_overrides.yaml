@@ -25,9 +25,9 @@ homeassistant:
     ## Group
     ################################################
 
-    group.automation_override:
+    group.automations_chris:
       <<: *customize
-      friendly_name: "Automation Override"
+      friendly_name: "Automations Chris"
 
     group.all_automations:
       <<: *customize
@@ -39,6 +39,7 @@ homeassistant:
 ################################################
 
 group:
-  automation_override:
-    control: hidden
+  automations_chris:
     entities:
+      - automation.alarm_clock
+      - automation.reading_light_off_sunrise

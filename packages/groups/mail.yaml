@@ -28,6 +28,7 @@ homeassistant:
     group.mail_packages:
       <<: *customize
       friendly_name: "Mail / Packages"
+      order: 5
 
 ################################################
 ## Group

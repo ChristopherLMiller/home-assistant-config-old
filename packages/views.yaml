@@ -35,11 +35,6 @@ homeassistant:
       friendly_name: "Home"
       icon: mdi:home
 
-    group.household:
-      <<: *customize
-      friendly_name: "Household"
-      icon: mdi:human-greeting
-
     group.network:
       <<: *customize
       friendly_name: "Network"
@@ -50,30 +45,15 @@ homeassistant:
       friendly_name: "Media"
       icon: mdi:play-circle-outline
 
-    group.gaming:
-      <<: *customize
-      friendly_name: "Gaming"
-      icon: mdi:gamepad-variant
-
     group.weather:
       <<: *customize
       friendly_name: "Weather"
       icon: mdi:weather-partlycloudy
 
-    group.finance:
-      <<: *customize
-      friendly_name: "Finances"
-      icon: mdi:cash-multiple
-
     group.misc:
       <<: *customize
       friendly_name: "Misc."
       icon: mdi:puzzle
-
-    group.sensors:
-      <<: *customize
-      friendly_name: "Sensors"
-      icon: mdi:gauge
 
 ################################################
 ## Group
@@ -83,15 +63,12 @@ group:
   default_view:
     view: yes
     entities:
-      - group.chris_bedroom
-      - group.computer_room
-      - group.living_room
-
-  household:
-    view: yes
-    entities:
+      - group.house_mode
       - group.household_members
       - group.guests
+      - group.batteries
+      - group.mail_packages
+      - group.crime_reports
 
   network:
     view: yes
@@ -103,23 +80,15 @@ group:
   automation:
     view: yes
     entities:
-      - group.automation_override
       - group.all_automations
       - group.all_scripts
-      - group.house_mode
+
 
   media:
     view: yes
     entities:
       - group.media_components
       - group.media_players
-  
-  gaming:
-    view: yes
-    entities:
-      - group.xbox_live
-      - group.steam
-      - group.twitch
 
   weather:
     view: yes
@@ -131,19 +100,11 @@ group:
       - group.weather_yr
       - group.airvisual
 
-  finance:
-    view: yes
-    entities:
-      - group.bitcoin_general
-  
   misc:
     view: yes
     entities:
       - group.iss
-      - group.mail_packages
-      - group.crime_reports
-
-  sensors:
-    view: yes
-    entities:
-      - group.batteries
+      - group.bitcoin_general
+      - group.xbox_live
+      - group.steam
+      - group.twitch

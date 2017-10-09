@@ -96,6 +96,7 @@ svg * {
     stroke: black !important;
     stroke-width: 1;
     stroke-opacity: 0.1;
+    transition: all 0.25s ease-in-out;
 }
 
 .interior-light-off:hover {

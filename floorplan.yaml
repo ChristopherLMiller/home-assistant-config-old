@@ -34,10 +34,22 @@
               return "state-away";
             '
 
+        - name: Switches
+          entities:
+            - switch.sonoff_1
+          states:
+            - state: 'on'
+              class: 'light-on'
+            - state: 'off'
+              class: 'interior-light-off'
+          action:
+            service: toggle
+
         - name: Time
           entities:
-             - sensor.floorplan_date
-             - sensor.floorplan_time
+            - sensor.floorplan_date
+            - sensor.floorplan_time
+          
 
         - name: Weather Icon
           entities:

@@ -1,0 +1,67 @@
+################################################################
+## Packages / Switch / Sonoff 2
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'switch/sonoff_2'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    switch.sonoff_2:
+      <<: *customize
+      friendly_name: Window Fan
+      emulated_hue: true
+      emulated_hue_name: Window Fan
+  
+#################################################
+## Switch
+#################################################
+switch:
+  - platform: mqtt
+    name: sonoff_2
+    state_topic: "stat/sonoff_2/POWER"
+    command_topic: "cmnd/sonoff_2/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true
+
+##################################################
+## Automation
+##################################################
+automation:
+  - alias: window_fan_temp_control_on
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: '{{ states.sensor.pws_feelslike_f.state >= states.input_number.fan_temperature_on.state }}'
+    action:
+      - service: switch.turn_on
+        data:
+          entity_id:
+            - switch.sonoff_2
+
+  - alias: window_fan_temp_control_off
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: '{{ states.sensor.pws_feelslike_f.state < states.input_number.fan_temperature_on.state }}'
+    action:
+      - service: switch.turn_off
+        data:
+          entity_id:
+            - switch.sonoff_2

@@ -24,6 +24,7 @@ homeassistant:
     group.batteries:
       <<: *customize
       friendly_name: "Batteries"
+      order: 3
 
     sensor.battery_chris_phone:
       <<: *customize

@@ -24,6 +24,7 @@ homeassistant:
     group.crime_reports:
       <<: *customize
       friendly_name: Crime Reports
+      order: 4
     
     sensor.crime_reports:
       <<: *customize

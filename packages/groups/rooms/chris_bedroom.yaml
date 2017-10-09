@@ -1,0 +1,99 @@
+################################################################
+## Packages / Groups / Rooms / Chris Bedroom
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'groups/rooms/chris_bedroom'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+    
+    group.chris_bedroom_view:
+      <<: *customize
+      friendly_name: "Chris Bedroom"
+
+    group.morning_alarm:
+      <<: *customize
+      friendly_name: Morning Alarm
+
+    group.chris_bedroom_lights:
+      <<: *customize
+      friendly_name: Lights
+
+    group.chris_bedroom_media_players:
+      <<: *customize
+      friendly_name: Media Players
+
+    input_boolean.alarm_enabled:
+      <<: *customize
+      friendly_name: Alarm Active
+      icon: mdi:alarm
+
+    sensor.time:
+      <<: *customize
+      friendly_name: Current Time
+
+##################################################
+## Group
+##################################################
+group:
+  chris_bedroom_view:
+    view: yes
+    entities:
+      - group.alarm_clock
+      - group.chris_bedroom_lights
+      - group.chris_bedroom_media_players
+      - group.window_fan
+      - group.settings
+      
+
+  chris_bedroom_lights:
+    control: hidden
+    entities:
+      - switch.sonoff_1
+
+  chris_bedroom_media_players:
+    control: hidden
+    entities:
+      - media_player.samsung_tv_chris_bedroom
+
+  window_fan:
+    control: hidden
+    entities:
+      - switch.sonoff_2
+      - input_number.fan_temperature_on
+
+  settings:
+    control: hidden
+    entities:
+      - input_boolean.alarm_clock
+
+##################################################
+## Input Boolean
+##################################################
+input_boolean:
+  alarm_clock:
+    initial: on
+
+##################################################
+## Input Number
+##################################################
+input_number:
+  fan_temperature_on:
+    initial: 55
+    min: 32
+    max: 100
+    mode: box

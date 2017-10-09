@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="63.923992"
-     inkscape:cy="522.96866"
+     inkscape:cx="667.16522"
+     inkscape:cy="351.54009"
      inkscape:document-units="px"
      inkscape:current-layer="svg8"
      showgrid="false"
@@ -163,4 +163,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1" />
+  <circle
+     style="fill:#8c8c8e;fill-opacity:0.83333333;stroke:none;stroke-width:6;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0;paint-order:markers stroke fill"
+     id="switch.sonoff_1"
+     cx="702.85718"
+     cy="264.64285"
+     r="11.071428"
+     inkscape:label="#path839" />
 </svg>

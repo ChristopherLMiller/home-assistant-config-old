@@ -52,6 +52,7 @@ group:
     entities:
       - media_player.samsung_tv_chris_bedroom
       - switch.sonoff_1
+      - input_select.alarm_clock
   
   computer_room:
     control: hidden

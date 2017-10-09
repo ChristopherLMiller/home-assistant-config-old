@@ -1,0 +1,72 @@
+################################################################
+## Packages / Switch / Sonoff 1
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'switch/sonoff_1'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    switch.sonoff_1:
+      <<: *customize
+      friendly_name: Reading Light
+      emulated_hue: true
+      emulated_hue_name: Reading Light
+  
+    automation.reading_light_on_alarm_clock:
+      <<: *customize
+      friendly_name: Alarm Clock Light On
+
+#################################################
+## Switch
+#################################################
+switch:
+  - platform: mqtt
+    name: sonoff_1
+    state_topic: "stat/sonoff/POWER"
+    command_topic: "cmnd/sonoff/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true
+
+##################################################
+## Automation
+##################################################
+automation:
+  - alias: reading_light_on_alarm_clock
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: sensor.time
+    condition:
+      - condition: template
+        value_template: >-
+          {{ is_state('input_select.alarm_clock', trigger.to_state.state) }}
+      - condition: state
+        entity_id: input_boolean.alarm_enabled
+        state: 'on'
+    action:
+      - service: switch.turn_on
+        data:
+          entity_id:
+            - switch.sonoff_1
+      - delay: 0:10
+      - service: switch.turn_off
+        data:
+          entity_id:
+            - switch.sonoff_1

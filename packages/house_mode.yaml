@@ -29,6 +29,7 @@ homeassistant:
       <<: *customize
       friendly_name: "House Mode"
       icon: mdi:home-variant
+      order: 0
 
     ################################################
     ## Input Boolean
