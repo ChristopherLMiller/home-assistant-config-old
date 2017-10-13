@@ -48,7 +48,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.pws_feelslike_f.state >= states.input_number.fan_temperature_on.state }}'
+        value_template: '{{ states.sensor.pws_feelslike_f.state | float >= states.input_number.fan_temperature_on.state | float }}'
     action:
       - service: switch.turn_on
         data:
@@ -59,9 +59,34 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.pws_feelslike_f.state < states.input_number.fan_temperature_on.state }}'
+        value_template: '{{ states.sensor.pws_feelslike_f.state | float < states.input_number.fan_temperature_on.state | float }}'
     action:
       - service: switch.turn_off
         data:
           entity_id:
             - switch.sonoff_2
+
+##################################################
+## Intent Scripts
+##################################################
+intent_script:
+  WindowFanOnIntent:
+    speech:
+      text: "Ok"
+    card:
+      type: simple
+      title: Home Assistant
+      content: "Turning on window fan"
+    action:
+      service: switch.turn_on
+      entity_id: switch.sonoff_2
+  WindowFanOffIntent:
+    speech:
+      text: "Ok"
+    card:
+      type: simple
+      title: Home Assistant
+      content: "Turning off window fan"
+    action:
+      service: switch.turn_off
+      entity_id: switch.sonoff_2

@@ -25,11 +25,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="667.16522"
-     inkscape:cy="351.54009"
+     inkscape:zoom="1.979899"
+     inkscape:cx="96.442693"
+     inkscape:cy="357.37483"
      inkscape:document-units="px"
-     inkscape:current-layer="svg8"
+     inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
@@ -86,7 +86,8 @@
      id="upper_floor"
      transform="matrix(1.3333333,0,0,-1.3333333,525.71428,614.28571)"
      display="inline"
-     style="display:inline">
+     style="display:inline"
+     inkscape:label="upper_floor">
     <g
        id="upper"
        display="inline"
@@ -162,12 +163,16 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1" />
-  <circle
-     style="fill:#8c8c8e;fill-opacity:0.83333333;stroke:none;stroke-width:6;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0;paint-order:markers stroke fill"
+     id="layer1"
+     style="display:inline" />
+  <path
      id="switch.sonoff_1"
-     cx="702.85718"
-     cy="264.64285"
-     r="11.071428"
-     inkscape:label="#path839" />
+     d="m 706.09663,297.09887 c 5.38285,0 9.74108,-4.35823 9.74108,-9.74108 0,-5.38286 -4.35823,-9.74109 -9.74108,-9.74109 -5.38286,0 -9.74109,4.36545 -9.74109,9.74109 0,5.37563 4.35823,9.74108 9.74109,9.74108 z m -3.64389,-9.22878 1.26273,-5.05093 c 0.065,-0.24532 0.28862,-0.42572 0.54118,-0.42572 h 3.73768 c 0.25977,0 0.47623,0.17318 0.54117,0.42572 l 1.26274,5.05093 c 0.0866,0.35356 -0.1804,0.6927 -0.54117,0.6927 h -2.74194 v 1.52251 c 0,0.7432 0.52674,1.36374 1.22666,1.50806 0.1876,0.0361 0.31748,0.20925 0.31748,0.39685 0,0.22369 -0.18038,0.40407 -0.40408,0.40407 h -3.03055 c -0.22369,0 -0.40408,-0.18038 -0.40408,-0.40407 0,-0.1876 0.12989,-0.35357 0.3175,-0.39685 0.69991,-0.14432 1.21943,-0.76486 1.21943,-1.50806 v -1.52251 h -2.76358 c -0.368,0 -0.62776,-0.33914 -0.54117,-0.6927 z"
+     inkscape:connector-curvature="0"
+     style="stroke-width:0.99999994"
+     inkscape:label="#path883" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Devices" />
 </svg>

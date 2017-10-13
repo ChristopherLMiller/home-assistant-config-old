@@ -23,7 +23,7 @@ homeassistant:
     
     group.chris_bedroom_view:
       <<: *customize
-      friendly_name: "Chris Bedroom"
+      friendly_name: "Chris's Bedroom"
 
     group.morning_alarm:
       <<: *customize
@@ -36,6 +36,15 @@ homeassistant:
     group.chris_bedroom_media_players:
       <<: *customize
       friendly_name: Media Players
+
+    group.window_fan:
+      <<: *customize
+      friendly_name: Window Fan
+
+    input_number.fan_temperature_on:
+      <<: *customize
+      friendly_name: Fan Temperature
+      icon: mdi:fan
 
     input_boolean.alarm_enabled:
       <<: *customize

@@ -37,36 +37,34 @@ homeassistant:
 switch:
   - platform: mqtt
     name: sonoff_1
-    state_topic: "stat/sonoff/POWER"
-    command_topic: "cmnd/sonoff/power"
+    state_topic: "stat/sonoff_1/POWER"
+    command_topic: "cmnd/sonoff_1/power"
     payload_on: "ON"
     payload_off: "OFF"
     qos: 1
     retain: true
 
 ##################################################
-## Automation
+## Intent Scripts
 ##################################################
-automation:
-  - alias: reading_light_on_alarm_clock
-    initial_state: 'on'
-    trigger:
-      - platform: state
-        entity_id: sensor.time
-    condition:
-      - condition: template
-        value_template: >-
-          {{ is_state('input_select.alarm_clock', trigger.to_state.state) }}
-      - condition: state
-        entity_id: input_boolean.alarm_enabled
-        state: 'on'
+intent_script:
+  ReadingLightOnIntent:
+    speech:
+      text: "Ok"
+    card:
+      type: simple
+      title: Home Assistant
+      content: "Turning on reading light"
     action:
-      - service: switch.turn_on
-        data:
-          entity_id:
-            - switch.sonoff_1
-      - delay: 0:10
-      - service: switch.turn_off
-        data:
-          entity_id:
-            - switch.sonoff_1
+      service: switch.turn_on
+      entity_id: switch.sonoff_1
+  ReadingLightOffIntent:
+    speech:
+      text: "Ok"
+    card:
+      type: simple
+      title: Home Assistant
+      content: "Turning off reading light"
+    action:
+      service: switch.turn_off
+      entity_id: switch.sonoff_1

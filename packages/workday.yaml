@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Groups / Automation Override
+## Packages / Workday
 ################################################################
 
 ################################################
@@ -14,26 +14,16 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'groups/automation_override'
+        package: 'workday'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
         homebridge_hidden: false
 
-    ################################################
-    ## Group
-    ################################################
-
-    group.automations_chris:
-      <<: *customize
-      friendly_name: "Automations Chris"
-
-    group.all_automations:
-      <<: *customize
-      hidden: false
-      control: hidden
-
-################################################
-## Group
-################################################
+##################################################
+## Binary Sensor
+##################################################
+binary_sensor:
+  - platform: workday
+    country: US
