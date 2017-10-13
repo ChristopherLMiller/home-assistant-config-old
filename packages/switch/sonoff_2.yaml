@@ -90,3 +90,22 @@ intent_script:
     action:
       service: switch.turn_off
       entity_id: switch.sonoff_2
+  WindowFanTempIntent:
+    speech:
+      text: "Setting window fan to {{ Temp }} degrees."
+    card:
+      type: simple
+      title: Home Assistant
+      content: "Setting window fan to {{ Temp }}."
+    action:
+      service: input_number.set_value
+      data_template:
+        entity_id: input_number.fan_temperature_on
+        value: '{{ Temp }}'
+  WindowFanCurrentTempIntent:
+    speech:
+      text: "Current window fan temperature is {{ states.input_number.fan_temperature_on.state | int }} degrees"
+    card:
+      type: simple
+      title: Home Assistant
+      content: "Current temp - {{ states.input_number.fan_temperature_on.state | int }}"

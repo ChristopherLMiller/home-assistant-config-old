@@ -102,7 +102,7 @@ input_boolean:
 ##################################################
 input_number:
   fan_temperature_on:
-    initial: 55
+    initial: 60
     min: 32
     max: 100
     mode: box

@@ -58,7 +58,7 @@ input_number:
 
   slider_minutes:
     name: Minutes
-    initial: 0
+    initial: 40
     min: 0
     max: 59
     step: 5
@@ -66,7 +66,7 @@ input_number:
 input_boolean:
   week_day_only:
     name: Weekdays Only
-    initial: off
+    initial: on
     icon: mdi:calendar-check
 
   am:

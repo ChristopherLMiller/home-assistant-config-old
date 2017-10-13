@@ -1,32 +1,61 @@
 {
-    "intents": [{
-            "slots": [{
-                "name": "User",
-                "type": "AMAZON.US_FIRST_NAME"
-            }],
-            "intent": "LocateIntent"
-        },
+  "intents": [
+    {
+      "slots": [
         {
-            "intent": "WhereAreWeIntent"
-        },
-        {
-            "intent": "WhosHomeIntent"
-        },
-        {
-            "intent": "NetworkSpeedIntent"
-        },
-        {
-            "intent": "TurnOffLivingTVIntent"
-        },
-        {
-            "intent": "WhosVisitingIntent"
-        },
-        {
-            "slots": [{
-                "name": "Mode",
-                "type": "HouseMode"
-            }],
-            "intent": "HouseModeIntent"
+          "name": "User",
+          "type": "AMAZON.US_FIRST_NAME"
         }
-    ]
+      ],
+      "intent": "LocateIntent"
+    },
+    {
+      "intent": "WhereAreWeIntent"
+    },
+    {
+      "intent": "WhosHomeIntent"
+    },
+    {
+      "intent": "NetworkSpeedIntent"
+    },
+    {
+      "intent": "TurnOffLivingTVIntent"
+    },
+    {
+      "intent": "WhosVisitingIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "Mode",
+          "type": "HouseMode"
+        }
+      ],
+      "intent": "HouseModeIntent"
+    },
+    {
+      "intent": "ReadingLightOnIntent"
+    },
+    {
+      "intent": "ReadingLightOffIntent"
+    },
+    {
+      "intent": "WindowFanOnIntent"
+    },
+    {
+      "intent": "WindowFanOffIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "Temp",
+          "type": "AMAZON.NUMBER"
+        }
+      ],
+      "intent": "WindowFanTempIntent"
+    },
+    {
+      "intent": "WindowFanCurrentTempIntent"
+    }
+  ]
 }

@@ -90,7 +90,7 @@ sensor:
         value_template: "{{ as_timestamp(states.binary_sensor.iss.attributes.next_rise) | timestamp_custom('%H:%M:%S') }}"
       
       iss_location:
-        value_template: "{{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}"
+        value_template: "[{{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}]"
 
       iss_overhead:
         value_template: "{{ 'Yes' if is_state('states.binary_sensor.iss', 'on') else 'No' }}"
