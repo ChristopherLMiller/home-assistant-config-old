@@ -48,7 +48,7 @@ homeassistant:
 
     input_boolean.alarm_enabled:
       <<: *customize
-      friendly_name: Alarm Active
+      friendly_name: Alarm Enabled
       icon: mdi:alarm
 
     sensor.time:
@@ -83,18 +83,19 @@ group:
     control: hidden
     entities:
       - switch.sonoff_2
+      - sensor.pws_temp_f
       - input_number.fan_temperature_on
 
   settings:
     control: hidden
     entities:
-      - input_boolean.alarm_clock
+      - input_boolean.alarm_enabled
 
 ##################################################
 ## Input Boolean
 ##################################################
 input_boolean:
-  alarm_clock:
+  alarm_enabled:
     initial: on
 
 ##################################################

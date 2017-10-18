@@ -48,7 +48,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.pws_feelslike_f.state | float >= states.input_number.fan_temperature_on.state | float }}'
+        value_template: '{{ states.sensor.pws_temp_f.state | float >= states.input_number.fan_temperature_on.state | float }}'
     action:
       - service: switch.turn_on
         data:
@@ -59,7 +59,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.pws_feelslike_f.state | float < states.input_number.fan_temperature_on.state | float }}'
+        value_template: '{{ states.sensor.pws_temp_f.state | float < states.input_number.fan_temperature_on.state | float }}'
     action:
       - service: switch.turn_off
         data:
