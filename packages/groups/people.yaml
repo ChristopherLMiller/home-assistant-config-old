@@ -267,7 +267,7 @@ intent_script:
         {% endif %}
     card:
       type: simple
-      title: Household Member Location
+      title: Home Assistant - Household Member Location
       content: >
         {% if states['sensor'][User + '_location'] %}
           {{ User }} is currently at {{ states['sensor'][User + '_location'].state }}
@@ -295,7 +295,7 @@ intent_script:
         {% endif %}
     card:
       type: simple
-      title: Current Locations of the household
+      title: Home Assistant - Current Locations
       content: >
         {%- if is_state('device_tracker.bruce_dills_phone', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') -%}
           Everyone is currently home.
@@ -336,7 +336,7 @@ intent_script:
         {%- endif -%}
     card:
       type: simple
-      title: "Who's home"
+      title: "Home Assistant - Who's home"
       content: >
         {%- if is_state('device_tracker.bruce_dills_phone', 'home') and is_state('device_tracker.chris_miller_phone', 'home') and is_state('device_tracker.teresa_dills_phone', 'home') -%}
           Everyone is currently home.
@@ -376,7 +376,7 @@ intent_script:
         {% endif %}
     card:
       type: simple
-      title: "Current Guests"
+      title: "Home Assistant - Current Guests"
       content: >
         {% if is_state('group.guests_source', 'not_home') %}
           There are currently no guests visiting.

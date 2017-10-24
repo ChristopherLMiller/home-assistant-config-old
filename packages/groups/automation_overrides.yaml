@@ -21,19 +21,7 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
-    ################################################
-    ## Group
-    ################################################
-
-    group.automations_chris:
-      <<: *customize
-      friendly_name: "Automations Chris"
-
     group.all_automations:
       <<: *customize
       hidden: false
       control: hidden
-
-################################################
-## Group
-################################################

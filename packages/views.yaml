@@ -63,13 +63,14 @@ group:
   default_view:
     view: yes
     entities:
+      - group.alarm_panel
       - group.house_mode
       - group.household_members
       - group.guests
       - group.batteries
       - group.mail_packages
       - group.crime_reports
-
+  
   network:
     view: yes
     entities:

@@ -26,6 +26,14 @@ homeassistant:
       friendly_name: Window Fan
       emulated_hue: true
       emulated_hue_name: Window Fan
+
+    automation.window_fan_temp_control_on:
+      <<: *customize
+      friendly_name: Window Fan on at temp
+
+    automation.window_fan_temp_control_off:
+      <<: *customize
+      friendly_name: Window Fan off at temp
   
 #################################################
 ## Switch

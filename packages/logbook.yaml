@@ -21,16 +21,15 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
+################################################
+## Logbook
+################################################
 
-###############################################
-## logbook
-###############################################
 logbook:
   exclude:
     entities:
       - sensor.time
       - sensor.date
-      - sensor.time__date
-      - sensor.date__time
-      - sensor.time_utc
-      - sensor.internet_time
+      - sensor.ups_status_date
+    domains:
+      - sun

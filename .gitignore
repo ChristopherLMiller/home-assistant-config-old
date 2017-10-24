@@ -12,3 +12,10 @@ account-key.txt
 fedexdeliverymanager_cookies.pickle
 upsmychoice_cookies.pickle
 usps_cookies.pickle
+usps_cache.sqlite
+
+.spotify-token-cache
+gpmpd.conf
+ip_bans.yaml
+plex.conf
+

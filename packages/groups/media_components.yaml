@@ -47,3 +47,6 @@ group:
     entities:
       - media_player.lg_tv_living_room
       - media_player.samsung_tv_chris_bedroom
+      - media_player.spotify
+      - media_player.gpm_desktop_player
+      - media_player.plex_web_chrome

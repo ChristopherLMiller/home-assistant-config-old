@@ -33,7 +33,6 @@ homeassistant:
 ################################################
 ## Group
 ################################################
-
 group:
   mail_packages:
     control: hidden
@@ -43,3 +42,46 @@ group:
       - sensor.usps_mail
       - sensor.usps_packages
       - camera.usps_mail
+
+##################################################
+## Intent Script
+##################################################
+intent_script:
+  MailIntent:
+    speech:
+      text: >
+        {%- set usps_mail = states.sensor.usps_mail.state -%}
+        {%- set usps_packages = states.sensor.usps_packages.state -%}
+        {%- set fedex = states.sensor.fedex.state -%}
+        {%- set ups = states.sensor.ups.state -%}
+
+        {%- if usps_mail | int + usps_packages | int + fedex | int + ups | int -%}
+          {%- if usps_mail | int -%}
+            You have {{ usps_mail }} piece{%- if usps_mail | int > 1 -%}s{%- endif -%}{{- ' ' -}}of mail arriving today.
+          {%- else -%}
+            You don't seem to have any mail today.
+          {%- endif -%}
+          {{- '  ' -}}
+          {%- if usps_packages | int + fedex | int + ups | int -%}
+            Additionally, I'm showing some deliveries as well.
+            {%- if usps_packages | int > 0 -%}
+            {{- '  ' -}}The post office has {{ usps_packages }} package{%- if usps_packages | int > 1 -%}s{%- endif -%}{{- ' ' -}}for you.
+            {%- endif -%}
+            {%- if fedex | int > 0-%}
+            {{- '  ' -}}Fedex has {{ fedex }} package{%- if fedex | int > 1 -%}s{%- endif -%}{{- ' ' -}}for you.
+            {%- endif -%}
+            {%- if ups | int > 0 -%}
+            {{- '  ' -}}UPS has {{ ups }} package{%- if ups | int > 1 -%}s{%- endif -%}{{- ' ' -}}for you.
+            {%- endif -%}
+          {%- endif %}
+        {%- else -%}
+        You don't seem to have anything coming today.
+        {%- endif -%}
+    card:
+      type: simple
+      title: Home Assistant - Mail and packages
+      content: >
+        {%- if states.sensor.usps_mail.state | int > 0 -%}USPS Mail:  {{ states.sensor.usps_mail.state }}{{- '\n' -}}{%- endif -%}
+        {%- if states.sensor.usps_packages.state | int > 0 -%}USPS Packages: {{ states.sensor.usps_packages.state }}{{- '\n' -}}{%- endif -%}
+        {%- if states.sensor.fedex.state | int > 0-%}Fedex Packages: {{ states.sensor.fedex.state }}{{- '\n' -}}{%- endif -%}
+        {%- if states.sensor.ups.state | int > 0 -%}UPS Packages: {{ states.sensor.ups.state }}{%- endif -%}
