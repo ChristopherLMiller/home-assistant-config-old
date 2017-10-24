@@ -262,3 +262,31 @@ automation:
         data_template:
           target: '355096664241078272'
           message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] {{ trigger.to_state.attributes.friendly_name }} is now {{ trigger.to_state.state }}'
+
+##################################################
+## Intent Script
+##################################################
+intent_script:
+  NetworkStatusIntent:
+    speech:
+      text: >
+        Network devices report.  The following devices are showing as offline:
+        {{- ' ' -}}
+        {%- set entities = states.group.network_devices.attributes.entity_id -%}
+        {%- for entity_id in entities -%}
+          {%- set entity_parts = entity_id.split('.') -%}
+          {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
+          {%- if entity.state == "offline" -%}{{ entity.name }}{{- ' ' -}}{%- endif -%}
+        {%- endfor -%}
+    card:
+      type: simple
+      title: 'Home Assistant - Network Status'
+      content: >
+        Network devices offline:
+        {{- '\n' -}}
+        {%- set entities = states.group.network_devices.attributes.entity_id -%}
+        {%- for entity_id in entities -%}
+          {%- set entity_parts = entity_id.split('.') -%}
+          {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
+          {%- if entity.state == "offline" -%}{{ entity.name }}{{- ' ' -}}{%- endif -%}
+        {%- endfor -%}
