@@ -19,3 +19,5 @@ gpmpd.conf
 ip_bans.yaml
 plex.conf
 
+gpmpd.conf
+.spotify-token-cache

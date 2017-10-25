@@ -9,7 +9,7 @@ homeassistant:
 
 ## INCLUDE ##
 conversation:
-#discovery:
+discovery:
 #python_script:
 alexa:
 apiai:
@@ -24,14 +24,3 @@ panel_custom:
     config: !include floorplan.yaml
 
 config:
-
-alarm_control_panel:
-  - platform: manual
-    name: Home Alarm
-    code: 1234
-    pending_time: 30
-    armed_home:
-      pending_time: 0
-    triggered:
-      pending_time: 20
-    trigger_time: 4 
