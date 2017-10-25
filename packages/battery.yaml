@@ -54,38 +54,56 @@ sensor:
   - platform: template
     sensors:
       battery_chris_phone:
-        value_template: '{{ states.device_tracker.chris_phone.attributes.battery }}'
+        value_template: >-
+          {%- if states.device_tracker.chris_phone.attributes.battery -%}
+            {{ states.device_tracker.chris_phone.attributes.battery | int('unknown') }}
+          {%- else -%}
+            Unknown
+          {%- endif -%}
         icon_template: >-
-          {% set battery_level = states.device_tracker.chris_phone.attributes.battery | int('unknown') %}
-          {% if battery_level == 'unknown' %}
-            mdi:battery-unknown
-          {% else %}
-            {% set battery_round = (battery_level|int / 10)|int * 10 %}
-            {% if battery_round >= 100 %}
-              mdi:battery
-            {% elif battery_round > 0 %}
-              mdi:battery-{{ battery_round }}
+          {%- if states.device_tracker.chris_phone.attributes.battery -%}
+            {% set battery_level = states.device_tracker.chris_phone.attributes.battery | int('unknown') %}
+            {% if battery_level == 'unknown' %}
+              mdi:battery-unknown
             {% else %}
-              mdi:battery-alert
+              {% set battery_round = (battery_level|int / 10)|int * 10 %}
+              {% if battery_round >= 100 %}
+                mdi:battery
+              {% elif battery_round > 0 %}
+                mdi:battery-{{ battery_round }}
+              {% else %}
+                mdi:battery-alert
+              {% endif %}
             {% endif %}
-          {% endif %}
+          {%- else -%}
+            mdi:battery-unknown
+          {%- endif -%}
 
       battery_teresa_phone:
-        value_template: '{{ states.device_tracker.teresa_phone.attributes.battery }}'
+        value_template: >-
+          {%- if states.device_tracker.teresa_phone.attributes.battery -%}
+            {{ states.device_tracker.teresa_phone.attributes.battery | int('unknown') }}
+          {%- else -%}
+            Unknown
+          {%- endif -%}
         icon_template: >-
-          {% set battery_level = states.device_tracker.teresa_phone.attributes.battery | int('unknown') %}
-          {% if battery_level == 'unknown' %}
-            mdi:battery-unknown
-          {% else %}
-            {% set battery_round = (battery_level|int / 10)|int * 10 %}
-            {% if battery_round >= 100 %}
-              mdi:battery
-            {% elif battery_round > 0 %}
-              mdi:battery-{{ battery_round }}
+          {%- if states.device_tracker.teresa_phone.attributes.battery -%}
+            {% set battery_level = states.device_tracker.teresa_phone.attributes.battery | int('unknown') %}
+            {% if battery_level == 'unknown' %}
+              mdi:battery-unknown
             {% else %}
-              mdi:battery-alert
+              {% set battery_round = (battery_level|int / 10)|int * 10 %}
+              {% if battery_round >= 100 %}
+                mdi:battery
+              {% elif battery_round > 0 %}
+                mdi:battery-{{ battery_round }}
+              {% else %}
+                mdi:battery-alert
+              {% endif %}
             {% endif %}
-          {% endif %}
+          {%- else -%}
+            mdi:battery-unknown
+          {%- endif -%}
 
 ##################################################
 ## Automation

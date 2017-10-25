@@ -232,6 +232,9 @@ automation:
       - service: script.notify_discord
         data_template:
           message: '{{ trigger.to_state.attributes.friendly_name }} has returned home.'
+      - service: script.notify_all
+        data_template:
+          message: '{{ trigger.to_state.attributes.friendly_name }} is home'
 
   - alias: guests_visit
     initial_state: true
@@ -251,6 +254,9 @@ automation:
       - service: script.notify_discord
         data_template:
           message: '{{ trigger.to_state.attributes.friendly_name }} has arrived.'
+      - service: script.notify_all
+        data_template:
+          message: '{{ trigger.to_state.attributes.friendly_name }} is visiting'
 
 ##################################################
 ## Intent Scripts

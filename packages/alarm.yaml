@@ -29,9 +29,9 @@ homeassistant:
 ## Alarm Control Panel
 ################################################
 alarm_control_panel:
-  - platform: mqtt
-    state_topic: "home/alarm/stat/STATE"
-    command_topic: "home/alarm/cmnd/state"
+  - platform: manual_mqtt
+    state_topic: "home/alarm/"
+    command_topic: "home/alarm/set"
 
 ##################################################
 ## Group
@@ -40,4 +40,4 @@ group:
   alarm_control_panel:
     control: hidden
     entities:
-      - alarm_control_panel.mqtt_alarm
+      - alarm_control_panel.ha_alarm

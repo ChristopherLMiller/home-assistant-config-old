@@ -28,6 +28,10 @@ notify:
   - platform: discord
     name: discord
     token: !secret discord_token
+  - name: notifications
+    platform: html5
+    gcm_api_key: !secret gcm_api_key
+    gcm_sender_id: !secret gcm_sender_id
 
 ##################################################
 ## Script
@@ -39,3 +43,10 @@ script:
         data_template:
           target: '355096664241078272'
           message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] {{ message }}'
+  notify_all:
+    sequence:
+      - service: notify.notifications
+        data_template:
+          message: '{{ message }}'
+          data:
+            tag: '{{ tag }}'
