@@ -21,11 +21,21 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
-################################################
+##################################################
 ## Notify
-################################################
-
+##################################################
 notify:
   - platform: discord
     name: discord
     token: !secret discord_token
+
+##################################################
+## Script
+##################################################
+script:
+  notify_discord:
+    sequence:
+      - service: notify.discord
+        data_template:
+          target: '355096664241078272'
+          message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] {{ message }}'

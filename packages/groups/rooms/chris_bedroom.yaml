@@ -37,28 +37,6 @@ homeassistant:
       <<: *customize
       friendly_name: Media Players
 
-    group.window_fan:
-      <<: *customize
-      friendly_name: Window Fan
-
-    group.chris_bedroom_automations:
-      <<: *customize
-      friendly_name: Automations
-
-    input_number.fan_temperature_on:
-      <<: *customize
-      friendly_name: Fan Temperature
-      icon: mdi:fan
-
-    input_boolean.alarm_enabled:
-      <<: *customize
-      friendly_name: Alarm Enabled
-      icon: mdi:alarm
-
-    sensor.time:
-      <<: *customize
-      friendly_name: Current Time
-
 ##################################################
 ## Group
 ##################################################
@@ -70,15 +48,6 @@ group:
       - group.chris_bedroom_lights
       - group.chris_bedroom_media_players
       - group.window_fan
-      - group.chris_bedroom_automations
-      - group.settings
-
-  chris_bedroom_automations:
-    control: hidden
-    entities:
-      - automation.reading_light_off_not_home
-      - automation.window_fan_temp_control_off
-      - automation.window_fan_temp_control_on
 
   chris_bedroom_lights:
     control: hidden
@@ -91,32 +60,3 @@ group:
       - media_player.samsung_tv_chris_bedroom
       - media_player.spotify
       - media_player.gpm_desktop_player
-
-  window_fan:
-    control: hidden
-    entities:
-      - switch.sonoff_2
-      - sensor.pws_temp_f
-      - input_number.fan_temperature_on
-
-  settings:
-    control: hidden
-    entities:
-      - input_boolean.alarm_enabled
-
-##################################################
-## Input Boolean
-##################################################
-input_boolean:
-  alarm_enabled:
-    initial: on
-
-##################################################
-## Input Number
-##################################################
-input_number:
-  fan_temperature_on:
-    initial: 60
-    min: 32
-    max: 100
-    mode: box

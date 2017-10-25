@@ -49,7 +49,8 @@ switch:
 ##################################################
 automation:
   - alias: reading_light_off_not_home
-    initial_state: 'on'
+    hide_entity: true
+    initial_state: true
     trigger:
       - platform: state
         entity_id: device_tracker.chris_phone
@@ -61,6 +62,9 @@ automation:
         entity_id: sensor.xbox_current_activity
         state: 'Offline'
     action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning off reading light - chris left home'
       - service: switch.turn_off
         data:
           entity_id:
@@ -73,20 +77,12 @@ intent_script:
   ReadingLightOnIntent:
     speech:
       text: "Ok"
-    card:
-      type: simple
-      title: Home Assistant
-      content: "Turning on reading light"
     action:
       service: switch.turn_on
       entity_id: switch.sonoff_1
   ReadingLightOffIntent:
     speech:
       text: "Ok"
-    card:
-      type: simple
-      title: Home Assistant
-      content: "Turning off reading light"
     action:
       service: switch.turn_off
       entity_id: switch.sonoff_1

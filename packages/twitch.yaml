@@ -46,3 +46,22 @@ sensor:
     - juhstinfx
     - khanjal
 
+##################################################
+## Automation
+##################################################
+automation:
+  - alias: notify_twitch_user_online
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.moose517
+          - sensor.juhstinfx
+          - sensor.khanjal
+        from: 'offline'
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: '{{ trigger.to_state.attributes.friendly_name }} has started streaming.'
+

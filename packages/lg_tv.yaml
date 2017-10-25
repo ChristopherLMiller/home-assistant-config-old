@@ -51,7 +51,7 @@ media_player:
 ################################################
 automation:
   - alias: tv_off_nobody_home
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: state
         from: 'home'
@@ -64,10 +64,9 @@ automation:
         entity_id: sensor.house_mode
         state: 'away'
     action:
-      - service: notify.discord
+      - service: script.notify_discord
         data_template:
-          target: '355096664241078272'
-          message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] Turning off living room TV'
+          message: 'Turning off living room TV'
       - service: media_player.turn_off
         entity_id: media_player.lg_tv_living_room
 
@@ -76,8 +75,12 @@ automation:
 ##################################################
 intent_script:
   TurnOffLivingTVIntent:
+    speech:
+      text: Ok
     action:
+      - service: script.notify_discord
+        data_template:
+          message: "Turning off living room TV"
       - service: media_player.turn_off
         entity_id: media_player.lg_tv_living_room
-    speech:
-      text: Turning off the living room TV.
+

@@ -21,6 +21,10 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
+    group.window_fan:
+      <<: *customize
+      friendly_name: Window Fan
+
     switch.sonoff_2:
       <<: *customize
       friendly_name: Window Fan
@@ -34,7 +38,32 @@ homeassistant:
     automation.window_fan_temp_control_off:
       <<: *customize
       friendly_name: Window Fan off at temp
-  
+
+    input_number.fan_temperature_on:
+      <<: *customize
+      friendly_name: Fan Temperature
+      icon: mdi:fan
+
+#################################################
+## Input Boolean
+#################################################
+input_boolean:
+  auto_fan_mode:
+    initial: on
+    icon: mdi:fan
+
+#################################################
+## Group
+#################################################
+group:
+  window_fan:
+    control: hidden
+    entities:
+      - switch.sonoff_2
+      - input_boolean.auto_fan_mode
+      - sensor.pws_temp_f
+      - input_number.temperature_on
+
 #################################################
 ## Switch
 #################################################
@@ -49,26 +78,50 @@ switch:
     retain: true
 
 ##################################################
+## Input Number
+##################################################
+input_number:
+  temperature_on:
+    initial: 60
+    min: 32
+    max: 100
+    mode: slider
+
+##################################################
 ## Automation
 ##################################################
 automation:
   - alias: window_fan_temp_control_on
-    initial_state: 'on'
+    initial_state: true
+    hide_entity: true
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.pws_temp_f.state | float >= states.input_number.fan_temperature_on.state | float }}'
+        value_template: '{{ states.sensor.pws_temp_f.state | float >= states.input_number.temperature_on.state | float }}'
+    condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.auto_fan_mode.state == "on" }}'
     action:
+      - service: script.notify_discord
+        data_template:
+          message: "Turning on window fan.  Temp: {{ states.sensor.pws_temp_f.state }} Set Temp: {{ states.input_number.temperature_on.state }}"
       - service: switch.turn_on
         data:
           entity_id:
             - switch.sonoff_2
 
   - alias: window_fan_temp_control_off
-    initial_state: 'on'
+    hide_entity: true
+    initial_state: true
     trigger:
       - platform: template
-        value_template: '{{ states.sensor.pws_temp_f.state | float < states.input_number.fan_temperature_on.state | float }}'
+        value_template: '{{ states.sensor.pws_temp_f.state | float < states.input_number.temperature_on.state | float }}'
+    condition:
+      - condition: template
+        value_template: '{{ states.input_boolean.auto_fan_mode.state == "on" }}'
     action:
+      - service: script.notify_discord
+        data_template:
+          message: "Turning off window fan.  Temp: {{ states.sensor.pws_temp_f.state }} Set Temp: {{ states.input_number.temperature_on.state }}"
       - service: switch.turn_off
         data:
           entity_id:
@@ -81,20 +134,12 @@ intent_script:
   WindowFanOnIntent:
     speech:
       text: "Ok"
-    card:
-      type: simple
-      title: Home Assistant
-      content: "Turning on window fan"
     action:
       service: switch.turn_on
       entity_id: switch.sonoff_2
   WindowFanOffIntent:
     speech:
       text: "Ok"
-    card:
-      type: simple
-      title: Home Assistant
-      content: "Turning off window fan"
     action:
       service: switch.turn_off
       entity_id: switch.sonoff_2
@@ -108,12 +153,12 @@ intent_script:
     action:
       service: input_number.set_value
       data_template:
-        entity_id: input_number.fan_temperature_on
+        entity_id: input_number.temperature_on
         value: '{{ Temp }}'
   WindowFanCurrentTempIntent:
     speech:
-      text: "Current window fan temperature is {{ states.input_number.fan_temperature_on.state | int }} degrees"
+      text: "Current window fan temperature is {{ states.input_number.temperature_on.state | int }} degrees"
     card:
       type: simple
       title: Home Assistant
-      content: "Current temp - {{ states.input_number.fan_temperature_on.state | int }}"
+      content: "Current temp - {{ states.input_number.temperature_on.state | int }}"

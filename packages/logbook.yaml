@@ -31,3 +31,4 @@ logbook:
       - sensor.date
     domains:
       - sun
+      - time

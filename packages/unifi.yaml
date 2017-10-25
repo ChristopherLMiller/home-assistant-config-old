@@ -34,12 +34,3 @@ device_tracker:
     track_new_devices: true
     interval_seconds: 1
     consider_home: 10
-
-##################################################
-## Iframe Panel
-##################################################
-#panel_iframe:
-#  unifi:
-#    title: 'Unifi Manager'
-#    url: !secret unifi_manage_url
-#    icon: mdi:access-point

@@ -41,12 +41,6 @@ homeassistant:
 ## Group
 ##################################################
 group:
-  batteries_source:
-    control: hidden
-    entities:
-      - sensor.battery_chris_phone_source
-      - sensor.battery_teresa_phone_source
-
   batteries:
     control: hidden
     entities:
@@ -56,24 +50,13 @@ group:
 ##################################################
 ## Sensor
 ##################################################
-sensor:
-  - platform: mqtt
-    state_topic: "owntracks/chris_miller/phone"
-    name: battery_chris_phone_source
-    value_template: '{{ value_json.batt }}'
-
-  - platform: mqtt
-    state_topic: "owntracks/teresa_dills/phone"
-    name: battery_teresa_phone_source
-    value_template: '{{ value_json.batt }}'
-    
-
+sensor:    
   - platform: template
     sensors:
       battery_chris_phone:
-        value_template: '{{ states.sensor.battery_chris_phone_source.state }}'
+        value_template: '{{ states.device_tracker.chris_phone.attributes.battery }}'
         icon_template: >-
-          {% set battery_level = states('sensor.battery_chris_phone_source')|int('unknown') %}
+          {% set battery_level = states.device_tracker.chris_phone.attributes.battery | int('unknown') %}
           {% if battery_level == 'unknown' %}
             mdi:battery-unknown
           {% else %}
@@ -88,9 +71,9 @@ sensor:
           {% endif %}
 
       battery_teresa_phone:
-        value_template: '{{ states.sensor.battery_teresa_phone_source.state }}'
+        value_template: '{{ states.device_tracker.teresa_phone.attributes.battery }}'
         icon_template: >-
-          {% set battery_level = states('sensor.battery_teresa_phone_source')|int('unknown') %}
+          {% set battery_level = states.device_tracker.teresa_phone.attributes.battery | int('unknown') %}
           {% if battery_level == 'unknown' %}
             mdi:battery-unknown
           {% else %}
@@ -103,3 +86,21 @@ sensor:
               mdi:battery-alert
             {% endif %}
           {% endif %}
+
+##################################################
+## Automation
+##################################################
+automation:
+  - alias: notify_phone_battery_low
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: numeric_state
+        entity_id:
+          - sensor.battery_chris_phone
+          - sensor.battery_teresa_phone
+        below: 20
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: "{{ trigger.to_state.attributes.friendly_name }}'s phone needs to charged."

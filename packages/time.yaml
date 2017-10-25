@@ -29,6 +29,10 @@ homeassistant:
       <<: *customize
       friendly_name: Time
 
+    sensor.time:
+      <<: *customize
+      friendly_name: Current Time
+
 ################################################
 ## Sensor
 ################################################

@@ -141,9 +141,12 @@ intent_script:
       title: House Mode
       content: "Enabled {{ Mode }} mode"
     action:
-      service: scene.turn_on
-      data_template:
-        entity_id: scene.mode_{{ Mode }}
+      - service: scene.turn_on
+        data_template:
+          entity_id: scene.mode_{{ Mode }}
+      - service: script.notify_discord
+        data_template:
+          message: "Enabled {{ Mode }} house mode"
 
 ##################################################
 ## Scenes
@@ -161,3 +164,18 @@ scene:
     entities:
       input_boolean.guest_mode: off
       input_boolean.vacation_mode: on
+
+##################################################
+## Automation
+##################################################
+automation:
+  - alias: notify_house_mode_changed
+    initial_state: true
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: sensor.house_mode
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: "Enabled {{ trigger.to_state.state }} Mode"
