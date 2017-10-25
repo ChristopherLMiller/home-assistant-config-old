@@ -52,7 +52,11 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: state
+<<<<<<< HEAD
         entity_id: device_tracker.chris_phone
+=======
+        entity_id: device_tracker.chris_miller_phone
+>>>>>>> 24874f3bc90c86e8c005ea42048984b5a15014f7
         to: 'not_home'
         for:
           minutes: 5
