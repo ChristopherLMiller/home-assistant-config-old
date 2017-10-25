@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Logbook
+## Packages / Alarm Control Panel
 ################################################################
 
 ################################################
@@ -14,20 +14,30 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'logbook'
+        package: 'alrm_control_panel'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
         homebridge_hidden: false
 
+    group.alarm_control_panel:
+      <<: *customize
+      friendly_name: Alarm Control Panel
+
 ################################################
-## Logbook
+## Alarm Control Panel
 ################################################
-logbook:
-  exclude:
+alarm_control_panel:
+  - platform: mqtt
+    state_topic: "home/alarm/stat/STATE"
+    command_topic: "home/alarm/cmnd/state"
+
+##################################################
+## Group
+##################################################
+group:
+  alarm_control_panel:
+    control: hidden
     entities:
-      - sensor.time
-      - sensor.date
-    domains:
-      - sun
+      - alarm_control_panel.mqtt_alarm

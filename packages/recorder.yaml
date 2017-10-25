@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Logbook
+## Packages / Recorder
 ################################################################
 
 ################################################
@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'logbook'
+        package: 'recorder'
 
       expose: &expose
         <<: *customize
@@ -22,12 +22,8 @@ homeassistant:
         homebridge_hidden: false
 
 ################################################
-## Logbook
+## Recorder
 ################################################
-logbook:
-  exclude:
-    entities:
-      - sensor.time
-      - sensor.date
-    domains:
-      - sun
+recorder:
+  purge_interval: 2
+  purge_keep_days: 14

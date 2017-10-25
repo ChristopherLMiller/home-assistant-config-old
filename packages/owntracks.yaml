@@ -25,7 +25,7 @@ homeassistant:
 ## Device Trackers
 ################################################
 device_tracker:
-  - platform: owntracks
+  - platform: owntracks_http
     max_gps_accuracy: 200
     waypoints: True
     waypoints_whitelist:

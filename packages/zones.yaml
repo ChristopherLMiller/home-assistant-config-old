@@ -28,6 +28,7 @@ homeassistant:
     zone.home:
       <<: *customize
       friendly_name: "Home"
+      icon: mid:home
 
     zone.masterbrand:
       <<: *customize

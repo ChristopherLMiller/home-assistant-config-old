@@ -88,7 +88,7 @@ cassie_iphone:
   track: true
   vendor: Apple, Inc.
 
-chris_miller_phone:
+chris_phone:
   hide_if_away: false
   icon:
   mac: FC:DB:B3:DD:B4:F7
@@ -97,7 +97,7 @@ chris_miller_phone:
   track: true
   vendor: Samsung Electronics Co.,Ltd
 
-teresa_dills_phone:
+teresa_phone:
   hide_if_away: false
   icon:
   mac: 9C:8B:A0:13:C0:94

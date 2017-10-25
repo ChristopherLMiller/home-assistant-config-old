@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Logbook
+## Packages / History
 ################################################################
 
 ################################################
@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'logbook'
+        package: 'history'
 
       expose: &expose
         <<: *customize
@@ -22,12 +22,15 @@ homeassistant:
         homebridge_hidden: false
 
 ################################################
-## Logbook
+## History
 ################################################
-logbook:
+history:
   exclude:
     entities:
       - sensor.time
       - sensor.date
     domains:
-      - sun
+      - automation
+      - group
+      - updater
+      - time
