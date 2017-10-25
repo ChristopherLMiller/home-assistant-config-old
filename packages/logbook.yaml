@@ -24,18 +24,10 @@ homeassistant:
 ################################################
 ## Logbook
 ################################################
-<<<<<<< HEAD:packages/logbook.yaml
-=======
-
->>>>>>> 24874f3bc90c86e8c005ea42048984b5a15014f7:packages/logbook.yaml.no-load
 logbook:
   exclude:
     entities:
       - sensor.time
       - sensor.date
-<<<<<<< HEAD:packages/logbook.yaml
-=======
-      - sensor.ups_status_date
->>>>>>> 24874f3bc90c86e8c005ea42048984b5a15014f7:packages/logbook.yaml.no-load
     domains:
       - sun
