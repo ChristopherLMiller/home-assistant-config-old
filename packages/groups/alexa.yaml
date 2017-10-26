@@ -1,0 +1,39 @@
+################################################################
+## Packages / Groups / Alexa
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'groups/alexa'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+##################################################
+## Intent Script
+##################################################
+intent_script:
+
+  # Intent to call up reading time script
+  ReadingTimeIntent:
+    action:
+      - service: script.reading_time
+
+  # Intent to call up bedtime
+  BedtimeIntent:
+    speech:
+      text: !include ../../phrases/good_night.yaml
+    action:
+      - service: script.bedtime
