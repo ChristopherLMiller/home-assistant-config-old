@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Switch / Sonoff 2
+## Packages / Switch / Window Fan
 ################################################################
 
 ################################################
@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'switch/sonoff_2'
+        package: 'switch/window_fan'
 
       expose: &expose
         <<: *customize
@@ -28,8 +28,6 @@ homeassistant:
     switch.sonoff_2:
       <<: *customize
       friendly_name: Window Fan
-      emulated_hue: true
-      emulated_hue_name: Window Fan
 
     automation.window_fan_temp_control_on:
       <<: *customize
@@ -131,18 +129,6 @@ automation:
 ## Intent Scripts
 ##################################################
 intent_script:
-  WindowFanOnIntent:
-    speech:
-      text: "Ok"
-    action:
-      service: switch.turn_on
-      entity_id: switch.sonoff_2
-  WindowFanOffIntent:
-    speech:
-      text: "Ok"
-    action:
-      service: switch.turn_off
-      entity_id: switch.sonoff_2
   WindowFanTempIntent:
     speech:
       text: "Setting window fan to {{ Temp }} degrees."

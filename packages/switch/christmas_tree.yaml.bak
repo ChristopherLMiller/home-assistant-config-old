@@ -1,0 +1,69 @@
+################################################################
+## Packages / Switch / Sonoff 1
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'switch/christmas_tree'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    switch.christmas_tree:
+      <<: *customize
+      friendly_name: Christmas Tree
+
+    automation.christmas_tree_off_leaving_home:
+      <<: *customize
+      friendly_name: Christmas Tree Off Leaving Home
+
+#################################################
+## Switch
+#################################################
+switch:
+  - platform: mqtt
+    name: christmas_tree
+    state_topic: "home/sonoff_2/stat/POWER"
+    command_topic: "home/sonoff_2/cmnd/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true
+
+##################################################
+## Automations
+##################################################
+automation:
+  - alias: christmas_tree_off_leaving_home
+    initial_state: true
+    trigger:
+      - platform: state
+        from: 'home'
+        to: 'not_home'
+        for:
+          minutes: 5
+        entity_id: group.household_members_source
+    condition:
+      - condition: state
+        entity_id: sensor.house_mode
+        state: 'away'
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning off christmas tree - nobody home'
+      - service: switch.turn_off
+        data:
+          entity_id:
+            - switch.christmas_tree

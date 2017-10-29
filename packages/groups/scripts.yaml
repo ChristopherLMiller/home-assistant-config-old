@@ -36,7 +36,7 @@ script:
     sequence:
       - service: switch.turn_on
         data:
-          entity_id: switch.sonoff_1
+          entity_id: switch.reading_light
       - service: media_player.select_source
         data:
           entity_id: media_player.spotify
@@ -58,4 +58,4 @@ script:
           entity_id: media_player.spotify
       - service: switch.turn_off
         data:
-          entity_id: switch.sonoff_1
+          entity_id: switch.reading_light

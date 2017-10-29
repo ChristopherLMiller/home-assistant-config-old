@@ -36,7 +36,7 @@
 
         - name: Switches
           entities:
-            - switch.sonoff_1
+            - switch.reading_light
           states:
             - state: 'on'
               class: 'light-on'

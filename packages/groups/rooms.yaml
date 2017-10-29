@@ -51,7 +51,7 @@ group:
     control: hidden
     entities:
       - media_player.samsung_tv_chris_bedroom
-      - switch.sonoff_1
+      - switch.reading_light
       - input_select.alarm_clock
   
   computer_room:

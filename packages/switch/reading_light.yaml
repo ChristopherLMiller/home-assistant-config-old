@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Switch / Sonoff 1
+## Packages / Switch / Reading Light
 ################################################################
 
 ################################################
@@ -14,18 +14,15 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'switch/sonoff_1'
+        package: 'switch/reading_light'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
-        homebridge_hidden: false
 
-    switch.sonoff_1:
+    switch.reading_light:
       <<: *customize
       friendly_name: Reading Light
-      emulated_hue: true
-      emulated_hue_name: Reading Light
 
     automation.reading_light_off_not_home:
       <<: *customize
@@ -36,7 +33,7 @@ homeassistant:
 #################################################
 switch:
   - platform: mqtt
-    name: sonoff_1
+    name: reading_light
     state_topic: "home/sonoff_1/stat/POWER"
     command_topic: "home/sonoff_1/cmnd/power"
     payload_on: "ON"
@@ -68,21 +65,4 @@ automation:
       - service: switch.turn_off
         data:
           entity_id:
-            - switch.sonoff_1
-
-##################################################
-## Intent Scripts
-##################################################
-intent_script:
-  ReadingLightOnIntent:
-    speech:
-      text: "Ok"
-    action:
-      service: switch.turn_on
-      entity_id: switch.sonoff_1
-  ReadingLightOffIntent:
-    speech:
-      text: "Ok"
-    action:
-      service: switch.turn_off
-      entity_id: switch.sonoff_1
+            - switch.reading_light

@@ -52,7 +52,7 @@ group:
   chris_bedroom_lights:
     control: hidden
     entities:
-      - switch.sonoff_1
+      - switch.reading_light
 
   chris_bedroom_media_players:
     control: hidden

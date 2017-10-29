@@ -19,9 +19,6 @@
       "intent": "NetworkSpeedIntent"
     },
     {
-      "intent": "TurnOffLivingTVIntent"
-    },
-    {
       "intent": "WhosVisitingIntent"
     },
     {
@@ -32,18 +29,6 @@
         }
       ],
       "intent": "HouseModeIntent"
-    },
-    {
-      "intent": "ReadingLightOnIntent"
-    },
-    {
-      "intent": "ReadingLightOffIntent"
-    },
-    {
-      "intent": "WindowFanOnIntent"
-    },
-    {
-      "intent": "WindowFanOffIntent"
     },
     {
       "slots": [

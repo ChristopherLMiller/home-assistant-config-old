@@ -121,4 +121,4 @@ automation:
     action:
       - service: script.notify_discord
         data_template:
-          message: "{{ trigger.to_state.attributes.friendly_name }}'s phone needs to charged."
+          message: "{{ states.sensor.battery_teresa_phone.attributes.friendly_name.split(' ')[0] }}'s phone needs to charged."

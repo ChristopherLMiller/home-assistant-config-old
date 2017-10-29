@@ -224,9 +224,9 @@ automation:
       - service: switch.turn_on
         data:
           entity_id:
-            - switch.sonoff_1
+            - switch.reading_light
       - delay: 0:10
       - service: switch.turn_off
         data:
           entity_id:
-            - switch.sonoff_1
+            - switch.reading_light

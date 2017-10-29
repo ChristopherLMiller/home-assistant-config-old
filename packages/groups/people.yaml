@@ -21,7 +21,7 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
-    device_tracker.bruce_dills_phone:
+    device_tracker.bruce_phone:
       <<: *customize
       friendly_name: "Bruce (Android)"
       icon: mdi:cellphone-android
@@ -125,7 +125,7 @@ group:
     entities:
       - device_tracker.chris_phone
       - device_tracker.teresa_phone
-      - device_tracker.bruce_dills_phone
+      - device_tracker.bruce_phone
 
 ################################################
 ## Sensor
@@ -144,7 +144,7 @@ sensor:
     api_key: !secret google_api_key
 
   - platform: google_geocode
-    origin: device_tracker.bruce_dills_phone
+    origin: device_tracker.bruce_phone
     options: street, city
     name: bruce_google_location
     api_key: !secret google_api_key
@@ -189,7 +189,7 @@ sensor:
 
       bruce_location:
         value_template: >
-          {%- if is_state('device_tracker.bruce_dills_phone', 'home') -%}
+          {%- if is_state('device_tracker.bruce_phone', 'home') -%}
             Home
           {%- else -%}
             {% if is_state('sensor.bruce_google_location', 'Awaiting Update') -%}
@@ -285,7 +285,7 @@ intent_script:
   WhereAreWeIntent:
     speech:
       text: >
-        {%- if is_state('device_tracker.bruce_dills_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
+        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
           Everyone is currently home.
         {%- else -%}
           {%- set comma = joiner('. ') -%}
@@ -303,7 +303,7 @@ intent_script:
       type: simple
       title: Home Assistant - Current Locations
       content: >
-        {%- if is_state('device_tracker.bruce_dills_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
+        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
           Everyone is currently home.
         {%- else -%}
           {%- set comma = joiner('\n') -%}
@@ -323,7 +323,7 @@ intent_script:
   WhosHomeIntent:
     speech:
       text: >
-        {%- if is_state('device_tracker.bruce_dills_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
+        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
           Everyone is currently home.
         {%- elif is_state('states.group.people.state', 'not_home') -%}
           The house is currently empty.  Should I be worried that you're talking to me?
@@ -344,7 +344,7 @@ intent_script:
       type: simple
       title: "Home Assistant - Who's home"
       content: >
-        {%- if is_state('device_tracker.bruce_dills_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
+        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
           Everyone is currently home.
         {%- elif is_state('states.group.people.state', 'not_home') -%}
           The house is currently empty.  Should I be worried that you're talking to me?
