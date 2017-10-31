@@ -216,7 +216,7 @@ automation:
     action:
       - service: script.notify_discord
         data_template:
-          message: '{{ trigger.to_state.attributes.friendly_name }} has left home.'
+          message: '{{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} has left home.'
 
   - alias: people_returning_home
     initial_state: true
@@ -231,10 +231,10 @@ automation:
     action:
       - service: script.notify_discord
         data_template:
-          message: '{{ trigger.to_state.attributes.friendly_name }} has returned home.'
+          message: '{{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} has returned home.'
       - service: script.notify_all
         data_template:
-          message: '{{ trigger.to_state.attributes.friendly_name }} is home'
+          message: '{{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is home'
 
   - alias: guests_visit
     initial_state: true
@@ -253,10 +253,10 @@ automation:
     action:
       - service: script.notify_discord
         data_template:
-          message: '{{ trigger.to_state.attributes.friendly_name }} has arrived.'
+          message: '{{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is visiting.'
       - service: script.notify_all
         data_template:
-          message: '{{ trigger.to_state.attributes.friendly_name }} is visiting'
+          message: '{{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is visiting'
 
 ##################################################
 ## Intent Scripts
