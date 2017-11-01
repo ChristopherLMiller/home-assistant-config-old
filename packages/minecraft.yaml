@@ -1,0 +1,60 @@
+################################################################
+## Packages / Minecraft
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'minecraft'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    group.minecraft_servers:
+      <<: *customize
+      friendly_name: "Minecraft Servers"
+
+    sensor.mc_hypixel_net:
+      <<: *customize
+      friendly_name: "Hypixel Network"
+
+    sensor.mc_moosecraft_us:
+      <<: *customize
+      friendly_name: "Moosecraft"
+    
+    sensor.mc_ironraptor_com:
+      <<: *customize
+      friendly_name: "Iron Raptor"
+
+##################################################
+## group
+##################################################
+group:
+  minecraft_servers:
+    control: hidden
+    entities:
+      - sensor.mc_hypixel_net
+      - sensor.mc_moosecraft_us
+      - sensor.mc_ironraptor_com
+
+##################################################
+## Sensor
+##################################################
+sensor:
+  platform: minecraft_server
+  servers:
+    - mc.hypixel.net
+    - mc.moosecraft.us
+    - mc.ironraptor.com:25565
+  

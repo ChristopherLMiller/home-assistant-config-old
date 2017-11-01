@@ -55,6 +55,11 @@ homeassistant:
       friendly_name: "Misc."
       icon: mdi:puzzle
 
+    group.gaming:
+      <<: *customize
+      friendly_name: "Gaming"
+      icon: mdi:gamepad-variant
+
 ################################################
 ## Group
 ################################################
@@ -77,6 +82,7 @@ group:
       - group.network_devices
       - group.speedtest
       - group.utilities
+      - group.uptime
 
   automation:
     view: yes
@@ -106,6 +112,11 @@ group:
     entities:
       - group.iss
       - group.bitcoin_general
+
+  gaming:
+    view: yes
+    entities:
+      - group.minecraft_servers
       - group.xbox_live
       - group.steam
       - group.twitch
