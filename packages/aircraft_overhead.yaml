@@ -1,0 +1,40 @@
+################################################################
+## Packages / Aircraft Overhead
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'aircraft_overhead'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+    
+    group.aircraft_overhead:
+      <<: *customize
+      friendly_name: "Aircraft"
+
+##################################################
+## Group
+##################################################
+group:
+  aircraft_overhead:
+    control: hidden
+    entities: sensor.aircraft_overhead
+
+##################################################
+## Sensor
+##################################################
+sensor:
+  platform: aircraft_overhead
+  radius: 15

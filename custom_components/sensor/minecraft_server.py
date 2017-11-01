@@ -1,5 +1,5 @@
 """
-Sensor for Minecraft server status.abs
+Sensor for Minecraft server status.
 
 For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/sensor.minecraft_server/
@@ -18,8 +18,9 @@ _LOGGER = logging.getLogger(__name__)
 
 CONF_SERVERS = 'servers'
 
-URL = "https://use.gameapis.net/mc/query/info/"
 ICON = 'mdi:minecraft'
+URL = "https://use.gameapis.net/mc/query/info/"
+
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
   vol.Required(CONF_SERVERS, default=[]):

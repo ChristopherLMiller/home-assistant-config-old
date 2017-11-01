@@ -1,0 +1,44 @@
+################################################################
+## Packages / Have I Been Pwned
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'haveibeenpwned'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+    group.haveibeenpwned:
+      <<: *customize
+      friendly_name: Email Breaches
+
+##################################################
+## Group
+##################################################
+group:
+  haveibeenpwned:
+    control: hidden
+    entities:
+      - sensor.breaches_moose51789gmailcom
+      - sensor.breaches_lckyby517aolcom
+
+##################################################
+## Sensor
+##################################################
+sensor:
+  platform: haveibeenpwned
+  email: 
+    - lckyby517@aol.com
+    - moose51789@gmail.com

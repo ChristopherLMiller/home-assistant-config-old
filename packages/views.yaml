@@ -112,6 +112,8 @@ group:
     entities:
       - group.iss
       - group.bitcoin_general
+      - group.haveibeenpwned
+      - group.aircraft_overhead
 
   gaming:
     view: yes
