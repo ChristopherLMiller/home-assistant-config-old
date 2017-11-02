@@ -81,10 +81,11 @@ class AircraftOverheadSensor(Entity):
       else:
         callsign = aircraft['Reg']
 
-      attributes["icon"] = ICON
+      
       attributes["Aircraft " + str(count)] = ("Callsign: " + callsign + " Model: " + aircraft['Mdl'])
       count = count + 1
 
+    attributes["icon"] = ICON
     attributes['attribution'] = "Data provided by ADB-S Exchange"
     return attributes
 
