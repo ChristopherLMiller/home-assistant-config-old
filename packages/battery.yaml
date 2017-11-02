@@ -35,7 +35,7 @@ homeassistant:
       friendly_name: "Teresa Phone"
       unit_of_measurement: "%"
 
-    notify_phone_battery_low:
+    automation.notify_phone_battery_low:
       <<: *customize
       friendly_name: "Notify Phone Battery Low"
 
