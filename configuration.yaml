@@ -9,10 +9,10 @@ homeassistant:
 
 ## INCLUDE ##
 conversation:
-discovery:
+#discovery:
 #python_script:
 alexa:
-apiai:
+config:
 updater:
   include_used_components: true
 
@@ -22,5 +22,3 @@ panel_custom:
     sidebar_icon: mdi:home
     url_path: floorplan
     config: !include floorplan.yaml
-
-config:

@@ -14,28 +14,18 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'alarmclock'
+        package: 'alarm_clock'
 
-      exposed: &exposed
+      expose: &expose
         <<: *customize
-        emulated_hue: true
-        homebridge_hidden: false
-        critical: true
-
-      not_exposed: &not_exposed
-        <<: *customize
-        emulated_hue: false
-        homebridge_hidden: true
-        critical: false
-
-      hidden: &hidden
-        <<: *customize
-        hidden: true
-        critical: false
+        haaska_hidden: false
 
     automation.alarm_clock:
       icon: mdi:alarm-check
 
+##################################################
+## Group
+##################################################
 group:
   Alarm Clock:
     control: hidden

@@ -19,11 +19,6 @@ homeassistant:
       expose: &expose
         <<: *customize
         haaska_hidden: false
-        homebridge_hidden: false
-
-    ################################################
-    ## Group
-    ################################################
 
     group.speedtest:
       <<: *customize
@@ -32,7 +27,6 @@ homeassistant:
 ################################################
 ## Group
 ################################################
-
 group:
   speedtest:
     control: hidden
@@ -40,6 +34,7 @@ group:
       - sensor.speedtest_ping
       - sensor.speedtest_download
       - sensor.speedtest_upload
+
 ################################################
 ## Sensor
 ################################################

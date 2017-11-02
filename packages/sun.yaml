@@ -19,11 +19,6 @@ homeassistant:
       expose: &expose
         <<: *customize
         haaska_hidden: false
-        homebridge_hidden: false
-
-    ################################################
-    ## Sun
-    ################################################
 
     sun.sun:
       <<: *customize
@@ -40,14 +35,12 @@ homeassistant:
 ################################################
 ## Sun
 ################################################
-
 sun:
   elevation: !secret ha_elevation
 
 ################################################
 ## Automation
 ################################################
-
 automation:
   - alias: sunset
     initial_state: true

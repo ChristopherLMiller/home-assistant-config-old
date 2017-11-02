@@ -19,7 +19,6 @@ homeassistant:
       expose: &expose
         <<: *customize
         haaska_hidden: false
-        homebridge_hidden: false
 
     device_tracker.bruce_phone:
       <<: *customize
@@ -91,7 +90,19 @@ homeassistant:
     sensor.teresa_location:
       <<: *customize
       friendly_name: "Teresa"
-      icon: mdi:human-female
+      icon: mdi:human-female'
+
+    automation.guests_visit:
+      <<: *customize
+      friendly_name: "Guests Visit"
+    
+    automation.people_leaving_home:
+      <<: *customize
+      friendly_name: "People Leaving Home"
+
+    automation.people_returning_home:
+      <<: *customize
+      friendly_name: "People Returning Home"
 
 ################################################
 ## Group
@@ -205,7 +216,6 @@ sensor:
 automation:
   - alias: people_leaving_home
     initial_state: true
-    hide_entity: true
     trigger:
       - platform: state
         from: 'home'
@@ -221,7 +231,6 @@ automation:
 
   - alias: people_returning_home
     initial_state: true
-    hide_entity: true
     trigger:
       - platform: state
         from: 'not_home'
@@ -241,7 +250,6 @@ automation:
 
   - alias: guests_visit
     initial_state: true
-    hide_entity: true
     trigger:
       - platform: state
         from: 'not_home'

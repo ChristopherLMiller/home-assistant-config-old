@@ -21,9 +21,9 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
-    ################################################
-    ## Group
-    ################################################
+    automation.network_status_change:
+      <<: *customize
+      friendly_name: "Network Status Change"
 
     group.network_devices_source:
       <<: *customize
@@ -33,10 +33,6 @@ homeassistant:
     group.network_devices:
       <<: *customize
       friendly_name: "Network Devices"
-
-    ################################################
-    ## Device Tracker
-    ################################################
 
     device_tracker.net_printer_computer_room:
       <<: *customize
@@ -98,10 +94,6 @@ homeassistant:
       friendly_name: "Sonoff Basic #2 (Chris)"
       hidden: true
 
-    ################################################
-    ## Sensor
-    ################################################
-
     sensor.net_printer_computer_room:
       <<: *customize
       friendly_name: "HP Printer (Computer Room)"
@@ -153,7 +145,6 @@ homeassistant:
 ################################################
 ## Group
 ################################################
-
 group:
   network_devices_source:
     control: hidden
@@ -188,7 +179,6 @@ group:
 ################################################
 ## Sensor
 ################################################
-
 sensor:
   - platform: template
     sensors:
@@ -239,11 +229,9 @@ sensor:
 ################################################
 ## Automation
 ################################################
-
 automation:
   - alias: network_status_change
     initial_state: true
-    hide_entity: true
     trigger:
       - platform: state
         entity_id:

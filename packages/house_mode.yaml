@@ -21,19 +21,11 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
-    ################################################
-    ## Group
-    ################################################
-
     group.house_mode:
       <<: *customize
       friendly_name: "House Mode"
       icon: mdi:home-variant
       order: 0
-
-    ################################################
-    ## Input Boolean
-    ################################################
 
     input_boolean.guest_mode:
       <<: *customize
@@ -45,10 +37,6 @@ homeassistant:
       friendly_name: "Vacation Mode"
       icon: mdi:beach
 
-    ################################################
-    ## Sensor
-    ################################################
-
     sensor.household:
       <<: *customize
       friendly_name: "Household"
@@ -57,10 +45,13 @@ homeassistant:
       <<: *customize
       friendly_name: "House Mode"
 
+    automation.notify_house_mode_changed:
+      <<: *customize
+      friendly_name: "Notify House Mode Changed"
+
 ################################################
 ## Group
 ################################################
-
 group:
   house_mode:
     control: hidden
@@ -73,7 +64,6 @@ group:
 ################################################
 ## Input Boolean
 ################################################
-
 input_boolean:
   guest_mode:
     initial: off
@@ -84,7 +74,6 @@ input_boolean:
 ################################################
 ## Sensor
 ################################################
-
 sensor:
   - platform: template
     sensors:
@@ -171,7 +160,6 @@ scene:
 automation:
   - alias: notify_house_mode_changed
     initial_state: true
-    hide_entity: true
     trigger:
       - platform: state
         entity_id: sensor.house_mode

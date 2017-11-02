@@ -19,28 +19,15 @@ homeassistant:
       expose: &expose
         <<: *customize
         haaska_hidden: false
-        homebridge_hidden: false
-
-    ################################################
-    ## Camera
-    ################################################
 
     camera.usps_mail:
       <<: *customize
       friendly_name: "USPS Mail"
 
-    ################################################
-    ## Group
-    ################################################
-
     group.usps_mail:
       <<: *expose
       friendly_name: "USPS Mail"
       icon: mdi:mailbox
-
-    ################################################
-    ## Sensor
-    ################################################
 
     sensor.usps_mail:
       <<: *customize
@@ -60,7 +47,6 @@ camera:
 ################################################
 ## Group
 ################################################
-
 group:
   usps_mail:
     entities:
@@ -71,7 +57,6 @@ group:
 ################################################
 ## USPS
 ################################################
-
 usps:
   username: !secret usps_username
   password: !secret usps_password

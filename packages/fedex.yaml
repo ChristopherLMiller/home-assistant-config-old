@@ -19,19 +19,10 @@ homeassistant:
       expose: &expose
         <<: *customize
         haaska_hidden: false
-        homebridge_hidden: false
-
-    ################################################
-    ## Group
-    ################################################
 
     group.fedex_packages:
       <<: *expose
       friendly_name: "Fedex Packages"
-
-    ################################################
-    ## Sensor
-    ################################################
 
     sensor.fedex:
       <<: *customize
@@ -39,11 +30,9 @@ homeassistant:
       icon: mdi:package-variant-closed
       unit-measurement: 'packages'
 
-
 ################################################
 ## Group
 ################################################
-
 group:
   fedex_packages:
     control: hidden

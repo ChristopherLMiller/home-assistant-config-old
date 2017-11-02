@@ -19,19 +19,10 @@ homeassistant:
       expose: &expose
         <<: *customize
         haaska_hidden: false
-        homebridge_hidden: false
-
-    ################################################
-    ## Camera
-    ################################################
 
     camera.radar:
       <<: *customize
       friendly_name: "Live Radar"
-
-    ################################################
-    ## Group
-    ################################################
 
     group.weather_darksky:
       <<: *customize
@@ -59,10 +50,6 @@ homeassistant:
       <<: *customize
       friendly_name: AirVisual
       order: 3
-
-    ################################################
-    ## Sensor
-    ################################################
 
     sensor.dark_sky_cloud_coverage:
       <<: *customize
@@ -150,7 +137,6 @@ homeassistant:
 ################################################
 ## Camera
 ################################################
-
 camera:
   - platform: generic
     still_image_url:  https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?station=IWX&brand=wui&num=1&delay=15&type=N0R&frame=0&scale=1.000&noclutter=1&showstorms=0&mapx=400&mapy=240&centerx=400&centery=240&transx=0&transy=0&showlabels=1&severe=0&rainsnow=1&lightning=1&smooth=1&rand=25087758&lat=41.52&lon=-85.69&label=Millersburg
@@ -159,7 +145,6 @@ camera:
 ################################################
 ## Group
 ################################################
-
 group:
   weather_general:
     control: hidden
@@ -210,7 +195,6 @@ group:
 ################################################
 ## Sensor
 ################################################
-
 sensor:
   - platform: darksky
     api_key: !secret darksky_api_key

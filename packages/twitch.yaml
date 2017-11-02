@@ -19,11 +19,14 @@ homeassistant:
       expose: &expose
         <<: *customize
         haaska_hidden: false
-        homebridge_hidden: false
 
     group.twitch:
       <<: *customize
       friendly_name: "Twitch Streams"
+
+    automation.notify_twitch_user_online:
+      <<: *customize
+      friendly_name: Twitch User Goes Online
 
 ##################################################
 ## Group
@@ -52,7 +55,6 @@ sensor:
 automation:
   - alias: notify_twitch_user_online
     initial_state: true
-    hide_entity: true
     trigger:
       - platform: state
         entity_id:

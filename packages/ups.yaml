@@ -19,19 +19,10 @@ homeassistant:
       expose: &expose
         <<: *customize
         haaska_hidden: false
-        homebridge_hidden: false
-
-    ################################################
-    ## Group
-    ################################################
 
     group.ups_packages:
       <<: *expose
       friendly_name: "UPS Packages"
-
-    ################################################
-    ## Sensor
-    ################################################
 
     sensor.ups:
       <<: *customize
@@ -39,11 +30,9 @@ homeassistant:
       icon: mdi:package-variant-closed
       unit-measurement: 'packages'
 
-
 ################################################
 ## Group
 ################################################
-
 group:
   ups_packages:
     control: hidden

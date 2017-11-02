@@ -21,6 +21,14 @@ homeassistant:
         haaska_hidden: false
         homebridge_hidden: false
 
+    script.notify_discord:
+      <<: *customize
+      friendly_name: Notify Discord
+
+    script.notify_all:
+      <<: *customize
+      friendly_name: Notify All
+
 ##################################################
 ## Notify
 ##################################################

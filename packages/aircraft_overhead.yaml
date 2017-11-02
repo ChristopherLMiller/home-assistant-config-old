@@ -30,11 +30,16 @@ homeassistant:
 group:
   aircraft_overhead:
     control: hidden
-    entities: sensor.aircraft_overhead
+    entities: 
+      - sensor.aircraft_overhead
+      - sensor.opensky
 
 ##################################################
 ## Sensor
 ##################################################
 sensor:
-  platform: aircraft_overhead
-  radius: 15
+  - platform: aircraft_overhead
+    radius: 15
+
+  - platform: opensky
+    radius: 15

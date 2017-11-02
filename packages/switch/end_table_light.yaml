@@ -1,0 +1,86 @@
+################################################################
+## Packages / Switch / Endtable Light
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'switch/endtable_light'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+
+    switch.endtable_light:
+      <<: *customize
+      friendly_name: End Table Light
+
+    automation.end_table_light_off:
+      <<: *customize
+      friendly_name: End Table Light Off
+
+    automation.end_table_light_on:
+      <<: *customize
+      friendly_name: End Table Light On
+
+#################################################
+## Switch
+#################################################
+switch:
+  - platform: mqtt
+    name: endtable_light
+    state_topic: "home/sonoff_2/stat/POWER"
+    command_topic: "home/sonoff_2/cmnd/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true
+
+##################################################
+## Automations
+##################################################
+automation:
+  - alias: end_table_light_off
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: sensor.household
+        to: 'away'
+        for:
+          minutes: 5
+    condition:
+      - condition: state
+        entity_id: sensor.house_mode
+        state: 'guest'
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning off end table light - nobody home'
+      - service: switch.turn_off
+        data:
+          entity_id:
+            - switch.endtable_light
+
+  - alias: end_table_light_on
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: sensor.household
+        to: 'home'
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning on end table light'
+      - service: switch.turn_on
+        data:
+          entity_id:
+            - switch.endtable_light

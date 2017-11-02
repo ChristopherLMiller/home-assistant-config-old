@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Crime Reports
+## Packages / Groups / Rooms / Living Room
 ################################################################
 
 ################################################
@@ -14,35 +14,40 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'crime_reports'
+        package: 'groups/rooms/living_room'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
 
-    group.crime_reports:
+    group.living_room_view:
       <<: *customize
-      friendly_name: Crime Reports
-      order: 4
-    
-    sensor.crime_reports:
+      friendly_name: Living Room
+
+    group.living_room_lights:
       <<: *customize
-      friendly_name: Chrime Reports
-      icon: mdi:radio-tower
+      friendly_name: Lights
+
+    group.living_room_media_players:
+      <<: *customize
+      friendly_name: Media Players
 
 ##################################################
 ## Group
 ##################################################
 group:
-  crime_reports:
+  living_room_view:
+    view: yes
+    entities:
+      - group.living_room_lights
+      - group.living_room_media_players
+
+  living_room_lights:
     control: hidden
     entities:
-      - sensor.crime_reports
+      - switch.endtable_light
 
-##################################################
-## Sensor
-##################################################
-sensor:
-  - platform: crimereports
-    name: crime_reports
-    radius: 16000
+  living_room_media_players:
+    control: hidden
+    entities:
+      - media_player.lg_tv_living_room

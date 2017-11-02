@@ -19,7 +19,6 @@ homeassistant:
       expose: &expose
         <<: *customize
         haaska_hidden: false
-        homebridge_hidden: false
 
     group.batteries:
       <<: *customize
@@ -36,6 +35,9 @@ homeassistant:
       friendly_name: "Teresa Phone"
       unit_of_measurement: "%"
 
+    notify_phone_battery_low:
+      <<: *customize
+      friendly_name: "Notify Phone Battery Low"
 
 ##################################################
 ## Group
@@ -111,7 +113,6 @@ sensor:
 automation:
   - alias: notify_phone_battery_low
     initial_state: true
-    hide_entity: true
     trigger:
       - platform: numeric_state
         entity_id:
