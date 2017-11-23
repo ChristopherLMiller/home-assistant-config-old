@@ -33,7 +33,7 @@ homeassistant:
     zone.cass_bill:
       <<: *customize
       friendly_name: "Cass & Bills"
-      icon: mdi:accout
+      icon: mdi:account
 
 ################################################
 ## Zone

@@ -15,7 +15,13 @@ import warnings
 # ubiquity of their use. They should not be removed until we agree on when that
 # cycle ends.
 PersistentlyDeprecated = DeprecationWarning
-DeprecatedIn19 = PendingDeprecationWarning
+DeprecatedIn19 = DeprecationWarning
+DeprecatedIn21 = PendingDeprecationWarning
+
+
+def _check_bytes(name, value):
+    if not isinstance(value, bytes):
+        raise TypeError("{0} must be bytes".format(name))
 
 
 def read_only_property(name):
@@ -140,3 +146,17 @@ def deprecated(value, module_name, message, warning_class):
     if not isinstance(module, _ModuleWithDeprecations):
         sys.modules[module_name] = _ModuleWithDeprecations(module)
     return _DeprecatedValue(value, message, warning_class)
+
+
+def cached_property(func):
+    cached_name = "_cached_{0}".format(func)
+    sentinel = object()
+
+    def inner(instance):
+        cache = getattr(instance, cached_name, sentinel)
+        if cache is not sentinel:
+            return cache
+        result = func(instance)
+        setattr(instance, cached_name, result)
+        return result
+    return property(inner)

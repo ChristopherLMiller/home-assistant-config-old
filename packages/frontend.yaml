@@ -24,6 +24,7 @@ homeassistant:
 ## Front End
 ################################################
 frontend:
+  javascript_version: latest
   themes:
     teal:
       # Main Stuff #

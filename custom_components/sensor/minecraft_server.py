@@ -38,7 +38,7 @@ class MinecraftServerSensor(Entity):
   def __init__(self, server):
     """ Initialize the sensor. """
     self._server = server
-    self._name = self._server.partition(':')[0].replace('.', '_')
+    self._name = self._server.partition(':')[0].replace('.', '_').replace('-', '_')
     self._state = self._data = None
 
   @property

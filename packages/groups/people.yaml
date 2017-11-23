@@ -72,6 +72,16 @@ homeassistant:
       friendly_name: "MiKayla"
       icon: mdi:human-female
 
+    sensor.brandon_location:
+      <<: *customize
+      friendly_name: "Brandon"
+      icon: mdi:human-male
+
+    sensor.erin_location:
+      <<: *customize
+      friendly_name: "Erin"
+      icon: mdi:human-female
+
     sensor.corey_location:
       <<: *customize
       friendly_name: "Corey"
@@ -90,7 +100,7 @@ homeassistant:
     sensor.teresa_location:
       <<: *customize
       friendly_name: "Teresa"
-      icon: mdi:human-female'
+      icon: mdi:human-female
 
     automation.guests_visit:
       <<: *customize
@@ -115,14 +125,18 @@ group:
       - sensor.corey_location
       - sensor.kennady_location
       - sensor.mikayla_location
+      - sensor.brandon_location
+      - sensor.erin_location
 
   guests_source:
     control: hidden
     entities:
-      - device_tracker.cassie_iphone
+      - device_tracker.cassie_phone
       - device_tracker.corey_phone
       - device_tracker.kennady_phone
       - device_tracker.mikayla_phone
+      - device_tracker.brandon_phone
+      - device_tracker.erin_phone
 
   household_members:
     control: hidden
@@ -172,7 +186,13 @@ sensor:
         value_template: "{{'Visiting' if is_state('device_tracker.mikayla_phone', 'home') else 'Away'}}"
       
       cassie_location:
-        value_template: "{{'Visiting' if is_state('device_tracker.cassie_iphone', 'home') else 'Away'}}"
+        value_template: "{{'Visiting' if is_state('device_tracker.cassie_phone', 'home') else 'Away'}}"
+
+      brandon_location:
+        value_template: "{{'Visiting' if is_state('device_tracker.brandon_phone', 'home') else 'Away'}}"
+      
+      erin_location:
+        value_template: "{{'Visiting' if is_state('device_tracker.erin_phone', 'home') else 'Away'}}"
 
       chris_location:
         value_template: >
@@ -257,10 +277,12 @@ automation:
         for:
           minutes: 1
         entity_id: 
-          - device_tracker.cassie_iphone
+          - device_tracker.cassie_phone
           - device_tracker.corey_phone
           - device_tracker.kennady_phone
           - device_tracker.mikayla_phone
+          - device_tracker.brandon_phone
+          - device_tracker.erin_phone
     action:
       - service: script.notify_discord
         data_template:

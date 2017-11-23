@@ -60,7 +60,7 @@ automation:
     condition:
       - condition: state
         entity_id: sensor.house_mode
-        state: 'guest'
+        state: 'away'
     action:
       - service: script.notify_discord
         data_template:

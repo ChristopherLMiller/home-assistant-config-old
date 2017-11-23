@@ -20,8 +20,10 @@ from cryptography.hazmat.backends.interfaces import (
     EllipticCurveBackend, HMACBackend, HashBackend, PBKDF2HMACBackend,
     PEMSerializationBackend, RSABackend, ScryptBackend, X509Backend
 )
+from cryptography.hazmat.backends.openssl import aead
 from cryptography.hazmat.backends.openssl.ciphers import _CipherContext
 from cryptography.hazmat.backends.openssl.cmac import _CMACContext
+from cryptography.hazmat.backends.openssl.decode_asn1 import _Integers
 from cryptography.hazmat.backends.openssl.dh import (
     _DHParameters, _DHPrivateKey, _DHPublicKey,
     _dh_params_dup
@@ -42,6 +44,9 @@ from cryptography.hazmat.backends.openssl.hmac import _HMACContext
 from cryptography.hazmat.backends.openssl.rsa import (
     _RSAPrivateKey, _RSAPublicKey
 )
+from cryptography.hazmat.backends.openssl.x25519 import (
+    _X25519PrivateKey, _X25519PublicKey
+)
 from cryptography.hazmat.backends.openssl.x509 import (
     _Certificate, _CertificateRevocationList,
     _CertificateSigningRequest, _RevokedCertificate
@@ -53,10 +58,10 @@ from cryptography.hazmat.primitives.asymmetric.padding import (
     MGF1, OAEP, PKCS1v15, PSS
 )
 from cryptography.hazmat.primitives.ciphers.algorithms import (
-    AES, ARC4, Blowfish, CAST5, Camellia, IDEA, SEED, TripleDES
+    AES, ARC4, Blowfish, CAST5, Camellia, ChaCha20, IDEA, SEED, TripleDES
 )
 from cryptography.hazmat.primitives.ciphers.modes import (
-    CBC, CFB, CFB8, CTR, ECB, GCM, OFB
+    CBC, CFB, CFB8, CTR, ECB, GCM, OFB, XTS
 )
 from cryptography.hazmat.primitives.kdf import scrypt
 
@@ -89,12 +94,6 @@ class Backend(object):
         self._binding = binding.Binding()
         self._ffi = self._binding.ffi
         self._lib = self._binding.lib
-
-        # Set the default string mask for encoding ASN1 strings to UTF8. This
-        # is the default for newer OpenSSLs for several years (1.0.1h+) and is
-        # recommended in RFC 2459.
-        res = self._lib.ASN1_STRING_set_default_mask_asc(b"utf8only")
-        self.openssl_assert(res == 1)
 
         self._cipher_registry = {}
         self._register_default_ciphers()
@@ -259,6 +258,12 @@ class Backend(object):
             type(None),
             GetCipherByName("rc4")
         )
+        self.register_cipher_adapter(
+            ChaCha20,
+            type(None),
+            GetCipherByName("chacha20")
+        )
+        self.register_cipher_adapter(AES, XTS, _get_xts_cipher)
 
     def create_symmetric_encryption_ctx(self, cipher, mode):
         return _CipherContext(self, cipher, mode, _CipherContext._ENCRYPT)
@@ -543,7 +548,11 @@ class Backend(object):
         elif isinstance(padding, OAEP) and isinstance(padding._mgf, MGF1):
             return (
                 self._oaep_hash_supported(padding._mgf._algorithm) and
-                self._oaep_hash_supported(padding._algorithm)
+                self._oaep_hash_supported(padding._algorithm) and
+                (
+                    (padding._label is None or len(padding._label) == 0) or
+                    self._lib.Cryptography_HAS_RSA_OAEP_LABEL == 1
+                )
             )
         else:
             return False
@@ -658,6 +667,14 @@ class Backend(object):
         if not isinstance(algorithm, hashes.HashAlgorithm):
             raise TypeError('Algorithm must be a registered hash algorithm.')
 
+        if (
+            isinstance(algorithm, hashes.MD5) and not
+            isinstance(private_key, rsa.RSAPrivateKey)
+        ):
+            raise ValueError(
+                "MD5 is not a supported hash algorithm for EC/DSA CSRs"
+            )
+
         # Resolve the signature algorithm.
         evp_md = self._lib.EVP_get_digestbyname(
             algorithm.name.encode('ascii')
@@ -726,6 +743,14 @@ class Backend(object):
             raise TypeError('Builder type mismatch.')
         if not isinstance(algorithm, hashes.HashAlgorithm):
             raise TypeError('Algorithm must be a registered hash algorithm.')
+
+        if (
+            isinstance(algorithm, hashes.MD5) and not
+            isinstance(private_key, rsa.RSAPrivateKey)
+        ):
+            raise ValueError(
+                "MD5 is not a supported hash algorithm for EC/DSA certificates"
+            )
 
         # Resolve the signature algorithm.
         evp_md = self._lib.EVP_get_digestbyname(
@@ -824,6 +849,14 @@ class Backend(object):
         if not isinstance(algorithm, hashes.HashAlgorithm):
             raise TypeError('Algorithm must be a registered hash algorithm.')
 
+        if (
+            isinstance(algorithm, hashes.MD5) and not
+            isinstance(private_key, rsa.RSAPrivateKey)
+        ):
+            raise ValueError(
+                "MD5 is not a supported hash algorithm for EC/DSA CRLs"
+            )
+
         evp_md = self._lib.EVP_get_digestbyname(
             algorithm.name.encode('ascii')
         )
@@ -911,18 +944,22 @@ class Backend(object):
             res = add_func(x509_obj, x509_extension, i)
             self.openssl_assert(res >= 1)
 
+    def _create_raw_x509_extension(self, extension, value):
+        obj = _txt2obj_gc(self, extension.oid.dotted_string)
+        return self._lib.X509_EXTENSION_create_by_OBJ(
+            self._ffi.NULL, obj, 1 if extension.critical else 0, value
+        )
+
     def _create_x509_extension(self, handlers, extension):
         if isinstance(extension.value, x509.UnrecognizedExtension):
-            obj = _txt2obj_gc(self, extension.oid.dotted_string)
             value = _encode_asn1_str_gc(
                 self, extension.value.value, len(extension.value.value)
             )
-            return self._lib.X509_EXTENSION_create_by_OBJ(
-                self._ffi.NULL,
-                obj,
-                1 if extension.critical else 0,
-                value
-            )
+            return self._create_raw_x509_extension(extension, value)
+        elif isinstance(extension.value, x509.TLSFeature):
+            asn1 = _Integers([x.value for x in extension.value]).dump()
+            value = _encode_asn1_str_gc(self, asn1, len(asn1))
+            return self._create_raw_x509_extension(extension, value)
         else:
             try:
                 encode = handlers[extension.oid]
@@ -1003,6 +1040,17 @@ class Backend(object):
             else:
                 self._handle_key_loading_error()
 
+    def load_pem_parameters(self, data):
+        mem_bio = self._bytes_to_bio(data)
+        # only DH is supported currently
+        dh_cdata = self._lib.PEM_read_bio_DHparams(
+            mem_bio.bio, self._ffi.NULL, self._ffi.NULL, self._ffi.NULL)
+        if dh_cdata != self._ffi.NULL:
+            dh_cdata = self._ffi.gc(dh_cdata, self._lib.DH_free)
+            return _DHParameters(self, dh_cdata)
+        else:
+            self._handle_key_loading_error()
+
     def load_der_private_key(self, data, password):
         # OpenSSL has a function called d2i_AutoPrivateKey that in theory
         # handles this automatically, however it doesn't handle encrypted
@@ -1058,6 +1106,28 @@ class Backend(object):
                 return _RSAPublicKey(self, rsa_cdata, evp_pkey)
             else:
                 self._handle_key_loading_error()
+
+    def load_der_parameters(self, data):
+        mem_bio = self._bytes_to_bio(data)
+        dh_cdata = self._lib.d2i_DHparams_bio(
+            mem_bio.bio, self._ffi.NULL
+        )
+        if dh_cdata != self._ffi.NULL:
+            dh_cdata = self._ffi.gc(dh_cdata, self._lib.DH_free)
+            return _DHParameters(self, dh_cdata)
+        elif self._lib.Cryptography_HAS_EVP_PKEY_DHX:
+            # We check to see if the is dhx.
+            self._consume_errors()
+            res = self._lib.BIO_reset(mem_bio.bio)
+            self.openssl_assert(res == 1)
+            dh_cdata = self._lib.Cryptography_d2i_DHxparams_bio(
+                mem_bio.bio, self._ffi.NULL
+            )
+            if dh_cdata != self._ffi.NULL:
+                dh_cdata = self._ffi.gc(dh_cdata, self._lib.DH_free)
+                return _DHParameters(self, dh_cdata)
+
+        self._handle_key_loading_error()
 
     def load_pem_x509_certificate(self, data):
         mem_bio = self._bytes_to_bio(data)
@@ -1289,8 +1359,10 @@ class Backend(object):
         ec_cdata = self._ec_key_set_public_key_affine_coordinates(
             ec_cdata, public.x, public.y)
 
-        res = self._lib.EC_KEY_set_private_key(
-            ec_cdata, self._int_to_bn(numbers.private_value))
+        private_value = self._ffi.gc(
+            self._int_to_bn(numbers.private_value), self._lib.BN_free
+        )
+        res = self._lib.EC_KEY_set_private_key(ec_cdata, private_value)
         self.openssl_assert(res == 1)
         evp_pkey = self._ec_cdata_to_evp_pkey(ec_cdata)
 
@@ -1428,9 +1500,9 @@ class Backend(object):
                 "Invalid EC key. Both x and y must be non-negative."
             )
 
-        res = self._lib.EC_KEY_set_public_key_affine_coordinates(
-            ctx, self._int_to_bn(x), self._int_to_bn(y)
-        )
+        x = self._ffi.gc(self._int_to_bn(x), self._lib.BN_free)
+        y = self._ffi.gc(self._int_to_bn(y), self._lib.BN_free)
+        res = self._lib.EC_KEY_set_public_key_affine_coordinates(ctx, x, y)
         if res != 1:
             self._consume_errors()
             raise ValueError("Invalid EC key.")
@@ -1614,6 +1686,36 @@ class Backend(object):
                 serialization._ssh_write_string(public_numbers.encode_point())
             )
 
+    def _parameter_bytes(self, encoding, format, cdata):
+        if encoding is serialization.Encoding.OpenSSH:
+            raise TypeError(
+                "OpenSSH encoding is not supported"
+            )
+
+        # Only DH is supported here currently.
+        q = self._ffi.new("BIGNUM **")
+        self._lib.DH_get0_pqg(cdata,
+                              self._ffi.NULL,
+                              q,
+                              self._ffi.NULL)
+        if encoding is serialization.Encoding.PEM:
+            if q[0] != self._ffi.NULL:
+                write_bio = self._lib.PEM_write_bio_DHxparams
+            else:
+                write_bio = self._lib.PEM_write_bio_DHparams
+        elif encoding is serialization.Encoding.DER:
+            if q[0] != self._ffi.NULL:
+                write_bio = self._lib.Cryptography_i2d_DHxparams_bio
+            else:
+                write_bio = self._lib.i2d_DHparams_bio
+        else:
+            raise TypeError("encoding must be an item from the Encoding enum")
+
+        bio = self._create_mem_bio_gc()
+        res = write_bio(bio, cdata)
+        self.openssl_assert(res == 1)
+        return self._read_mem_bio(bio)
+
     def generate_dh_parameters(self, generator, key_size):
         if key_size < 512:
             raise ValueError("DH key_size must be at least 512 bits")
@@ -1683,8 +1785,21 @@ class Backend(object):
         res = self._lib.Cryptography_DH_check(dh_cdata, codes)
         self.openssl_assert(res == 1)
 
-        if codes[0] != 0:
-            raise ValueError("DH private numbers did not pass safety checks.")
+        # DH_check will return DH_NOT_SUITABLE_GENERATOR if p % 24 does not
+        # equal 11 when the generator is 2 (a quadratic nonresidue).
+        # We want to ignore that error because p % 24 == 23 is also fine.
+        # Specifically, g is then a quadratic residue. Within the context of
+        # Diffie-Hellman this means it can only generate half the possible
+        # values. That sounds bad, but quadratic nonresidues leak a bit of
+        # the key to the attacker in exchange for having the full key space
+        # available. See: https://crypto.stackexchange.com/questions/12961
+        if codes[0] != 0 and not (
+            parameter_numbers.g == 2 and
+            codes[0] ^ self._lib.DH_NOT_SUITABLE_GENERATOR == 0
+        ):
+            raise ValueError(
+                "DH private numbers did not pass safety checks."
+            )
 
         evp_pkey = self._dh_cdata_to_evp_pkey(dh_cdata)
 
@@ -1771,6 +1886,57 @@ class Backend(object):
         self.openssl_assert(res > 0)
         return self._ffi.buffer(pp[0], res)[:]
 
+    def x25519_load_public_bytes(self, data):
+        evp_pkey = self._create_evp_pkey_gc()
+        res = self._lib.EVP_PKEY_set_type(evp_pkey, self._lib.NID_X25519)
+        backend.openssl_assert(res == 1)
+        res = self._lib.EVP_PKEY_set1_tls_encodedpoint(
+            evp_pkey, data, len(data)
+        )
+        backend.openssl_assert(res == 1)
+        return _X25519PublicKey(self, evp_pkey)
+
+    def x25519_load_private_bytes(self, data):
+        # OpenSSL only has facilities for loading PKCS8 formatted private
+        # keys using the algorithm identifiers specified in
+        # https://tools.ietf.org/html/draft-ietf-curdle-pkix-03.
+        # This is the standard PKCS8 prefix for a 32 byte X25519 key.
+        # The form is:
+        #    0:d=0  hl=2 l=  46 cons: SEQUENCE
+        #    2:d=1  hl=2 l=   1 prim: INTEGER           :00
+        #    5:d=1  hl=2 l=   5 cons: SEQUENCE
+        #    7:d=2  hl=2 l=   3 prim: OBJECT            :1.3.101.110
+        #    12:d=1  hl=2 l=  34 prim: OCTET STRING      (the key)
+        # Of course there's a bit more complexity. In reality OCTET STRING
+        # contains an OCTET STRING of length 32! So the last two bytes here
+        # are \x04\x20, which is an OCTET STRING of length 32.
+        pkcs8_prefix = b'0.\x02\x01\x000\x05\x06\x03+en\x04"\x04 '
+        bio = self._bytes_to_bio(pkcs8_prefix + data)
+        evp_pkey = backend._lib.d2i_PrivateKey_bio(bio.bio, self._ffi.NULL)
+        self.openssl_assert(evp_pkey != self._ffi.NULL)
+        evp_pkey = self._ffi.gc(evp_pkey, self._lib.EVP_PKEY_free)
+        return _X25519PrivateKey(self, evp_pkey)
+
+    def x25519_generate_key(self):
+        evp_pkey_ctx = self._lib.EVP_PKEY_CTX_new_id(
+            self._lib.NID_X25519, self._ffi.NULL
+        )
+        self.openssl_assert(evp_pkey_ctx != self._ffi.NULL)
+        evp_pkey_ctx = self._ffi.gc(
+            evp_pkey_ctx, self._lib.EVP_PKEY_CTX_free
+        )
+        res = self._lib.EVP_PKEY_keygen_init(evp_pkey_ctx)
+        self.openssl_assert(res == 1)
+        evp_ppkey = self._ffi.new("EVP_PKEY **")
+        res = self._lib.EVP_PKEY_keygen(evp_pkey_ctx, evp_ppkey)
+        self.openssl_assert(res == 1)
+        self.openssl_assert(evp_ppkey[0] != self._ffi.NULL)
+        evp_pkey = self._ffi.gc(evp_ppkey[0], self._lib.EVP_PKEY_free)
+        return _X25519PrivateKey(self, evp_pkey)
+
+    def x25519_supported(self):
+        return self._lib.CRYPTOGRAPHY_OPENSSL_110_OR_GREATER
+
     def derive_scrypt(self, key_material, salt, length, n, r, p):
         buf = self._ffi.new("unsigned char[]", length)
         res = self._lib.EVP_PBE_scrypt(
@@ -1780,6 +1946,12 @@ class Backend(object):
         self.openssl_assert(res == 1)
         return self._ffi.buffer(buf)[:]
 
+    def aead_cipher_supported(self, cipher):
+        cipher_name = aead._aead_cipher_name(cipher)
+        return (
+            self._lib.EVP_get_cipherbyname(cipher_name) != self._ffi.NULL
+        )
+
 
 class GetCipherByName(object):
     def __init__(self, fmt):
@@ -1788,6 +1960,11 @@ class GetCipherByName(object):
     def __call__(self, backend, cipher, mode):
         cipher_name = self._fmt.format(cipher=cipher, mode=mode).lower()
         return backend._lib.EVP_get_cipherbyname(cipher_name.encode("ascii"))
+
+
+def _get_xts_cipher(backend, cipher, mode):
+    cipher_name = "aes-{0}-xts".format(cipher.key_size // 2)
+    return backend._lib.EVP_get_cipherbyname(cipher_name.encode("ascii"))
 
 
 backend = Backend()

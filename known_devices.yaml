@@ -79,11 +79,11 @@ net_lg_smart_tv_living_room:
   track: true
   vendor: LG Technology
 
-cassie_iphone:
+cassie_phone:
   hide_if_away: false
   icon:
   mac: B4:4B:D2:E0:C1:8F
-  name: Cassie Iphone
+  name: Cassie Phone
   picture:
   track: true
   vendor: Apple, Inc.
@@ -168,3 +168,48 @@ net_sonoff_chris_bedroom_2:
   picture:
   track: true
   vendor: Espressif Inc.
+
+wii:
+  hide_if_away: false
+  icon:
+  mac: 00:1B:7A:C0:54:C7
+  name: Wii
+  picture:
+  track: true
+  vendor: unknown
+
+nintendo_3ds:
+  hide_if_away: false
+  icon:
+  mac: 40:D2:8A:25:92:2D
+  name: Nintendo 3DS
+  picture:
+  track: true
+  vendor: Nintendo Co., Ltd.
+
+d44b5e7010ae:
+  hide_if_away: false
+  icon:
+  mac: D4:4B:5E:70:10:AE
+  name: d44b5e7010ae
+  picture:
+  track: true
+  vendor: TAIYO YUDEN CO., LTD.
+
+erin_phone:
+  hide_if_away: false
+  icon:
+  mac: C0:1A:DA:BD:4C:5F
+  name: Erin Phone
+  picture:
+  track: true
+  vendor: Apple, Inc.
+
+brandon_phone:
+  hide_if_away: false
+  icon:
+  mac: 4C:7C:5F:58:BD:8E
+  name: Brandon Phone
+  picture:
+  track: true
+  vendor: Apple, Inc.

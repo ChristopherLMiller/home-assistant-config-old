@@ -21,13 +21,7 @@ __all__ = [
 if sys.version_info[:2] == (2, 6):
     warnings.warn(
         "Python 2.6 is no longer supported by the Python core team, please "
-        "upgrade your Python. A future version of cryptography will drop "
+        "upgrade your Python. The next version of cryptography will drop "
         "support for Python 2.6",
         DeprecationWarning
-    )
-if sys.version_info[:2] == (3, 3):
-    warnings.warn(
-        "Python 3.3 support will be dropped in the next release of"
-        "cryptography. Please upgrade your Python.",
-        DeprecationWarning,
     )
