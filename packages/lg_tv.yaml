@@ -50,15 +50,10 @@ automation:
     initial_state: true
     trigger:
       - platform: state
-        from: 'home'
-        to: 'not_home'
+        entity_id: sensor.house_mode
+        to: 'away'
         for:
           minutes: 5
-        entity_id: group.household_members_source
-    condition:
-      - condition: state
-        entity_id: sensor.house_mode
-        state: 'away'
     action:
       - service: script.notify_discord
         data_template:

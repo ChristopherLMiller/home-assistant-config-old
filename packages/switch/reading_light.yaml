@@ -54,10 +54,6 @@ automation:
         to: 'not_home'
         for:
           minutes: 5
-    condition:
-      - condition: state
-        entity_id: sensor.xbox_current_activity
-        state: 'Offline'
     action:
       - service: script.notify_discord
         data_template:

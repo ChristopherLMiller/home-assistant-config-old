@@ -25,4 +25,4 @@ homeassistant:
 ##################################################
 media_player:
   - platform: gpmdp
-    host: 192.168.1.16
+    host: !secret google_music_host
