@@ -24,15 +24,6 @@
     {
       "slots": [
         {
-          "name": "Mode",
-          "type": "HouseMode"
-        }
-      ],
-      "intent": "HouseModeIntent"
-    },
-    {
-      "slots": [
-        {
           "name": "Temp",
           "type": "AMAZON.NUMBER"
         }
@@ -48,11 +39,5 @@
     {
       "intent": "NetworkStatusIntent"
     },
-    {
-      "intent": "ReadingTimeIntent"
-    },
-    {
-      "intent": "BedtimeIntent"
-    }
   ]
 }

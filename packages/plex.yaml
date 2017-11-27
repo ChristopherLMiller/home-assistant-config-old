@@ -29,5 +29,23 @@ media_player:
 ##################################################
 ## Sensor
 ##################################################
-#sensor:
-#  - platform: plex
+sensor:
+  - platform: plex
+    host: !secret plex_host
+    username: !secret plex_username
+    password: !secret plex_password
+
+  - platform: template
+    sensors:
+      plex_list:
+        value_template: >-
+          {%- if states.sensor.plex.attributes -%}
+            {% set space = joiner(' ') %}
+            {%- for attr in states.sensor.plex.attributes -%}
+             {%- if not attr=="friendly_name" and not attr=="unit_of_measurement" -%}
+              {{space()}}{{attr}} is watching {{states.sensor.plex.attributes[attr]}}.
+             {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            No Current Activity
+          {%- endif -%}

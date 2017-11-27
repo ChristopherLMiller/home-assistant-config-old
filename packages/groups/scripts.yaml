@@ -25,44 +25,6 @@ homeassistant:
       hidden: false
       control: hidden
 
-    script.reading_time:
-      <<: *customize
-      friendly_name: Chris Reading Time
-
-    script.bedtime:
-      <<: *customize
-      friendly_name: Chris Bedtime
-
 ##################################################
 ## Scripts
 ##################################################
-script:
-  
-  # Enable reading time for chris room
-  reading_time:
-    sequence:
-      - service: switch.turn_on
-        data:
-          entity_id: switch.reading_light
-      - service: media_player.select_source
-        data:
-          entity_id: media_player.spotify
-          source: "Christopher's Echo Show"
-      - service: media_player.volume_set
-        data:
-          entity_id: media_player.spotify
-          volume_level: 0.4
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.spotify
-          media_content_type: playlist
-          media_content_id: spotify:user:spotify:playlist:37i9dQZF1DX4sWSpwq3LiO
-
-  bedtime:
-    sequence:
-      - service: media_player.media_pause
-        data:
-          entity_id: media_player.spotify
-      - service: switch.turn_off
-        data:
-          entity_id: switch.reading_light

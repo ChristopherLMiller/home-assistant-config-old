@@ -1,0 +1,162 @@
+################################################################
+## Packages / Reading Time
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'reading_time'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+    
+    group.reading_time:
+      <<: *customize
+      friendly_name: Reading Time
+
+    input_boolean.reading_time_enabled:
+      <<: *customize
+      friendly_name: Enabled
+      icon: mdi:book-open-variant
+
+    input_number.reading_time_volume:
+      <<: *customize
+      friendly_name: Spotify Volume
+
+    input_select.reading_time_playlist:
+      <<: *customize
+      friendly_name: Spotify Playlist
+
+    script.reading_time:
+      <<: *customize
+      friendly_name: Reading Time
+      haaska_name: Reading Time
+    
+    script.reading_time_off:
+      <<: *customize
+      friendly_name: Reading Time Off
+      haaska_hidden: true
+
+    automation.reading_time:
+      <<: *customize
+      friendly_name: Reading Time Enable
+
+    automation.reading_time_off:
+      <<: *customize
+      friendly_name: Reading Time Disable
+
+##################################################
+## Group
+##################################################
+group:
+  reading_time:
+    control: hidden
+    entities:
+      - input_boolean.reading_time_enabled
+      - input_number.reading_time_volume
+      - input_select.reading_time_source
+      - input_select.reading_time_playlist
+
+##################################################
+## Input Boolean
+##################################################
+input_boolean:
+  reading_time_enabled:
+
+##################################################
+## Input Number
+##################################################
+input_number:
+  reading_time_volume:
+    initial: 0.4
+    min: 0
+    max: 1
+    step: 0.1
+
+##################################################
+## Input Select
+##################################################
+input_select:
+  reading_time_playlist:
+    options:
+      - spotify:user:spotify:playlist:37i9dQZF1DX4sWSpwq3LiO
+  
+  reading_time_source:
+    options:
+      - CHRISMILLERPC
+
+##################################################
+## Script
+##################################################
+script:
+  # Turn on
+  reading_time:
+    sequence:
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.reading_time_enabled
+      - service: switch.turn_on
+        data_template: 
+          entity_id: switch.reading_light
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.spotify
+          source: '{{ states.input_select.reading_time_source.state }}'
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.spotify
+          volume_level: '{{ states.input_number.reading_time_volume.state }}'
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.spotify
+          media_content_type: playlist
+          media_content_id: '{{ states.input_select.reading_time_playlist.state }}'
+
+  # Turn Off
+  reading_time_off:
+    sequence:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.reading_time_enabled
+      - service: media_player.media_pause
+        data:
+          entity_id: media_player.spotify
+      - service: switch.turn_off
+        data:
+          entity_id: switch.reading_light
+
+##################################################
+## Automation
+##################################################
+#automation:
+#  # manual toggle of button
+#  - alias: reading_time_on
+#    initial_state: true
+#    trigger:
+#      - platform: state
+#        entity_id: input_boolean.reading_time_enabled
+#        to: 'on'
+#    contion:
+#    action:
+#      - service: script.reading_time
+
+#  # manual toggle of button
+#  - alias: reading_time_off
+#    initial_state: true
+#    trigger:
+#      - platform: state
+#        entity_id: input_boolean.reading_time_enabled
+#        to: 'off'
+#    action:
+#      - service: script.reading_time_off

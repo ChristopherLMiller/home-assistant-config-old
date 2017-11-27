@@ -134,13 +134,13 @@ homeassistant:
       <<: *customize
       friendly_name: "Echo Dot (Living Room)"
 
-    sensor.net_sonoff_chris_bedroom:
+    sensor.net_sonoff_1:
       <<: *customize
-      friendly_name: "Sonoff Basic (Chris Room)"
+      friendly_name: "Sonoff Basic #1"
 
-    sensor.net_sonoff_chris_bedroom_2:
+    sensor.net_sonoff_2:
       <<: *customize
-      friendly_name: "Sonoff Basic #2 (Chris Room)"
+      friendly_name: "Sonoff Basic #2"
 
 ################################################
 ## Group
@@ -158,8 +158,8 @@ group:
       - device_tracker.net_lenovo_laptop
       - device_tracker.net_lg_smart_tv_living_room
       - device_tracker.net_echo_living_room
-      - device_tracker.net_sonoff_chris_bedroom
-      - device_tracker.net_sonoff_chris_bedroom_2
+      - device_tracker.net_sonoff_1
+      - device_tracker.net_sonoff_2
 
   network_devices:
     control: hidden
@@ -173,8 +173,8 @@ group:
       - sensor.net_lenovo_laptop
       - sensor.net_lg_smart_tv_living_room
       - sensor.net_echo_living_room
-      - sensor.net_sonoff_chris_bedroom
-      - sensor.net_sonoff_chris_bedroom_2
+      - sensor.net_sonoff_1
+      - sensor.net_sonoff_2
 
 ################################################
 ## Sensor

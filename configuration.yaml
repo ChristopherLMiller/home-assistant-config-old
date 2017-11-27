@@ -9,7 +9,7 @@ homeassistant:
 
 ## INCLUDE ##
 conversation:
-discovery:
+#discovery:
 #python_script:
 alexa:
 config:

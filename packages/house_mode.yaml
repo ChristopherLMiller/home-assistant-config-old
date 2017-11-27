@@ -49,6 +49,18 @@ homeassistant:
       <<: *customize
       friendly_name: "Notify House Mode Changed"
 
+    scene.mode_house:
+      <<: *customize
+      haaska_name: "House Mode"
+
+    scene.mode_guest:
+      <<: *customize
+      haaska_name: "Guest Mode"
+
+    scene.mode_vacation:
+      <<: *customize
+      haaska_name: "Vacation Mode"
+
 ################################################
 ## Group
 ################################################
@@ -117,25 +129,6 @@ sensor:
           {% else %}
             mdi:home-outline
           {% endif %}
-
-##################################################
-## Intent Scripts
-##################################################
-intent_script:
-  HouseModeIntent:
-    speech:
-      text: "Setting house to {{ Mode }} mode"
-    card:
-      type: simple
-      title: House Mode
-      content: "Enabled {{ Mode }} mode"
-    action:
-      - service: scene.turn_on
-        data_template:
-          entity_id: scene.mode_{{ Mode }}
-      - service: script.notify_discord
-        data_template:
-          message: "Enabled {{ Mode }} house mode"
 
 ##################################################
 ## Scenes

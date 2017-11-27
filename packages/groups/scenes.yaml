@@ -1,0 +1,65 @@
+################################################################
+## Packages / Groups / Scenes
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'groups/scenes'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+
+    group.all_scenes:
+      <<: *customize
+      friendly_name: All Scenes
+
+    scene.chris_bedtime:
+      <<: *customize
+      friendly_name: Chris Bedtime
+      haaska_name: Chris Bedtime
+
+    scene.downstairs_bedtime:
+      <<: *customize
+      friendly_name: Downstairs Bedtime
+      haaska_name: Bedtime
+
+##################################################
+## Group
+##################################################
+group:
+  all_scenes:
+    control: hidden
+    entities:
+      - scene.chris_bedtime
+      - scene.downstairs_bedtime
+
+##################################################
+## Scene
+##################################################
+scene:  
+  # Chris Bedtime
+  - name: chris_bedtime
+    entities:
+      switch.reading_light:
+        state: off
+      media_player.spotify:
+        state: 'paused'
+
+  # Downstairs Bedtime
+  - name: downstairs_bedtime
+    entities:
+      switch.christmas_tree:
+        state: off
+      media_player.lg_tv_living_room:
+        state: off
