@@ -46,8 +46,8 @@ group:
       - group.alarm_clock
       - group.chris_bedroom_lights
       - group.chris_bedroom_media_players
-      #- group.window_fan
       - group.reading_time
+      - group.environment
 
   chris_bedroom_lights:
     control: hidden

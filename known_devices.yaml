@@ -1,3 +1,6 @@
+#############################
+## network
+#############################
 net_printer_computer_room:
   hide_if_away: false
   icon:
@@ -52,15 +55,6 @@ net_xbox_one_chris_bedroom:
   track: true
   vendor: Microsoft
 
-bruce_phone:
-  hide_if_away: false
-  icon:
-  mac: A8:81:95:31:BB:76
-  name: Bruce
-  picture:
-  track: true
-  vendor: Samsung Electronics Co.,Ltd
-
 net_lenovo_laptop:
   hide_if_away: false
   icon:
@@ -79,33 +73,6 @@ net_lg_smart_tv_living_room:
   track: true
   vendor: LG Technology
 
-cassie_phone:
-  hide_if_away: false
-  icon:
-  mac: B4:4B:D2:E0:C1:8F
-  name: Cassie Phone
-  picture:
-  track: true
-  vendor: Apple, Inc.
-
-chris_phone:
-  hide_if_away: false
-  icon:
-  mac: FC:DB:B3:DD:B4:F7
-  name: Chris
-  picture:
-  track: true
-  vendor: Samsung Electronics Co.,Ltd
-
-teresa_phone:
-  hide_if_away: false
-  icon:
-  mac: 9C:8B:A0:13:C0:94
-  name: Teresa
-  picture:
-  track: true
-  vendor: Apple, Inc.
-
 net_ps3_chris_bedroom:
   hide_if_away: false
   icon:
@@ -123,51 +90,6 @@ net_echo_living_room:
   picture:
   track: true
   vendor: Amazon Technologies Inc.
-
-mikayla_phone:
-  hide_if_away: false
-  icon:
-  mac: A0:CC:2B:1B:6F:D3
-  name: MiKayla Phone
-  picture:
-  track: true
-  vendor: Samsung Electronics Co.,Ltd
-
-corey_phone:
-  hide_if_away: false
-  icon:
-  mac: 14:56:8E:7C:20:87
-  name: Corey Phone
-  picture:
-  track: true
-  vendor: Samsung Electronics Co.,Ltd
-
-kennady_phone:
-  hide_if_away: false
-  icon:
-  mac: A8:81:95:31:BC:48
-  name: Kennady Phone
-  picture:
-  track: true
-  vendor: Samsung Electronics Co.,Ltd
-
-net_sonoff_1:
-  hide_if_away: false
-  icon:
-  mac: 5C:CF:7F:BC:4F:8E
-  name: Sonoff Basic
-  picture:
-  track: true
-  vendor: Espressif Inc.
-
-net_sonoff_2:
-  hide_if_away: false
-  icon:
-  mac: 5C:CF:7F:BC:42:C7
-  name: Sonoff Basic
-  picture:
-  track: true
-  vendor: Espressif Inc.
 
 wii:
   hide_if_away: false
@@ -196,6 +118,72 @@ d44b5e7010ae:
   track: true
   vendor: TAIYO YUDEN CO., LTD.
 
+#############################
+## Phones
+#############################
+bruce_phone:
+  hide_if_away: false
+  icon:
+  mac: A8:81:95:31:BB:76
+  name: Bruce
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
+
+cassie_phone:
+  hide_if_away: false
+  icon:
+  mac: B4:4B:D2:E0:C1:8F
+  name: Cassie Phone
+  picture:
+  track: true
+  vendor: Apple, Inc.
+
+chris_phone:
+  hide_if_away: false
+  icon:
+  mac: FC:DB:B3:DD:B4:F7
+  name: Chris
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
+
+teresa_phone:
+  hide_if_away: false
+  icon:
+  mac: 9C:8B:A0:13:C0:94
+  name: Teresa
+  picture:
+  track: true
+  vendor: Apple, Inc.
+
+mikayla_phone:
+  hide_if_away: false
+  icon:
+  mac: A0:CC:2B:1B:6F:D3
+  name: MiKayla Phone
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
+
+corey_phone:
+  hide_if_away: false
+  icon:
+  mac: 14:56:8E:7C:20:87
+  name: Corey Phone
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
+
+kennady_phone:
+  hide_if_away: false
+  icon:
+  mac: A8:81:95:31:BC:48
+  name: Kennady Phone
+  picture:
+  track: true
+  vendor: Samsung Electronics Co.,Ltd
+
 erin_phone:
   hide_if_away: false
   icon:
@@ -213,3 +201,71 @@ brandon_phone:
   picture:
   track: true
   vendor: Apple, Inc.
+
+#############################
+## Smart Devices
+#############################
+net_sonoff_1:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:BC:4F:8E
+  name: Sonoff Basic
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
+net_sonoff_2:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:BC:42:C7
+  name: Sonoff Basic
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
+net_sonoff_3:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:AF:8E:6C
+  name: Sonoff Basic
+  picture:
+  track: true
+  vendor: Espressic Inc.
+
+net_sonoff_4:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:AF:99:8C
+  name: Sonoff Basic
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
+net_sonoff_5:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:AF:9D:CD
+  name: Sonoff Basic
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
+net_sonoff_6:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:A0:05:58
+  name: Sonoff SV
+  picture:
+  track: true
+  vendor: Espressif Inc.
+
+esp_easy_0:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:3C:85:AE
+  name: ESP Easy 0
+  picture:
+  track: true
+  vendor: unknown
+
+

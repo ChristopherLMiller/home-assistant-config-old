@@ -61,5 +61,9 @@ scene:
     entities:
       switch.christmas_tree:
         state: off
+      switch.garland_lights:
+        state: off
+      switch.computer_floorlamp:
+        state: off
       media_player.lg_tv_living_room:
         state: off

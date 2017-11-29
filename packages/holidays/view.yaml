@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Google Music
+## Packages / Switch / Christmas View
 ################################################################
 
 ################################################
@@ -14,19 +14,24 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'google_music'
+        package: 'switch/christmas_view'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
-    
-    media_player.gpm_desktop_player:
+        homebridge_hidden: false
+
+    group.christmas_view:
       <<: *customize
-      haaska_hidden: true
+      friendly_name: Christmas
+      icon: mdi:pine-tree
 
 ##################################################
-## Media Player
+## Group
 ##################################################
-media_player:
-  - platform: gpmdp
-    host: !secret google_music_host
+group:
+  christmas_view:
+    view: yes
+    entities:
+      - switch.christmas_tree
+      - switch.garland_lights

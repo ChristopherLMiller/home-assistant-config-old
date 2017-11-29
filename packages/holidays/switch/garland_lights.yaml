@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Google Music
+## Packages / Switch / Garland Lights
 ################################################################
 
 ################################################
@@ -14,19 +14,27 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'google_music'
+        package: 'switch/garland_lights'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
-    
-    media_player.gpm_desktop_player:
-      <<: *customize
-      haaska_hidden: true
+        homebridge_hidden: false
 
-##################################################
-## Media Player
-##################################################
-media_player:
-  - platform: gpmdp
-    host: !secret google_music_host
+    switch.garland_lights:
+      <<: *customize
+      friendly_name: Garland Lights
+      haaska_name: Christmas Garland
+
+#################################################
+## Switch
+#################################################
+switch:
+  - platform: mqtt
+    name: garland_lights
+    state_topic: "home/sonoff_4/stat/POWER"
+    command_topic: "home/sonoff_4/cmnd/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true

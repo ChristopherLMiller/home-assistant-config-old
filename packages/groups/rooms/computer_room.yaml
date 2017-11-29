@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Google Music
+## Packages / Groups / Rooms / Computer Room
 ################################################################
 
 ################################################
@@ -14,19 +14,31 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'google_music'
+        package: 'groups/rooms/computer_room'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
-    
-    media_player.gpm_desktop_player:
+
+    group.computer_room_view:
       <<: *customize
-      haaska_hidden: true
+      friendly_name: Computer Room
+
+    group.computer_room_lights:
+      <<: *customize
+      friendly_name: Lights
+
 
 ##################################################
-## Media Player
+## Group
 ##################################################
-media_player:
-  - platform: gpmdp
-    host: !secret google_music_host
+group:
+  computer_room_view:
+    view: yes
+    entities:
+      - group.computer_room_lights
+
+  computer_room_lights:
+    control: hidden
+    entities:
+      - switch.computer_floorlamp
