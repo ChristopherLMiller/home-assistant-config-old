@@ -178,7 +178,7 @@ corey_phone:
 kennady_phone:
   hide_if_away: false
   icon:
-  mac: A8:81:95:31:BC:48
+  mac: 5C:AF:06:86:97:EA
   name: Kennady Phone
   picture:
   track: true
@@ -267,5 +267,3 @@ esp_easy_0:
   picture:
   track: true
   vendor: unknown
-
-

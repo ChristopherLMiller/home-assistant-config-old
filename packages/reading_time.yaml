@@ -91,6 +91,7 @@ input_select:
   reading_time_playlist:
     options:
       - spotify:user:spotify:playlist:37i9dQZF1DX4sWSpwq3LiO
+      - spotify:user:spotify:plyalist:37i9dQZF1DX6R7QUWePReA
   
   reading_time_source:
     options:
