@@ -25,6 +25,7 @@ homeassistant:
       friendly_name: "LG Smart TV (Living Room)"
       icon: mdi:monitor
       haaska_name: Living Room TV
+      google_assistant_name: Living Room TV
     
     automation.tv_off_nobody_home:
       <<: *customize

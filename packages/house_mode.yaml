@@ -52,14 +52,17 @@ homeassistant:
     scene.mode_house:
       <<: *customize
       haaska_name: "House Mode"
+      google_assistant_name: "House Mode"
 
     scene.mode_guest:
       <<: *customize
       haaska_name: "Guest Mode"
+      google_assistant_name: "Guest Mode"
 
     scene.mode_vacation:
       <<: *customize
       haaska_name: "Vacation Mode"
+      google_assistant_name: "Vacation Mode"
 
 ################################################
 ## Group

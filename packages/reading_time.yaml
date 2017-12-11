@@ -42,11 +42,13 @@ homeassistant:
       <<: *customize
       friendly_name: Reading Time
       haaska_name: Reading Time
+      google_assistant_name: Reading Time
     
     script.reading_time_off:
       <<: *customize
       friendly_name: Reading Time Off
       haaska_hidden: true
+      google_assistant: false
 
     automation.reading_time:
       <<: *customize

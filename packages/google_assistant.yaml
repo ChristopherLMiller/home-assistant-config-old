@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Google Music
+## Packages / Google Assistant
 ################################################################
 
 ################################################
@@ -14,20 +14,25 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'google_music'
+        package: 'google_assistant'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
-    
-    media_player.gpm_desktop_player:
-      <<: *customize
-      haaska_hidden: true
-      google_assistant: false
 
 ##################################################
-## Media Player
+## Google Assistant
 ##################################################
-media_player:
-  - platform: gpmdp
-    host: !secret google_music_host
+google_assistant:
+  project_id: !secret ga_project_id
+  client_id: !secret ga_client_id
+  access_token: !secret ga_access_token
+  api_key: !secret ga_api_key
+  expose_by_default: true
+  exposed_domains:
+    - switch
+    - light
+    - media_player
+    - fan
+    - scene
+    - script

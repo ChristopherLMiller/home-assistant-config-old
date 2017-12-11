@@ -25,6 +25,7 @@ homeassistant:
       <<: *customize
       friendly_name: Floor Lamp
       haaska_name: Computer Light
+      google_assistant_name: Computer Light
 
     automation.computer_light_off:
       <<: *customize

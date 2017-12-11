@@ -28,11 +28,13 @@ homeassistant:
       <<: *customize
       friendly_name: Chris Bedtime
       haaska_name: Chris Bedtime
+      google_assistant_name: Chris Bedtime
 
     scene.downstairs_bedtime:
       <<: *customize
       friendly_name: Downstairs Bedtime
       haaska_name: Bedtime
+      google_assistant_name: Bedtime
 
 ##################################################
 ## Group

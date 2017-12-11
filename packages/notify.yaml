@@ -25,11 +25,13 @@ homeassistant:
       <<: *customize
       friendly_name: Notify Discord
       haaska_hidden: true
+      google_assistant: false
 
     script.notify_all:
       <<: *customize
       friendly_name: Notify All
       haaska_hidden: true
+      google_assistant: false
 
 ##################################################
 ## Notify
