@@ -107,9 +107,9 @@ script:
       - service: input_boolean.turn_on
         data:
           entity_id: input_boolean.reading_time_enabled
-      - service: switch.turn_on
+      - service: light.turn_on
         data_template: 
-          entity_id: switch.reading_light
+          entity_id: light.reading_light
       - service: media_player.select_source
         data:
           entity_id: media_player.spotify
@@ -133,9 +133,9 @@ script:
       - service: media_player.media_pause
         data:
           entity_id: media_player.spotify
-      - service: switch.turn_off
+      - service: light.turn_off
         data:
-          entity_id: switch.reading_light
+          entity_id: light.reading_light
 
 ##################################################
 ## Automation

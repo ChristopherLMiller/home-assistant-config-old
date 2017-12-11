@@ -51,7 +51,7 @@ scene:
   # Chris Bedtime
   - name: chris_bedtime
     entities:
-      switch.reading_light:
+      light.reading_light:
         state: off
       media_player.spotify:
         state: 'paused'
@@ -59,11 +59,11 @@ scene:
   # Downstairs Bedtime
   - name: downstairs_bedtime
     entities:
-      switch.christmas_tree:
+      light.christmas_tree:
         state: off
-      switch.garland_lights:
+      light.garland_lights:
         state: off
-      switch.computer_floorlamp:
+      light.computer_floorlamp:
         state: off
       media_player.lg_tv_living_room:
         state: off

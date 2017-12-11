@@ -202,7 +202,11 @@ sensor:
       chris_location:
         value_template: >
           {%- if is_state('device_tracker.chris_phone', 'home') -%}
-            {{ states.sensor.chris_house_location.state }}
+            {%- if is_state('sensor.chris_house_location', 'unknown') -%}
+              Home
+            {%- else -%}
+              {{ states.sensor.chris_house_location.state }}
+            {%- endif -%}
           {%- else -%}
             {% if is_state('sensor.chris_google_location', 'Awaiting Update') -%}
               Away

@@ -16,11 +16,15 @@
           entities:
             - sensor.dark_sky_temperature
             - sensor.dark_sky_apparent_temperature
-          text_template: '${entity.state ? Math.ceil(entity.state) : "undefined"}°' 
+            - sensor.temperature
+          text_template: '${entity.state ? Math.ceil(entity.state) : "undefined"}°F'
+
 
         - name: Humidity
           entities:
             - sensor.dark_sky_humidity
+            - sensor.humidity
+          text_template: '${entity.state}%'
 
         - name: Devices
           entities:
@@ -36,7 +40,7 @@
 
         - name: Switches
           entities:
-            - switch.reading_light
+            - light.reading_light
           states:
             - state: 'on'
               class: 'light-on'

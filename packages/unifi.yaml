@@ -24,10 +24,11 @@ homeassistant:
 ## Device Trackers
 ################################################
 device_tracker:
-  - platform: unifi_direct
+  - platform: unifi
     host: !secret unifi_host
     username: !secret unifi_username
     password: !secret unifi_password
+    site_id: !secret unifi_site_id
     verify_ssl: false
     track_new_devices: true
     interval_seconds: 1

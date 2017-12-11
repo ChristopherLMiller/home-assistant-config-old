@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Switch / Window Fan
+## Packages / Fan / Window Fan
 ################################################################
 
 ################################################
@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'switch/window_fan'
+        package: 'fan/window_fan'
 
       expose: &expose
         <<: *customize
@@ -24,7 +24,7 @@ homeassistant:
       <<: *customize
       friendly_name: Window Fan
 
-    switch.sonoff_2:
+    fan.sonoff_2:
       <<: *customize
       friendly_name: Window Fan
 
@@ -56,15 +56,15 @@ group:
   window_fan:
     control: hidden
     entities:
-      - switch.sonoff_2
+      - fan.sonoff_2
       - input_boolean.auto_fan_mode
       - sensor.pws_temp_f
       - input_number.temperature_on
 
 #################################################
-## Switch
+## Fan
 #################################################
-switch:
+fan:
   - platform: mqtt
     name: sonoff_2
     state_topic: "home/sonoff_2/stat/POWER"
@@ -101,10 +101,10 @@ automation:
       - service: script.notify_discord
         data_template:
           message: "Turning on window fan.  Temp: {{ states.sensor.pws_temp_f.state }} Set Temp: {{ states.input_number.temperature_on.state }}"
-      - service: switch.turn_on
+      - service: fan.turn_on
         data:
           entity_id:
-            - switch.sonoff_2
+            - fan.sonoff_2
 
   - alias: window_fan_temp_control_off
     hide_entity: true
@@ -119,10 +119,10 @@ automation:
       - service: script.notify_discord
         data_template:
           message: "Turning off window fan.  Temp: {{ states.sensor.pws_temp_f.state }} Set Temp: {{ states.input_number.temperature_on.state }}"
-      - service: switch.turn_off
+      - service: fan.turn_off
         data:
           entity_id:
-            - switch.sonoff_2
+            - fan.sonoff_2
 
 ##################################################
 ## Intent Scripts

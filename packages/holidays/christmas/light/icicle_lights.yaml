@@ -1,0 +1,73 @@
+################################################################
+## Packages / Holidays / Christmas / light / Icicle Lights
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'holidays/christmas/light/icicle_lights'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    light.icicle_lights:
+      <<: *customize
+      friendly_name: Icicle Lights
+
+#################################################
+## Light
+#################################################
+light:
+  - platform: mqtt
+    name: icicle_lights
+    state_topic: "home/sonoff_5/stat/POWER"
+    command_topic: "home/sonoff_5/cmnd/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true
+
+##################################################
+## Automation
+##################################################
+automation:
+  - alias: icicle_lights_on_sunset
+    initial_state: true
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: '-00:30:00'
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning on the icicle lights'
+      - service: light.turn_on
+        data:
+          entity_id:
+            - light.icicle_lights
+
+  - alias: icicle_lights_off_sunrise
+    initial_state: true
+    trigger:
+      - platform: sun
+        event: sunrise
+        offset: '+00:30:00'
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning of the icicle lights'
+      - service: light.turn_off
+        data:
+          entity_id:
+            - light.icicle_lights

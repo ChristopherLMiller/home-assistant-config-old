@@ -207,16 +207,11 @@ automation:
       - service: script.notify_discord
         data_template:
           message: "Alarm Clock: Wake Up!!!"
+      - service: light.turn_on
+        data:
+          entity_id:
+            - light.reading_light
       #- service: script.voice_notify
       #  data_template:
       #    message: >
       #      "Hello, Mr. Kalavala! This is an alarm clock reminder! Have a great day!"
-      - service: switch.turn_on
-        data:
-          entity_id:
-            - switch.reading_light
-      - delay: 0:10
-      - service: switch.turn_off
-        data:
-          entity_id:
-            - switch.reading_light

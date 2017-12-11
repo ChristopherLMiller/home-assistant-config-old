@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Switch / Computer Room Floor Lamp
+## Packages / Light / Computer Room Floor Lamp
 ################################################################
 
 ################################################
@@ -14,22 +14,26 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'switch/computer_room_floor_lamp'
+        package: 'light/computer_room_floor_lamp'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
         homebridge_hidden: false
 
-    switch.computer_floorlamp:
+    light.computer_floorlamp:
       <<: *customize
       friendly_name: Floor Lamp
       haaska_name: Computer Light
 
+    automation.computer_light_off:
+      <<: *customize
+      friendly_name: Computer Light Off
+
 #################################################
-## Switch
+## Light
 #################################################
-switch:
+light:
   - platform: mqtt
     name: computer_floorlamp
     state_topic: "home/sonoff_3/stat/POWER"
@@ -38,3 +42,24 @@ switch:
     payload_off: "OFF"
     qos: 1
     retain: true
+
+##################################################
+## Automations
+##################################################
+automation:
+  - alias: computer_light_off
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: sensor.household
+        to: 'away'
+        for:
+          minutes: 5
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning off computer light - nobody home'
+      - service: light.turn_off
+        data:
+          entity_id:
+            - light.computer_floorlamp

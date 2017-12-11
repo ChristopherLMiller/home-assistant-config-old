@@ -33,5 +33,6 @@ group:
   christmas_view:
     view: yes
     entities:
-      - switch.christmas_tree
-      - switch.garland_lights
+      - light.christmas_tree
+      - light.garland_lights
+      - light.icicle_lights

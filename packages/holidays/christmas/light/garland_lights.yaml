@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Switch / Christmas Tree
+## Packages / Holidays / Christmas / Light / Garland Lights
 ################################################################
 
 ################################################
@@ -14,27 +14,27 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'switch/christmas_tree'
+        package: 'holidays/christmas/light/garland_lights'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
         homebridge_hidden: false
 
-    switch.christmas_tree:
+    light.garland_lights:
       <<: *customize
-      friendly_name: Christmas Tree
+      friendly_name: Garland Lights
+      haaska_name: Christmas Garland
 
 #################################################
-## Switch
+## Light
 #################################################
-switch:
+light:
   - platform: mqtt
-    name: christmas_tree
-    state_topic: "home/sonoff_2/stat/POWER"
-    command_topic: "home/sonoff_2/cmnd/power"
+    name: garland_lights
+    state_topic: "home/sonoff_4/stat/POWER"
+    command_topic: "home/sonoff_4/cmnd/power"
     payload_on: "ON"
     payload_off: "OFF"
     qos: 1
     retain: true
-

@@ -41,4 +41,4 @@ group:
   computer_room_lights:
     control: hidden
     entities:
-      - switch.computer_floorlamp
+      - light.computer_floorlamp
