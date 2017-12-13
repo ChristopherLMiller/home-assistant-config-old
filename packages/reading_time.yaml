@@ -92,8 +92,8 @@ input_number:
 input_select:
   reading_time_playlist:
     options:
-      - spotify:user:spotify:playlist:37i9dQZF1DX4sWSpwq3LiO
-      - spotify:user:spotify:plyalist:37i9dQZF1DX6R7QUWePReA
+      - 'Classical|spotify:user:spotify:playlist:37i9dQZF1DX4sWSpwq3LiO'
+      - 'Christmas|spotify:user:spotify:plyalist:37i9dQZF1DX6R7QUWePReA'
   
   reading_time_source:
     options:
@@ -124,7 +124,7 @@ script:
         data_template:
           entity_id: media_player.spotify
           media_content_type: playlist
-          media_content_id: '{{ states.input_select.reading_time_playlist.state }}'
+          media_content_id: '{{ states.input_select.reading_time_playlist.state.split("|")[1] }}'
 
   # Turn Off
   reading_time_off:

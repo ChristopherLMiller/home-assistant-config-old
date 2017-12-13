@@ -43,7 +43,7 @@ group:
   chris_bedroom_view:
     view: yes
     entities:
-      - group.alarm_clock
+      - group.work_day
       - group.chris_bedroom_lights
       - group.chris_bedroom_media_players
       - group.reading_time

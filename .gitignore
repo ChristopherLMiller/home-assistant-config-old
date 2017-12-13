@@ -19,3 +19,5 @@ plex.conf
 gpmpd.conf
 .spotify-token-cache
 /secrets
+.google.token
+google_calendars.yaml
