@@ -276,6 +276,11 @@ automation:
         data_template:
           message: >-
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is home
+      - service: tts.google_say
+        data_template:
+          message: >-
+            {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is home.
+          entity_id: media_player.chris_bedroom_speaker
 
   - alias: guests_visit
     initial_state: true

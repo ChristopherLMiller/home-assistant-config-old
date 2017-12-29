@@ -267,11 +267,21 @@ esp_easy_0:
   picture:
   track: true
   vendor: unknown
+
 hassbian:
   hide_if_away: false
   icon:
   mac: 00:C3:16:A1:D5:FB
   name: hassbian
+  picture:
+  track: true
+  vendor: unknown
+
+net_googlehome:
+  hide_if_away: false
+  icon:
+  mac: 20:DF:B9:CE:CE:09
+  name: Google-Home
   picture:
   track: true
   vendor: unknown

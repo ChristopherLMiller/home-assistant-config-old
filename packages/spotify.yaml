@@ -20,6 +20,9 @@ homeassistant:
         <<: *customize
         haaska_hidden: false
 
+    media_player.spotify:
+      google_assistant_type: media_player
+
 ##################################################
 ## Media Player
 ##################################################

@@ -114,6 +114,11 @@ homeassistant:
       friendly_name: "Sonoff SV #1"
       hidden: true
 
+    device_tracker.net_googlehome:
+      <<: *customize
+      friendly_name: "Google Home Mini"
+      hidden: true
+
     sensor.net_printer_computer_room:
       <<: *customize
       friendly_name: "HP Printer (Computer Room)"
@@ -178,6 +183,10 @@ homeassistant:
       <<: *customize
       friendly_name: "Sonoff SV #1"
 
+    sensor.net_googlehome:
+      <<: *customize
+      friendly_name: "Google Home Mini"
+
 ################################################
 ## Group
 ################################################
@@ -194,6 +203,7 @@ group:
       - device_tracker.net_lenovo_laptop
       - device_tracker.net_lg_smart_tv_living_room
       - device_tracker.net_echo_living_room
+      - device_tracker.net_googlehome
       - device_tracker.net_sonoff_1
       - device_tracker.net_sonoff_2
       - device_tracker.net_sonoff_3
@@ -213,6 +223,7 @@ group:
       - sensor.net_lenovo_laptop
       - sensor.net_lg_smart_tv_living_room
       - sensor.net_echo_living_room
+      - sensor.net_googlehome
       - sensor.net_sonoff_1
       - sensor.net_sonoff_2
       - sensor.net_sonoff_3
@@ -286,6 +297,10 @@ sensor:
         value_template: "{{ 'online' if is_state('device_tracker.net_sonoff_6', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_sonoff_6', 'home') else 'mdi:alert-circle' }}"
 
+      net_googlehome:
+        value_template: "{{ 'online' if is_state('device_tracker.net_googlehome', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_googlehome', 'home') else 'mdi:alert-circle' }}"
+
 ################################################
 ## Automation
 ################################################
@@ -304,6 +319,7 @@ automation:
           - sensor.net_lenovo_laptop
           - sensor.net_lg_smart_tv_living_room
           - sensor.net_echo_living_room
+          - sensor.net_googlehome
           - sensor.net_sonoff_1
           - sensor.net_sonoff_2
           - sensor.net_sonoff_3

@@ -60,3 +60,4 @@ group:
       - media_player.samsung_tv_chris_bedroom
       - media_player.spotify
       - media_player.gpm_desktop_player
+      - media_player.chris_bedroom_speaker

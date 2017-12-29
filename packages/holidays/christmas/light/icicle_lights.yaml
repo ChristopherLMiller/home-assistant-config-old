@@ -25,6 +25,14 @@ homeassistant:
       <<: *customize
       friendly_name: Icicle Lights
 
+    automation.icicle_lights_on_sunset:
+      <<: *customize
+      friendly_name: Icicle Lights on Sunset
+
+    automation.icicle_lights_off_sunrise:
+      <<: *customize
+      friendly_name: Icicle Lights off Sunrise
+
 #################################################
 ## Light
 #################################################
