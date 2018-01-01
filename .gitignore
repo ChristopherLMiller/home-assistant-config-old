@@ -21,3 +21,4 @@ gpmpd.conf
 /secrets
 .google.token
 google_calendars.yaml
+/tts
