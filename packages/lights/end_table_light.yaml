@@ -23,6 +23,7 @@ homeassistant:
     light.endtable_light:
       <<: *customize
       friendly_name: End Table Light
+      google_assistant_name: End Table Light
 
     automation.end_table_light_off:
       <<: *customize
