@@ -1,0 +1,37 @@
+################################################################
+## Packages / Scripts / Good Morning
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'scripts/goodmorning'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+
+    script.good_morning:
+      <<: *customize
+      friendly_name: Downstairs Good Morning
+      haaska_name: Good Morning
+      google_assistant_name: Good Morning
+
+##################################################
+## Scripts
+##################################################
+script:
+  good_morning:
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.endtable_light

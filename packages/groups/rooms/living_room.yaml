@@ -45,7 +45,8 @@ group:
   living_room_lights:
     control: hidden
     entities:
-      - switch.endtable_light
+      - light.endtable_light
+      - light.floorlamp_light
 
   living_room_media_players:
     control: hidden

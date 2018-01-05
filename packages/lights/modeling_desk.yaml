@@ -1,0 +1,41 @@
+################################################################
+## Packages / Light / Modeling Desk
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'light/modeling_desk'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+        homebridge_hidden: false
+
+    light.modeling_desk:
+      <<: *customize
+      friendly_name: Model Light
+      haaska_name: Model Light
+      google_assistant_name: Model Light
+
+#################################################
+## Light
+#################################################
+light:
+  - platform: mqtt
+    name: modeling_desk
+    state_topic: "home/sonoff_6/stat/POWER"
+    command_topic: "home/sonoff_6/cmnd/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true

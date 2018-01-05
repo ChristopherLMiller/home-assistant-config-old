@@ -1,0 +1,83 @@
+################################################################
+## Packages / Light / Living Room Floorlamp
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'light/endtable_light'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+
+    light.floorlamp_light:
+      <<: *customize
+      friendly_name: Floor lamp
+      google_assistant_name: Floor lamp
+
+    automation.floorlamp_light_off:
+      <<: *customize
+      friendly_name: Floor lamp Off
+
+    automation.floorlamp_light_on:
+      <<: *customize
+      friendly_name: Floor lamp On
+
+#################################################
+## Light
+#################################################
+light:
+  - platform: mqtt
+    name: floorlamp_light
+    state_topic: "home/sonoff_4/stat/POWER"
+    command_topic: "home/sonoff_4/cmnd/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true
+
+##################################################
+## Automations
+##################################################
+automation:
+  - alias: floorlamp_light_off
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: sensor.household
+        to: 'away'
+        for:
+          minutes: 5
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning off floor lamp light - nobody home'
+      - service: light.turn_off
+        data:
+          entity_id:
+            - light.floorlamp_light
+
+  - alias: floorlamp_light_on
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: sensor.household
+        to: 'home'
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning on floor lamp light'
+      - service: light.turn_on
+        data:
+          entity_id:
+            - ligh.floorlamp_light

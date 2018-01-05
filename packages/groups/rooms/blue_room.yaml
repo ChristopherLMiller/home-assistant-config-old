@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Groups / Scenes
+## Packages / Groups / Rooms / Blue Room
 ################################################################
 
 ################################################
@@ -14,40 +14,39 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'groups/scenes'
+        package: 'groups/rooms/blue_room'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
 
-    group.all_scenes:
+    group.blue_room_view:
       <<: *customize
-      friendly_name: All Scenes
+      friendly_name: Blue Room
 
-    scene.chris_bedtime:
+    group.blue_room_lights:
       <<: *customize
-      friendly_name: Chris Bedtime
-      haaska_name: Chris Bedtime
-      google_assistant_name: Chris Bedtime
+      friendly_name: Lights
+
+    group.blue_room_media_players:
+      <<: *customize
+      friendly_name: Media Players
 
 ##################################################
 ## Group
 ##################################################
 group:
-  all_scenes:
+  blue_room_view:
+    view: yes
+    entities:
+      - group.blue_room_lights
+
+  blue_room_lights:
     control: hidden
     entities:
-      - scene.chris_bedtime
-      - scene.downstairs_bedtime
+      - light.modeling_desk
 
-##################################################
-## Scene
-##################################################
-scene:  
-  # Chris Bedtime
-  - name: chris_bedtime
+  blue_room_media_players:
+    control: hidden
     entities:
-      light.reading_light:
-        state: off
-      media_player.spotify:
-        state: 'paused'
+      - media_player.spotify

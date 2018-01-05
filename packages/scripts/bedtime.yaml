@@ -1,0 +1,46 @@
+################################################################
+## Packages / Scripts / Bedtime
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'scripts/bedtime'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+
+    script.downstairs_bedtime:
+      <<: *customize
+      friendly_name: Downstairs Bedtime
+      haaska_name: Bedtime
+      google_assistant_name: Bedtime
+
+##################################################
+## Script
+##################################################
+script:
+  downstairs_bedtime:
+    sequence:
+      - service: media_player.turn_off
+        data:
+          entity_id: media_player.lg_tv_living_room
+      - service: light.turn_off
+        data:
+          entity_id: light.computer_floorlamp
+      - service: light.turn_off
+        data:
+          entity_id: light.endtable_light
+      - service: light.turn_off
+        data:
+          entity_id: light.floorlamp_light

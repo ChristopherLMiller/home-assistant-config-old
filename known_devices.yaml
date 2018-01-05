@@ -285,3 +285,12 @@ net_googlehome:
   picture:
   track: true
   vendor: unknown
+
+hppc:
+  hide_if_away: false
+  icon:
+  mac: 00:1D:E0:5F:BA:DD
+  name: hp-PC
+  picture:
+  track: true
+  vendor: unknown
