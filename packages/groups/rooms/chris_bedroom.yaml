@@ -48,6 +48,7 @@ group:
       - group.chris_bedroom_media_players
       - group.reading_time
       - group.environment
+      - group.chris_bed
 
   chris_bedroom_lights:
     control: hidden

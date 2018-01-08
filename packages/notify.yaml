@@ -33,6 +33,12 @@ homeassistant:
       haaska_hidden: true
       google_assistant: false
 
+    script.notify_voice:
+      <<: *customize
+      friendly_name: Notify Voice
+      haaska_hidden: true
+      google_assistant: false
+
 ##################################################
 ## Notify
 ##################################################
@@ -66,7 +72,14 @@ script:
   # google home TTS
   notify_voice:
     sequence:
+      - condition: state
+        entity_id: device_tracker.chris_phone
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.chris_bed
+        state: 'off'
       - service: tts.google_say
         data_template:
+          cache: '{{ cache }}'
           message: '{{ message }}'            
           entity_id: media_player.chris_bedroom_speaker

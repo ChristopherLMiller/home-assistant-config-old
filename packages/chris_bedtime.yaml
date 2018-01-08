@@ -24,9 +24,17 @@ homeassistant:
       <<: *customize
       friendly_name: Chris Bedtime
 
+    script.chris_wakeup:
+      <<: *customize
+      friendly_name: Chris Wakeup
+
     input_boolean.chris_bed:
       <<: *customize
       friendly_name: "Chris Asleep"
+
+    group.chris_bed:
+      <<: *customize
+      friendly_name: "Sleep"
 
 ##################################################
 ## Group
@@ -66,3 +74,16 @@ script:
       - service: light.turn_on
         data:
           entity_id: light.reading_light
+      - service: script.notify_voice
+        data_template:
+          cache: false
+          message: >-
+            Good morning Chris.  It's time to wakeup and get ready for work.  Here is the weather: {{ states.sensor.dark_sky_hourly_summary.state }}  Overnight temperature is expected to be {{ states.sensor.dark_sky_daily_low_apparent_temperature.state | round(0) }} degrees.  Tomorrows high reaching {{ states.sensor.dark_sky_daily_high_apparent_temperature.state | round(0) }} degrees.
+            {{-'  '-}}
+            {%- if is_state('sensor.dark_sky_precip', 'unknown') -%}
+            Currently there is no precipitation to speak of with a {{ states.sensor.dark_sky_precip_probability.state }} percent chance of anything.
+            {%- else -%}
+            Current precipitation is {{ states.sensor.dark_sky_precip.state }}
+            {%- endif -%}
+            {{-'  '-}}
+            Winds are currently {{ states.sensor.dark_sky_wind_speed.state | round(0) }} miles per hour and are bearing from {{ states.sensor.dark_sky_wind_bearing.state | round(0) }} degrees.  Have a great work night!

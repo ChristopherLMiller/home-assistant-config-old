@@ -20,6 +20,10 @@ homeassistant:
         <<: *customize
         haaska_hidden: false
 
+    media_player.chris_bedroom_speaker:
+      <<: *customize
+      google_assistant: false
+
 ##################################################
 ## Google Assistant
 ##################################################

@@ -105,31 +105,6 @@ homeassistant:
       friendly_name: "Season"
       icon: mdi:weather-snowy-rainy
 
-    sensor.yr_cloudiness:
-      <<: *customize
-      friendly_name: "Cloudiness"
-      icon: mdi:weather-partlycloudy
-
-    sensor.yr_condition:
-      <<: *customize
-      friendly_name: "Condition"
-      icon: mdi:weather-sunny
-
-    sensor.yr_humidity:
-      <<: *customize
-      friendly_name: "Humidity"
-      icon: mdi:water-percent
-
-    sensor.yr_precipitation:
-      <<: *customize
-      friendly_name: "Precipitation"
-      icon: mdi:weather-rainy
-
-    sensor.yr_temperature:
-      <<: *customize
-      friendly_name: "Temperature"
-      icon: mdi:thermometer
-
     sensor.moon:
       <<: *customize
       friendly_name: "Moon Phase"
@@ -177,14 +152,6 @@ group:
       - sensor.pws_temp_f
       - sensor.pws_weather
 
-  weather_yr:
-    control: hidden
-    entities:
-      - sensor.yr_cloudiness
-      - sensor.yr_humidity
-      - sensor.yr_precipitation
-      - sensor.yr_temperature
-
   airvisual:
     control: hidden
     entities:
@@ -201,11 +168,20 @@ sensor:
     monitored_conditions:
       - cloud_cover
       - humidity
+      - summary
+      - precip_type
+      - wind_speed
+      - wind_bearing
       - precip_probability
       - temperature
       - icon
       - apparent_temperature
       - minutely_summary
+      - hourly_summary
+      - temperature_max
+      - temperature_min
+      - apparent_temperature_max
+      - apparent_temperature_min
 
   - platform: wunderground
     api_key: !secret wunderground_api_key
@@ -216,13 +192,6 @@ sensor:
       - relative_humidity
       - temp_f
       - weather
-
-  - platform: yr
-    monitored_conditions:
-      - cloudiness
-      - humidity
-      - precipitation
-      - temperature
 
   - platform: season
     type: astronomical

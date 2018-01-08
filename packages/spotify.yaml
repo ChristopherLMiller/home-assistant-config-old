@@ -22,7 +22,7 @@ homeassistant:
 
     media_player.spotify:
       <<: *customize
-      google_assistant_type: media_player
+      google_assistant: false
 
 ##################################################
 ## Media Player

@@ -99,7 +99,6 @@ group:
       - group.weather_radar
       - group.weather_darksky
       - group.weather_wunderground
-      - group.weather_yr
       - group.airvisual
 
   misc:
