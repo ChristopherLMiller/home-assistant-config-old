@@ -1,0 +1,68 @@
+################################################################
+## Packages / Chris Bedtime
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'chris_bedtime'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+
+    script.chris_bedtime:
+      <<: *customize
+      friendly_name: Chris Bedtime
+
+    input_boolean.chris_bed:
+      <<: *customize
+      friendly_name: "Chris Asleep"
+
+##################################################
+## Group
+##################################################
+group:
+  chris_bed:
+    control: hidden
+    entities:
+      - input_boolean.chris_bed
+
+##################################################
+## Input Boolean
+##################################################
+input_boolean:
+  chris_bed:
+
+##################################################
+## Script
+##################################################
+script:
+  # Chris Bedtime
+  chris_bedtime:
+    sequence:
+      - service: light.turn_off
+        data:
+          entity_id: light.reading_light
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.chris_bed
+
+  # Chris Wakeup
+  chris_wakeup:
+    sequence:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.chris_bed
+      - service: light.turn_on
+        data:
+          entity_id: light.reading_light

@@ -20,34 +20,6 @@ homeassistant:
         <<: *customize
         haaska_hidden: false
 
-    group.all_scenes:
-      <<: *customize
-      friendly_name: All Scenes
-
-    scene.chris_bedtime:
-      <<: *customize
-      friendly_name: Chris Bedtime
-      haaska_name: Chris Bedtime
-      google_assistant_name: Chris Bedtime
-
-##################################################
-## Group
-##################################################
-group:
-  all_scenes:
-    control: hidden
-    entities:
-      - scene.chris_bedtime
-      - scene.downstairs_bedtime
-
 ##################################################
 ## Scene
 ##################################################
-scene:  
-  # Chris Bedtime
-  - name: chris_bedtime
-    entities:
-      light.reading_light:
-        state: off
-      media_player.spotify:
-        state: 'paused'
