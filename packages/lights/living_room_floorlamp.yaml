@@ -61,7 +61,7 @@ automation:
     action:
       - service: script.notify_discord
         data_template:
-          message: 'Turning off floor lamp light - nobody home'
+          message: 'Turning off living room light - nobody home'
       - service: light.turn_off
         data:
           entity_id:
@@ -76,7 +76,7 @@ automation:
     action:
       - service: script.notify_discord
         data_template:
-          message: 'Turning on floor lamp light'
+          message: 'Turning on living room light'
       - service: light.turn_on
         data:
           entity_id:

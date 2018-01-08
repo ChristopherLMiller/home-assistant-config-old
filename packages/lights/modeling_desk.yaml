@@ -39,3 +39,24 @@ light:
     payload_off: "OFF"
     qos: 1
     retain: true
+
+##################################################
+## Automations
+##################################################
+automation:
+  - alias: modeling_light_off_not_home
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: device_tracker.chris_phone
+        to: 'not_home'
+        for:
+          minutes: 5
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning off modeling light - chris left home'
+      - service: light.turn_off
+        data:
+          entity_id:
+            - light.modeling_desk
