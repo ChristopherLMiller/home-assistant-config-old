@@ -163,3 +163,6 @@ automation:
       - service: script.notify_discord
         data_template:
           message: "Enabled {{ trigger.to_state.state }} Mode"
+      - service: script.notify_voice
+        data_template:
+          message: "House Mode changed to {{ trigger.to_state.state }}"

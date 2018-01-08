@@ -62,3 +62,11 @@ script:
           message: '{{ message }}'
           data:
             tag: '{{ tag }}'
+
+  # google home TTS
+  notify_voice:
+    sequence:
+      - service: tts.google_say
+        data_template:
+          message: '{{ message }}'            
+          entity_id: media_player.chris_bedroom_speaker

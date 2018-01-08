@@ -119,6 +119,11 @@ homeassistant:
       friendly_name: "Google Home Mini"
       hidden: true
 
+    device_tracker.net_hp_laptop:
+      <<: *customize
+      friendly_name: "HP Laptop"
+      hidden: true
+
     sensor.net_printer_computer_room:
       <<: *customize
       friendly_name: "HP Printer (Computer Room)"
@@ -146,7 +151,7 @@ homeassistant:
     sensor.net_lenovo_laptop:
       <<: *customize
       friendly_name: "Lenovo Laptop (Teresa)"
-    
+
     sensor.net_lg_smart_tv_living_room:
       <<: *customize
       friendly_name: "LG Smart TV (Living Room)"
@@ -158,6 +163,10 @@ homeassistant:
     sensor.net_echo_living_room:
       <<: *customize
       friendly_name: "Echo Dot (Living Room)"
+
+    sensor.net_hp_laptop:
+      <<: *customize
+      friendly_name: "HP Laptop"
 
     sensor.net_sonoff_1:
       <<: *customize
@@ -204,6 +213,7 @@ group:
       - device_tracker.net_lg_smart_tv_living_room
       - device_tracker.net_echo_living_room
       - device_tracker.net_googlehome
+      - device_tracker.net_hp_laptop
       - device_tracker.net_sonoff_1
       - device_tracker.net_sonoff_2
       - device_tracker.net_sonoff_3
@@ -224,6 +234,7 @@ group:
       - sensor.net_lg_smart_tv_living_room
       - sensor.net_echo_living_room
       - sensor.net_googlehome
+      - sensor.net_hp_laptop
       - sensor.net_sonoff_1
       - sensor.net_sonoff_2
       - sensor.net_sonoff_3
@@ -301,6 +312,10 @@ sensor:
         value_template: "{{ 'online' if is_state('device_tracker.net_googlehome', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_googlehome', 'home') else 'mdi:alert-circle' }}"
 
+      net_hp_laptop:
+        value_template: "{{ 'online' if is_state('device_tracker.net_hp_laptop', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_hp_laptop', 'home') else 'mdi:alert-circle' }}"
+
 ################################################
 ## Automation
 ################################################
@@ -320,6 +335,7 @@ automation:
           - sensor.net_lg_smart_tv_living_room
           - sensor.net_echo_living_room
           - sensor.net_googlehome
+          - sensor.net_hp_laptop
           - sensor.net_sonoff_1
           - sensor.net_sonoff_2
           - sensor.net_sonoff_3

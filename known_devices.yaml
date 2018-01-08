@@ -91,6 +91,15 @@ net_echo_living_room:
   track: true
   vendor: Amazon Technologies Inc.
 
+net_hp_laptop:
+  hide_if_away: false
+  icon:
+  mac: 00:1D:E0:5F:BA:DD
+  name: hp-PC
+  picture:
+  track: true
+  vendor: unknown
+
 wii:
   hide_if_away: false
   icon:
@@ -282,15 +291,6 @@ net_googlehome:
   icon:
   mac: 20:DF:B9:CE:CE:09
   name: Google-Home
-  picture:
-  track: true
-  vendor: unknown
-
-hppc:
-  hide_if_away: false
-  icon:
-  mac: 00:1D:E0:5F:BA:DD
-  name: hp-PC
   picture:
   track: true
   vendor: unknown

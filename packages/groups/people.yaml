@@ -264,8 +264,6 @@ automation:
       - platform: state
         from: 'not_home'
         to: 'home'
-        for:
-          minutes: 1
         entity_id: device_tracker.chris_phone, device_tracker.teresa_phone, device_tracker.bruce_phone
     action:
       - service: script.notify_discord
@@ -276,11 +274,10 @@ automation:
         data_template:
           message: >-
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is home
-      - service: tts.google_say
+      - service: script.notify_voice
         data_template:
           message: >-
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is home.
-          entity_id: media_player.chris_bedroom_speaker
 
   - alias: guests_visit
     initial_state: true
@@ -288,8 +285,6 @@ automation:
       - platform: state
         from: 'not_home'
         to: 'home'
-        for:
-          minutes: 1
         entity_id: 
           - device_tracker.cassie_phone
           - device_tracker.corey_phone
@@ -306,6 +301,10 @@ automation:
         data_template:
           message: >-
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is visiting
+      - service: script.notify_voice
+        data_template:
+          message: >-
+            {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is here to visit.
 
 ##################################################
 ## Intent Scripts
