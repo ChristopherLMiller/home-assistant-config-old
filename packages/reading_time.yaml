@@ -97,6 +97,7 @@ input_select:
   
   reading_time_source:
     options:
+      - Chris Bedroom Speaker
       - CHRISMILLERPC
 
 ##################################################
@@ -112,19 +113,19 @@ script:
       - service: light.turn_on
         data_template: 
           entity_id: light.reading_light
-      #- service: media_player.select_source
-      #  data:
-      #    entity_id: media_player.spotify
-      #    source: '{{ states.input_select.reading_time_source.state }}'
-      #- service: media_player.volume_set
-      #  data_template:
-      #    entity_id: media_player.spotify
-      #    volume_level: '{{ states.input_number.reading_time_volume.state }}'
-      #- service: media_player.play_media
-      #  data_template:
-      #    entity_id: media_player.spotify
-      #    media_content_type: playlist
-      #    media_content_id: '{{ states.input_select.reading_time_playlist.state.split("|")[1] }}'
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.spotify
+          source: '{{ states.input_select.reading_time_source.state }}'
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.spotify
+          volume_level: '{{ states.input_number.reading_time_volume.state }}'
+      - service: media_player.play_media
+        data_template:
+          entity_id: media_player.spotify
+          media_content_type: playlist
+          media_content_id: '{{ states.input_select.reading_time_playlist.state.split("|")[1] }}'
 
   # Turn Off
   reading_time_off:
@@ -132,9 +133,9 @@ script:
       - service: input_boolean.turn_off
         data:
           entity_id: input_boolean.reading_time_enabled
-      #- service: media_player.media_pause
-      #  data:
-      #    entity_id: media_player.spotify
+      - service: media_player.media_pause
+        data:
+          entity_id: media_player.spotify
       - service: light.turn_off
         data:
           entity_id: light.reading_light

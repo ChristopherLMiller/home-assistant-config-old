@@ -37,3 +37,4 @@ script:
       - service: input_boolean.turn_on
         data:
           entity_id: input_boolean.chris_bed
+      - service: script.reading_time_off
