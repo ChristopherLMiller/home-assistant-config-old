@@ -1,0 +1,64 @@
+################################################################
+## Packages / Scripts / Chris Bedtime
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'scripts/chris_bedtime'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+
+    script.chris_wakeup:
+      <<: *customize
+      friendly_name: Chris Wakeup
+
+##################################################
+## Script
+##################################################
+script:
+  chris_wakeup:
+    sequence:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.chris_bed
+      - service: light.turn_on
+        data:
+          entity_id: light.reading_light
+      - service: script.notify_voice
+        data_template:
+          cache: false
+          message: >-
+            {{- ["Good morning Chris.", "Rise and shine sleepyhead.", "Wake up Chris.", "Hey Chris."]|random -}}
+            {{- ["It's time to get ready for work.", "Work Time baby.", "Start getting ready for work.", "Ready to start the work day?"]|random -}}
+            Here is the weather: {{ states.sensor.dark_sky_hourly_summary.state }}  Overnight temperature is expected to be {{ states.sensor.dark_sky_daily_low_apparent_temperature.state | round(0) }} degrees.  Tomorrows high reaching {{ states.sensor.dark_sky_daily_high_apparent_temperature.state | round(0) }}.
+            {{-'  '-}}
+            {%- if is_state('sensor.dark_sky_precip', 'unknown') -%}
+            Currently there is no precipitation with a {{ states.sensor.dark_sky_precip_probability.state }} percent chance of anything.
+            {%- else -%}
+            Current precipitation is {{ states.sensor.dark_sky_precip.state }}
+            {%- endif -%}
+            {{-'  '-}}
+            Winds are currently {{ states.sensor.dark_sky_wind_speed.state | round(0) }} miles per hour and are out of the
+            {{-'  '-}}
+            {%- set wind_direction =  states.sensor.dark_sky_wind_bearing.state | round(0) -%}
+            {%- if wind_direction >= 315 and wind_direction < 45-%}
+              north
+            {%- elif wind_direction >= 45 and wind_direction < 135 -%}
+              east
+            {%- elif wind_direction >= 135 and wind_direction < 225 -%}
+              south
+            {%- elif wind_direction >= 225 and wind_direction < 315 -%}
+              west
+            {%- endif -%}.

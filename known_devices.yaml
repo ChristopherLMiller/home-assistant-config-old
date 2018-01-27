@@ -294,3 +294,12 @@ net_googlehome:
   picture:
   track: true
   vendor: unknown
+
+kindle2497611f7:
+  hide_if_away: false
+  icon:
+  mac: 28:EF:01:6B:E6:B6
+  name: kindle-2497611f7
+  picture:
+  track: true
+  vendor: unknown

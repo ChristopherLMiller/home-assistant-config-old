@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Chris Bedtime
+## Packages / Scripts / Chris Bedtime
 ################################################################
 
 ################################################
@@ -14,31 +14,25 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'chris_bedtime'
+        package: 'scripts/chris_bedtime'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
 
-    input_boolean.chris_bed:
+    script.chris_bedtime:
       <<: *customize
-      friendly_name: "Chris Asleep"
-
-    group.chris_bed:
-      <<: *customize
-      friendly_name: "Sleep"
+      friendly_name: Chris Bedtime
 
 ##################################################
-## Group
+## Script
 ##################################################
-group:
-  chris_bed:
-    control: hidden
-    entities:
-      - input_boolean.chris_bed
-
-##################################################
-## Input Boolean
-##################################################
-input_boolean:
-  chris_bed:
+script:
+  chris_bedtime:
+    sequence:
+      - service: light.turn_off
+        data:
+          entity_id: light.reading_light
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.chris_bed
