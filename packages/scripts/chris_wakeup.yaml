@@ -23,6 +23,7 @@ homeassistant:
     script.chris_wakeup:
       <<: *customize
       friendly_name: Chris Wakeup
+      google_assistant_name: Wakeup
 
 ##################################################
 ## Script
@@ -40,8 +41,10 @@ script:
         data_template:
           cache: false
           message: >-
-            {{- ["Good morning Chris.", "Rise and shine sleepyhead.", "Wake up Chris.", "Hey Chris."]|random -}}
-            {{- ["It's time to get ready for work.", "Work Time baby.", "Start getting ready for work.", "Ready to start the work day?"]|random -}}
+            {{ ["Good morning Chris.", "Rise and shine sleepyhead.", "Wake up Chris.", "Hey Chris."] | random }}
+            {{-'  '-}}
+            {{ ["It's time to get ready for work.", "Work Time baby.", "Start getting ready for work.", "Ready to start the work day?"]|random }}
+            {{-'  '-}}
             Here is the weather: {{ states.sensor.dark_sky_hourly_summary.state }}  Overnight temperature is expected to be {{ states.sensor.dark_sky_daily_low_apparent_temperature.state | round(0) }} degrees.  Tomorrows high reaching {{ states.sensor.dark_sky_daily_high_apparent_temperature.state | round(0) }}.
             {{-'  '-}}
             {%- if is_state('sensor.dark_sky_precip', 'unknown') -%}
@@ -51,7 +54,7 @@ script:
             {%- endif -%}
             {{-'  '-}}
             Winds are currently {{ states.sensor.dark_sky_wind_speed.state | round(0) }} miles per hour and are out of the
-            {{-'  '-}}
+            {{-' '-}}
             {%- set wind_direction =  states.sensor.dark_sky_wind_bearing.state | round(0) -%}
             {%- if wind_direction >= 315 and wind_direction < 45-%}
               north
@@ -62,3 +65,5 @@ script:
             {%- elif wind_direction >= 225 and wind_direction < 315 -%}
               west
             {%- endif -%}.
+            {{-'  '-}}
+            {{ ["Have a good night.", "Enjoy your work night", "Go earn that money."] | random }}

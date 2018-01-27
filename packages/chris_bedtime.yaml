@@ -23,6 +23,7 @@ homeassistant:
     input_boolean.chris_bed:
       <<: *customize
       friendly_name: "Chris Asleep"
+      icon: mdi:sleep
 
     group.chris_bed:
       <<: *customize

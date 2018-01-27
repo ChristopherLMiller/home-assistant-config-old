@@ -68,6 +68,11 @@ homeassistant:
       <<: *customize
       friendly_name: "Lenovo Laptop (Teresa)"
       hidden: true
+
+    device_tracker.net_amazon_kindle:
+      <<: *customize
+      friendly_name: "Amazon Kindle (Teresa)"
+      hidden: true
     
     device_tracker.net_lg_smart_tv_living_room:
       <<: *customize
@@ -152,6 +157,10 @@ homeassistant:
       <<: *customize
       friendly_name: "Lenovo Laptop (Teresa)"
 
+    sensor.net_amazon_kindle:
+      <<: *customize
+      friendly_name: "Amazon Kindle (Teresa)"
+
     sensor.net_lg_smart_tv_living_room:
       <<: *customize
       friendly_name: "LG Smart TV (Living Room)"
@@ -210,6 +219,7 @@ group:
       - device_tracker.net_samsung_smart_tv_chris_bedroom
       - device_tracker.net_xbox_one_chris_bedroom
       - device_tracker.net_lenovo_laptop
+      - device_tracker.net_amazon_kindle
       - device_tracker.net_lg_smart_tv_living_room
       - device_tracker.net_echo_living_room
       - device_tracker.net_googlehome
@@ -230,6 +240,7 @@ group:
       - sensor.net_asus_laptop_gaming
       - sensor.net_samsung_smart_tv_chris_bedroom
       - sensor.net_xbox_one_chris_bedroom
+      - sensor.net_amazon_kindle
       - sensor.net_lenovo_laptop
       - sensor.net_lg_smart_tv_living_room
       - sensor.net_echo_living_room
@@ -275,6 +286,10 @@ sensor:
       net_lenovo_laptop:
         value_template: "{{ 'online' if is_state('device_tracker.net_lenovo_laptop', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_lenovo_laptop', 'home') else 'mdi:alert-circle' }}"
+
+      net_amazon_kindle:
+        value_template: "{{ 'online' if is_state('device_tracker.net_amazon_kindle', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_amazon_kindle', 'home') else 'mdi:alert-circle' }}"
 
       net_lg_smart_tv_living_room:
         value_template: "{{ 'online' if is_state('device_tracker.net_lg_smart_tv_living_room', 'home') else 'offline' }}"
@@ -332,6 +347,7 @@ automation:
           - sensor.net_samsung_smart_tv_chris_bedroom
           - sensor.net_xbox_one_chris_bedroom
           - sensor.net_lenovo_laptop
+          - sensor.net_amazon_kindle
           - sensor.net_lg_smart_tv_living_room
           - sensor.net_echo_living_room
           - sensor.net_googlehome

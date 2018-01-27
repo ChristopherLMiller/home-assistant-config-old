@@ -64,6 +64,15 @@ net_lenovo_laptop:
   track: true
   vendor: Liteon Technology Corporation
 
+net_amazon_kindle:
+  hide_if_away: false
+  icon:
+  mac: 28:EF:01:6B:E6:B6
+  name: Teresa Kindle
+  picture:
+  track: true
+  vendor: Amazon
+
 net_lg_smart_tv_living_room:
   hide_if_away: false
   icon:
@@ -291,15 +300,6 @@ net_googlehome:
   icon:
   mac: 20:DF:B9:CE:CE:09
   name: Google-Home
-  picture:
-  track: true
-  vendor: unknown
-
-kindle2497611f7:
-  hide_if_away: false
-  icon:
-  mac: 28:EF:01:6B:E6:B6
-  name: kindle-2497611f7
   picture:
   track: true
   vendor: unknown
