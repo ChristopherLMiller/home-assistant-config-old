@@ -276,6 +276,7 @@ automation:
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is home
       - service: script.notify_voice
         data_template:
+          cache: true
           message: >-
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is home.
 
@@ -303,6 +304,7 @@ automation:
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is visiting
       - service: script.notify_voice
         data_template:
+          cache: true
           message: >-
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is here to visit.
 
