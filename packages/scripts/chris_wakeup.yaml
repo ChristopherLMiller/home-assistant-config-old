@@ -37,26 +37,35 @@ script:
       - service: light.turn_on
         data:
           entity_id: light.reading_light
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.chris_bedroom_speaker
+          volume_level: 0.6
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.chris_bedroom_speaker
+          media_content_type: MUSIC
+          media_content_id: 'https://millerresidence.site/local/audio/reveille.mp3'
+      - delay: '00:00:26'
       - service: script.notify_voice
         data_template:
-          cache: false
           message: >-
             {{ ["Good morning Chris.", "Rise and shine sleepyhead.", "Wake up Chris.", "Hey Chris."] | random }}
             {{-'  '-}}
             {{ ["It's time to get ready for work.", "Work Time baby.", "Start getting ready for work.", "Ready to start the work day?"]|random }}
             {{-'  '-}}
-            Here is the weather: {{ states.sensor.dark_sky_hourly_summary.state }}  Overnight temperature is expected to be {{ states.sensor.dark_sky_daily_low_apparent_temperature.state | round(0) }} degrees.  Tomorrows high reaching {{ states.sensor.dark_sky_daily_high_apparent_temperature.state | round(0) }}.
+            Here is the weather: {{ states.sensor.dark_sky_hourly_summary.state }}  Overnight temperature is expected to be {{ states.sensor.dark_sky_daily_low_apparent_temperature.state | round(0) }} degrees with tomorrows high reaching {{ states.sensor.dark_sky_daily_high_apparent_temperature.state | round(0) }}.
             {{-'  '-}}
             {%- if is_state('sensor.dark_sky_precip', 'unknown') -%}
-            Currently there is no precipitation with a {{ states.sensor.dark_sky_precip_probability.state }} percent chance of anything.
+            Outside, nothing is coming down with a {{ states.sensor.dark_sky_precip_probability.state }} percent chance.
             {%- else -%}
-            Current precipitation is {{ states.sensor.dark_sky_precip.state }}
+            Current precipitation is {{ states.sensor.dark_sky_precip.state }}.
             {%- endif -%}
             {{-'  '-}}
             Winds are currently {{ states.sensor.dark_sky_wind_speed.state | round(0) }} miles per hour and are out of the
             {{-' '-}}
             {%- set wind_direction =  states.sensor.dark_sky_wind_bearing.state | round(0) -%}
-            {%- if wind_direction >= 315 and wind_direction < 45-%}
+            {%- if wind_direction >= 315 or wind_direction < 45-%}
               north
             {%- elif wind_direction >= 45 and wind_direction < 135 -%}
               east

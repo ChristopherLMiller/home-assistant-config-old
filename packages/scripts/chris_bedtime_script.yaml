@@ -34,7 +34,21 @@ script:
       - service: light.turn_off
         data:
           entity_id: light.reading_light
+      - service: script.reading_time_off
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.chris_bedroom_speaker
+          volume_level: 0.3
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.chris_bedroom_speaker
+          media_content_type: MUSIC
+          media_content_id: 'https://millerresidence.site/local/audio/taps.mp3'
+      - delay: '00:01:00'
+      - service: script.notify_voice
+        data:
+          message: 'Good Night'
+      # must be last step or cuts out any TTS playback
       - service: input_boolean.turn_on
         data:
           entity_id: input_boolean.chris_bed
-      - service: script.reading_time_off
