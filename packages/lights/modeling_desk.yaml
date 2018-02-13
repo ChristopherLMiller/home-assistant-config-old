@@ -25,7 +25,6 @@ homeassistant:
       <<: *customize
       friendly_name: Model Light
       haaska_name: Model Light
-      google_assistant_name: Model Light
 
 #################################################
 ## Light

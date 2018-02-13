@@ -23,7 +23,6 @@ homeassistant:
     light.floorlamp_light:
       <<: *customize
       friendly_name: Floor lamp
-      google_assistant_name: Floor lamp
 
     automation.floorlamp_light_off:
       <<: *customize

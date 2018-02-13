@@ -24,7 +24,6 @@ homeassistant:
       <<: *customize
       friendly_name: Downstairs Good Morning
       haaska_name: Good Morning
-      google_assistant: false
 
 ##################################################
 ## Scripts

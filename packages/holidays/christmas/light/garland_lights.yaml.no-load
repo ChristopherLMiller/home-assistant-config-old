@@ -25,7 +25,6 @@ homeassistant:
       <<: *customize
       friendly_name: Garland Lights
       haaska_name: Christmas Garland
-      google_assistant_name: Christmas Garland
 
 #################################################
 ## Light

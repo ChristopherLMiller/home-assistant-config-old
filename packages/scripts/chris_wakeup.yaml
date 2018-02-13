@@ -23,7 +23,6 @@ homeassistant:
     script.chris_wakeup:
       <<: *customize
       friendly_name: Chris Wakeup
-      google_assistant_name: Wake up
 
 ##################################################
 ## Script

@@ -23,7 +23,6 @@ homeassistant:
     media_player.gpm_desktop_player:
       <<: *customize
       haaska_hidden: true
-      google_assistant: false
 
 ##################################################
 ## Media Player

@@ -24,7 +24,6 @@ homeassistant:
       <<: *customize
       friendly_name: Downstairs Bedtime
       haaska_name: Bedtime
-      google_assistant: false
 
 ##################################################
 ## Script

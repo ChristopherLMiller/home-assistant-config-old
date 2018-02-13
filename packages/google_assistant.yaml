@@ -20,10 +20,6 @@ homeassistant:
         <<: *customize
         haaska_hidden: false
 
-    media_player.chris_bedroom_speaker:
-      <<: *customize
-      google_assistant: false
-
 ##################################################
 ## Google Assistant
 ##################################################
@@ -40,3 +36,38 @@ google_assistant:
     - fan
     - scene
     - script
+  entity_config:
+    light.computer_floorlamp:
+      expose: false
+    light.endtable_light:
+      expose: false
+    light.floorlamp_light:
+      expose: false
+    light.modeling_desk:
+      expose: false
+
+    media_player.spotify:
+      expose: false
+    media_player.lg_tv_living_room:
+      expose: false
+    media_player.gpm_desktop_player:
+      expose: false
+    media_player.chris_bedroom_speaker:
+      expose: false
+
+    script.good_morning:
+      expose: false
+    script.chris_wakeup:
+      name: Wake Up
+    script.chris_bedtime:
+      name: Bedtime
+    script.downstairs_bedtime:
+      expose: false
+    script.reading_time_off:
+      expose: false
+    script.notify_discord:
+      expose: false
+    script.notify_all:
+      expose: false
+    script.notify_voice:
+      expose: false

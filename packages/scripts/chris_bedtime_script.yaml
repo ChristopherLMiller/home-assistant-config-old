@@ -23,7 +23,6 @@ homeassistant:
     script.chris_bedtime:
       <<: *customize
       friendly_name: Chris Bedtime
-      google_assistant_name: Bedtime
 
 ##################################################
 ## Script
