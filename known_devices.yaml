@@ -303,3 +303,12 @@ net_googlehome:
   picture:
   track: true
   vendor: unknown
+
+laptop1gn6et2k:
+  hide_if_away: false
+  icon:
+  mac: F8:34:41:50:7B:57
+  name: LAPTOP-1GN6ET2K
+  picture:
+  track: true
+  vendor: Intel Corporate

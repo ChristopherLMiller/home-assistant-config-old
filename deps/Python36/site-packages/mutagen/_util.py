@@ -50,8 +50,8 @@ def is_fileobj(fileobj):
             file object
     """
 
-    # open() only handles str/bytes, so we can be strict
-    return not isinstance(fileobj, (text_type, bytes))
+    return not (isinstance(fileobj, (text_type, bytes)) or
+                hasattr(fileobj, "__fspath__"))
 
 
 def verify_fileobj(fileobj, writable=False):
@@ -210,6 +210,10 @@ def _openfile(instance, filething, filename, fileobj, writable, create):
     if filething is not None:
         if is_fileobj(filething):
             fileobj = filething
+        elif hasattr(filething, "__fspath__"):
+            filename = filething.__fspath__()
+            if not isinstance(filename, (bytes, text_type)):
+                raise TypeError("expected __fspath__() to return a filename")
         else:
             filename = filething
 

@@ -40,7 +40,7 @@ script:
       - service: media_player.volume_set
         data:
           entity_id: media_player.chris_bedroom_speaker
-          volume_level: 0.6
+          volume_level: 0.5
       - service: media_player.play_media
         data:
           entity_id: media_player.chris_bedroom_speaker

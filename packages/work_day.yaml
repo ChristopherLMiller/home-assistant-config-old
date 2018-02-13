@@ -46,3 +46,17 @@ group:
     control: hidden
     entities:
       - sensor.next_work_day
+
+##################################################
+## Automation
+##################################################
+automation:
+  - alias: work_day_starting
+    initial_state: true
+    trigger:
+      - platform: state
+        from: 'off'
+        to: 'on'
+        entity_id: calendar.moose51789gmailcom
+    action:
+      #- service: script.chris_wakeup
