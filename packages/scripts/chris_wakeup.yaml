@@ -49,15 +49,13 @@ script:
       - service: script.notify_voice
         data_template:
           message: >-
-            {{ ["Good morning Chris.", "Rise and shine sleepyhead.", "Wake up Chris.", "Hey Chris."] | random }}
+            {{ ["Good morning Chris.", "Rise and shine sleepyhead.", "Wake up Chris.", "Morning Chris."] | random }}
             {{-'  '-}}
-            {{ ["It's time to get ready for work.", "Work Time baby.", "Start getting ready for work.", "Ready to start the work day?"]|random }}
+            {{ ["It's time to get ready for work.", "Start getting ready for work.", "Ready to start the work day?"]|random }}
             {{-'  '-}}
             Here is the weather: {{ states.sensor.dark_sky_hourly_summary.state }}  Overnight temperature is expected to be {{ states.sensor.dark_sky_daily_low_apparent_temperature.state | round(0) }} degrees with tomorrows high reaching {{ states.sensor.dark_sky_daily_high_apparent_temperature.state | round(0) }}.
             {{-'  '-}}
-            {%- if is_state('sensor.dark_sky_precip', 'unknown') -%}
-            Outside, nothing is coming down with a {{ states.sensor.dark_sky_precip_probability.state }} percent chance.
-            {%- else -%}
+            {%- if not is_state('sensor.dark_sky_precip', 'unknown') -%}
             Current precipitation is {{ states.sensor.dark_sky_precip.state }}.
             {%- endif -%}
             {{-'  '-}}
