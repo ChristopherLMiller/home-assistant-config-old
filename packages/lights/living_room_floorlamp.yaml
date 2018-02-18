@@ -22,15 +22,15 @@ homeassistant:
 
     light.floorlamp_light:
       <<: *customize
-      friendly_name: Floor lamp
+      friendly_name: Floor Light
 
     automation.floorlamp_light_off:
       <<: *customize
-      friendly_name: Floor lamp Off
+      friendly_name: Floor Light Off
 
     automation.floorlamp_light_on:
       <<: *customize
-      friendly_name: Floor lamp On
+      friendly_name: Floor Light On
 
 #################################################
 ## Light

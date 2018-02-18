@@ -100,6 +100,15 @@ net_echo_living_room:
   track: true
   vendor: Amazon Technologies Inc.
 
+net_amazon_firestick:
+  hide_if_away: false
+  icon:
+  mac: 6C:56:97:3E:73:79
+  name: Amazon Firestick (Living Room)
+  picture:
+  track: true
+  vendor: Amazon Technologies Inc.
+
 net_hp_laptop:
   hide_if_away: false
   icon:
@@ -109,32 +118,14 @@ net_hp_laptop:
   track: true
   vendor: unknown
 
-wii:
+net_cassie_laptop:
   hide_if_away: false
   icon:
-  mac: 00:1B:7A:C0:54:C7
-  name: Wii
+  mac: F8:34:41:50:7B:57
+  name: Cassie Laptop
   picture:
-  track: true
-  vendor: unknown
-
-nintendo_3ds:
-  hide_if_away: false
-  icon:
-  mac: 40:D2:8A:25:92:2D
-  name: Nintendo 3DS
-  picture:
-  track: true
-  vendor: Nintendo Co., Ltd.
-
-d44b5e7010ae:
-  hide_if_away: false
-  icon:
-  mac: D4:4B:5E:70:10:AE
-  name: d44b5e7010ae
-  picture:
-  track: true
-  vendor: TAIYO YUDEN CO., LTD.
+  track: false
+  vendor: Intel Corporate
 
 #############################
 ## Phones
@@ -304,11 +295,32 @@ net_googlehome:
   track: true
   vendor: unknown
 
-laptop1gn6et2k:
+################
+## Misc
+################
+wii:
   hide_if_away: false
   icon:
-  mac: F8:34:41:50:7B:57
-  name: LAPTOP-1GN6ET2K
+  mac: 00:1B:7A:C0:54:C7
+  name: Wii
   picture:
   track: true
-  vendor: Intel Corporate
+  vendor: unknown
+
+nintendo_3ds:
+  hide_if_away: false
+  icon:
+  mac: 40:D2:8A:25:92:2D
+  name: Nintendo 3DS
+  picture:
+  track: true
+  vendor: Nintendo Co., Ltd.
+
+d44b5e7010ae:
+  hide_if_away: false
+  icon:
+  mac: D4:4B:5E:70:10:AE
+  name: d44b5e7010ae
+  picture:
+  track: true
+  vendor: TAIYO YUDEN CO., LTD.

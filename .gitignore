@@ -22,3 +22,4 @@ gpmpd.conf
 .google.token
 google_calendars.yaml
 /tts
+phue.conf

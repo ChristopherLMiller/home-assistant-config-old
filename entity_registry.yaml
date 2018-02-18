@@ -1,3 +1,21 @@
 media_player.galaxy_s6_edge:
   platform: plex
   unique_id: 36a13c64b39cfc6a-com-plexapp-android
+media_player.aftt:
+  platform: plex
+  unique_id: 72dfad7f56344886-com-plexapp-android
+media_player.plex_web_chrome:
+  platform: plex
+  unique_id: zqtdbwle6ee22rwqpekpauf3
+media_player.chrismillerpc:
+  platform: plex
+  unique_id: xxevsmiz5q7qukye5bfomkj4
+light.overhead_2:
+  platform: hue
+  unique_id: 00:17:88:01:02:95:9a:b2-0b
+light.overhead_1:
+  platform: hue
+  unique_id: 00:17:88:01:02:a8:92:2c-0b
+light.light:
+  platform: hue
+  unique_id: 00:17:88:01:02:f5:c7:07-0b
