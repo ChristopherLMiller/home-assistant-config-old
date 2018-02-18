@@ -24,10 +24,6 @@ homeassistant:
       <<: *customize
       friendly_name: "Chris's Bedroom"
 
-    group.morning_alarm:
-      <<: *customize
-      friendly_name: Morning Alarm
-
     group.chris_bedroom_lights:
       <<: *customize
       friendly_name: Lights

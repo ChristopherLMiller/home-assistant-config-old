@@ -60,7 +60,7 @@ automation:
     action:
       - service: script.notify_discord
         data_template:
-          message: 'Turning off tree light - nobody home'
+          message: 'Turning off tree light'
       - service: light.turn_off
         data:
           entity_id:

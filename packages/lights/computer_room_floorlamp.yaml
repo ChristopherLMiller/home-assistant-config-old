@@ -58,7 +58,7 @@ automation:
     action:
       - service: script.notify_discord
         data_template:
-          message: 'Turning off computer light - nobody home'
+          message: 'Turning off computer light'
       - service: light.turn_off
         data:
           entity_id:
