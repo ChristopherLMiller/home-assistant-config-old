@@ -28,7 +28,7 @@ homeassistant:
       <<: *customize
       friendly_name: Tree Light Off
 
-    automation.end_table_light_on:
+    automation.tree_light_on:
       <<: *customize
       friendly_name: Tree Light On
 
