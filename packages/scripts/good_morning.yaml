@@ -33,4 +33,4 @@ script:
     sequence:
       - service: light.turn_on
         data:
-          entity_id: light.endtable_light
+          entity_id: light.tree_light

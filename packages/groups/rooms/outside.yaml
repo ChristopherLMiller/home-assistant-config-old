@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Groups / Rooms / Blue Room
+## Packages / Groups / Rooms / Outside
 ################################################################
 
 ################################################
@@ -14,40 +14,32 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'groups/rooms/blue_room'
+        package: 'groups/rooms/outside'
 
       expose: &expose
         <<: *customize
         haaska_hidden: false
 
-    group.blue_room_view:
+    group.outside_view:
       <<: *customize
-      friendly_name: Blue Room
+      friendly_name: Outside
 
-    group.blue_room_lights:
+    group.outside_lights:
       <<: *customize
       friendly_name: Lights
 
-    group.blue_room_media_players:
-      <<: *customize
-      friendly_name: Media Players
+
 
 ##################################################
 ## Group
 ##################################################
 group:
-  blue_room_view:
+  outside_view:
     view: yes
     entities:
-      - group.blue_room_lights
+      - group.outside_lights
 
-  blue_room_lights:
+  outside_lights:
     control: hidden
     entities:
-      - light.modeling_desk
-      - light.overhead
-
-  blue_room_media_players:
-    control: hidden
-    entities:
-      - media_player.spotify
+      - light.outside

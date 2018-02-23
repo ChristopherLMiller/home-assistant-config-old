@@ -10,12 +10,12 @@ media_player.plex_web_chrome:
 media_player.chrismillerpc:
   platform: plex
   unique_id: xxevsmiz5q7qukye5bfomkj4
-light.overhead_2:
+light.overhead:
   platform: hue
   unique_id: 00:17:88:01:02:95:9a:b2-0b
-light.overhead_1:
-  platform: hue
-  unique_id: 00:17:88:01:02:a8:92:2c-0b
-light.light:
+light.outside:
   platform: hue
   unique_id: 00:17:88:01:02:f5:c7:07-0b
+light.overhead_2:
+  platform: hue
+  unique_id: 00:17:88:01:02:a8:92:2c-0b

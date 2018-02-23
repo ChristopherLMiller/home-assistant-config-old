@@ -47,3 +47,4 @@ group:
       - media_player.gpm_desktop_player
       - media_player.plex_web_chrome
       - media_player.xboxonemoose
+      - media_player.aftt

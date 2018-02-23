@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'light/endtable_light'
+        package: 'light/floorlamp_light'
 
       expose: &expose
         <<: *customize

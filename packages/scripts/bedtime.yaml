@@ -39,7 +39,7 @@ script:
           entity_id: light.computer_floorlamp
       - service: light.turn_off
         data:
-          entity_id: light.endtable_light
+          entity_id: light.tree_light
       - service: light.turn_off
         data:
           entity_id: light.floorlamp_light

@@ -50,7 +50,6 @@ group:
     control: hidden
     entities:
       - light.reading_light
-      - light.overhead_1
       - light.overhead_2
 
   chris_bedroom_media_players:

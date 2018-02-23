@@ -1,0 +1,63 @@
+################################################################
+## Packages / Scripts / Arriving Home
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'scripts/arriving_home'
+
+      expose: &expose
+        <<: *customize
+        haaska_hidden: false
+
+    script.people_arriving_home:
+      <<: *customize
+      friendly_name: Arriving Home
+
+##################################################
+## Script
+##################################################
+script:
+  people_arriving_home:
+    sequence:
+      # start by turning on interior lights
+      - service: light.turn_on
+        data:
+          entity_id: light.tree_light
+
+      # do notifications
+      - service: script.notify_discord
+        data_template:
+          message: >-
+            {{ person }} has returned home.
+      - service: script.notify_all
+        data_template:
+          message: >-
+            {{ person }} is home
+      - service: script.notify_voice
+        data_template:
+          cache: true
+          message: >-
+            {{ person }} is home.
+
+      # lastly check outside light and turn it on
+      - condition: state
+        entity_id: sun.sun
+        state: 'above_horizon'
+      - service: light.turn_on
+        data:
+          entity_id: light.outside
+      - delay: '00:10:00'
+      - service: light.turn_off
+        data:
+          entity_id: light.outside

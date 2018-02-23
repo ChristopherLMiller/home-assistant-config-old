@@ -39,11 +39,21 @@ google_assistant:
   entity_config:
     light.computer_floorlamp:
       expose: false
-    light.endtable_light:
+    light.tree_light:
       expose: false
     light.floorlamp_light:
       expose: false
     light.modeling_desk:
+      expose: false
+    light.chris_bedroom:
+      expose: false
+    light.blue_room:
+      expose: false
+    light.overhead:
+      expose: false
+    light.driveway:
+      expose: false
+    light.outside:
       expose: false
 
     media_player.spotify:
@@ -53,6 +63,8 @@ google_assistant:
     media_player.gpm_desktop_player:
       expose: false
     media_player.chris_bedroom_speaker:
+      expose: false
+    media_player.aftt:
       expose: false
 
     script.good_morning:
