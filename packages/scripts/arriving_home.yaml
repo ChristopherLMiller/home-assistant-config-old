@@ -53,7 +53,7 @@ script:
       # lastly check outside light and turn it on
       - condition: state
         entity_id: sun.sun
-        state: 'above_horizon'
+        state: 'below_horizon'
       - service: light.turn_on
         data:
           entity_id: light.outside
