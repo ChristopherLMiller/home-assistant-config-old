@@ -32,6 +32,9 @@ script:
       - service: light.turn_on
         data:
           entity_id: light.reading_light
+      - service: light.turn_on
+        data:
+          entity_id: light.outside
       - service: media_player.volume_set
         data:
           entity_id: media_player.chris_bedroom_speaker
@@ -69,10 +72,6 @@ script:
             {%- endif -%}.
             {{-'  '-}}
             {{ ["Have a good night.", "Enjoy your work night", "Go earn that money."] | random }}
-
-      - service: light.turn_on
-        data:
-          entity_id: light.outside
       - delay: '00:10:00'
       - service: light.turn_off
         data:

@@ -32,3 +32,6 @@ script:
       - service: light.turn_on
         data:
           entity_id: light.outside
+      - service: light.turn_on
+        data:
+          entity_id: light.porch_light

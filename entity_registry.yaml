@@ -28,3 +28,6 @@ sensor.us_air_pollution_level:
 media_player.chris_bedroom_speaker:
   platform: cast
   unique_id: 0060306f-cf4a-cfba-8d7e-2d3aeeee0b3e
+light.porch_light:
+  platform: hue
+  unique_id: 00:17:88:01:02:a8:64:71-0b

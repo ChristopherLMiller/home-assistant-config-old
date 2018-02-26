@@ -38,3 +38,9 @@ script:
       - service: light.turn_off
         data:
           entity_id: light.floorlamp_light
+      - service: light.turn_off
+        data:
+          entity_id: light.outside
+      - service: light.turn_off
+        data:
+          entity_id: light.porch_light
