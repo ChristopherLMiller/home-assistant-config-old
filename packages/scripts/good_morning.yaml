@@ -29,3 +29,6 @@ script:
       - service: light.turn_on
         data:
           entity_id: light.tree_light
+      - service: light.turn_on
+        data:
+          entity_id: light.outside

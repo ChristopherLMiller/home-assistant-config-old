@@ -1,0 +1,69 @@
+################################################################
+## Packages / Morning Wakeup
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'morning_wakeup'
+
+    group.morning_wakeup:
+      <<: *customize
+      friendly_name: Morning Wakeup
+    
+    input_datetime.wakeup_time:
+      <<: *customize
+      friendly_name: Wakeup Time
+
+##################################################
+## Group
+##################################################
+group:
+  morning_wakeup:
+    control: hidden
+    entities:
+      - input_datetime.wakeup_time
+
+##################################################
+## Input DateTime
+##################################################
+input_datetime:
+  wakeup_time:
+    has_date: false
+    has_time: true
+
+##################################################
+## Automation
+##################################################
+automation:
+  - alias: morning_wakeup
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.wakeup_time.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    condition:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'on'
+    action:
+      - service: script.good_morning
+
+##################################################
+## Intent
+##################################################
+intent_script:
+  WakeupTimeIntent:
+    speech:
+      text: "Okay.  Wakeup time is set to {{ time }}."
+    card:
+      type: simple
+      title: Home Assistant
+      content: "Wakeup Time: {{ time }}."

@@ -24,8 +24,6 @@ homeassistant:
       <<: *customize
       friendly_name: Lights
 
-
-
 ##################################################
 ## Group
 ##################################################
@@ -34,6 +32,7 @@ group:
     view: yes
     entities:
       - group.outside_lights
+      - group.morning_wakeup
 
   outside_lights:
     control: hidden
