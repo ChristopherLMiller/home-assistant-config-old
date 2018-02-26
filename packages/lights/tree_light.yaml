@@ -16,10 +16,6 @@ homeassistant:
       customize: &customize
         package: 'light/tree_light'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-
     light.tree_light:
       <<: *customize
       friendly_name: Tree Light

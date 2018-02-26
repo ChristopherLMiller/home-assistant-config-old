@@ -16,11 +16,6 @@ homeassistant:
       customize: &customize
         package: 'holidays/christmas/light/christmas_tree'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-        homebridge_hidden: false
-
     light.christmas_tree:
       <<: *customize
       friendly_name: Christmas Tree

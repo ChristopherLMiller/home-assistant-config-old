@@ -1,0 +1,48 @@
+################################################################
+## Packages / LIghts / Outside Lights
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'lights/outside_light'
+
+    automation.outside_light_on_babysitting:
+      <<: *customize
+      friendly_name: Outside Lights on Babysitting
+
+##################################################
+## Automation
+##################################################
+automation:
+  - alias: outside_light_on_babysitting
+    initial_state: true
+    trigger:
+      - platform: time
+        at: '03:45:00'
+    condition: 
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'on'
+    action:
+      - service: light.turn_on
+        data:
+          entity_id: light.outside
+  
+  #- alias: outside_light_off_sunset
+  #  trigger:
+  #    - platform: sun
+  #      event: sunrise
+  #  action:
+  #    - service: light.turn_off
+  #      data:
+  #        entity_id: light.outside

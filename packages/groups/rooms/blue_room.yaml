@@ -16,10 +16,6 @@ homeassistant:
       customize: &customize
         package: 'groups/rooms/blue_room'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-
     group.blue_room_view:
       <<: *customize
       friendly_name: Blue Room

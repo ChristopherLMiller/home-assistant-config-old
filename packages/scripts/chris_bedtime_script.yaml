@@ -16,10 +16,6 @@ homeassistant:
       customize: &customize
         package: 'scripts/chris_bedtime'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-
     script.chris_bedtime:
       <<: *customize
       friendly_name: Chris Bedtime

@@ -1,0 +1,50 @@
+################################################################
+## Packages / Alexa
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'google_assistant'
+
+##################################################
+## Alexa
+##################################################
+alexa:
+  smart_home:
+    filter:
+      include_domains:
+        - alert
+        - automation
+        - cover
+        - fan
+        #- group
+        - input_boolean
+        - light
+        - media_player
+        - scene
+        - script
+        - switch
+      
+      exclude_entities:
+        - media_player.gpm_desktop_player
+        - script.notify_discord
+        - script.notify_all
+        - script.notify_voice
+
+    entity_config:
+      media_player.lg_tv_living_room:
+        name: TV
+      script.downstairs_bedtime:
+        name: Bedtime
+      script.good_morning:
+        name: Good Morning

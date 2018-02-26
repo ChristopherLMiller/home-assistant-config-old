@@ -16,12 +16,8 @@ homeassistant:
       customize: &customize
         package: 'ups'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-
     group.ups_packages:
-      <<: *expose
+      <<: *customize
       friendly_name: "UPS Packages"
 
     sensor.ups:

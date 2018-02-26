@@ -16,15 +16,9 @@ homeassistant:
       customize: &customize
         package: 'light/computer_room_floor_lamp'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-        homebridge_hidden: false
-
     light.computer_floorlamp:
       <<: *customize
-      friendly_name: Floor Lamp
-      haaska_name: Computer Light
+      friendly_name: Computer Light
 
     automation.computer_light_off:
       <<: *customize

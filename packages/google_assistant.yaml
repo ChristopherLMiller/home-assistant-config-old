@@ -16,10 +16,6 @@ homeassistant:
       customize: &customize
         package: 'google_assistant'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-
 ##################################################
 ## Google Assistant
 ##################################################
@@ -78,4 +74,6 @@ google_assistant:
     script.notify_all:
       expose: false
     script.notify_voice:
+      expose: false
+    script.people_arriving_home:
       expose: false

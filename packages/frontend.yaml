@@ -16,10 +16,6 @@ homeassistant:
       customize: &customize
         package: 'frontend'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-
 ################################################
 ## Front End
 ################################################

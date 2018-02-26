@@ -16,10 +16,6 @@ homeassistant:
       customize: &customize
         package: 'groups/people'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-
     device_tracker.bruce_phone:
       <<: *customize
       friendly_name: "Bruce (Android)"

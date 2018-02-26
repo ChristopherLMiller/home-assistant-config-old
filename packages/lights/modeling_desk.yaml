@@ -16,15 +16,13 @@ homeassistant:
       customize: &customize
         package: 'light/modeling_desk'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-        homebridge_hidden: false
-
     light.modeling_desk:
       <<: *customize
       friendly_name: Model Light
-      haaska_name: Model Light
+
+    automation.modeling_light_off_not_home:
+      <<: *customize
+      friendly_name: Modeling Light Off Not Home
 
 #################################################
 ## Light

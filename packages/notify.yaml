@@ -16,25 +16,17 @@ homeassistant:
       customize: &customize
         package: 'notify'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-        homebridge_hidden: false
-
     script.notify_discord:
       <<: *customize
       friendly_name: Notify Discord
-      haaska_hidden: true
 
     script.notify_all:
       <<: *customize
       friendly_name: Notify All
-      haaska_hidden: true
 
     script.notify_voice:
       <<: *customize
       friendly_name: Notify Voice
-      haaska_hidden: true
 
 ##################################################
 ## Notify

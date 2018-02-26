@@ -16,10 +16,6 @@ homeassistant:
       customize: &customize
         package: 'minecraft'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-
     group.minecraft_servers:
       <<: *customize
       friendly_name: "Minecraft Servers"

@@ -16,10 +16,6 @@ homeassistant:
       customize: &customize
         package: 'groups/rooms/computer_room'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-
     group.computer_room_view:
       <<: *customize
       friendly_name: Computer Room

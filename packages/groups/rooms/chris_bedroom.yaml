@@ -16,10 +16,6 @@ homeassistant:
       customize: &customize
         package: 'groups/rooms/chris_bedroom'
 
-      expose: &expose
-        <<: *customize
-        haaska_hidden: false
-    
     group.chris_bedroom_view:
       <<: *customize
       friendly_name: "Chris's Bedroom"
