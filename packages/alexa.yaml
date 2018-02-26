@@ -24,11 +24,11 @@ alexa:
     filter:
       include_domains:
         - alert
-        - automation
+        #- automation
         - cover
         - fan
         #- group
-        - input_boolean
+        #- input_boolean
         - light
         - media_player
         - scene
