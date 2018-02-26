@@ -109,6 +109,24 @@ net_amazon_firestick:
   track: true
   vendor: Amazon Technologies Inc.
 
+net_amazon_firestick_2:
+  hide_if_away: false
+  icon:
+  mac: AC:63:BE:CC:9D:F3
+  name: amazon-355e9c176
+  picture:
+  track: true
+  vendor: Amazon Technologies Inc.
+
+net_amazon_firestick_3:
+  hide_if_away: false
+  icon:
+  mac: 34:D2:70:BB:75:84
+  name: amazon-7ece98dc1
+  picture:
+  track: true
+  vendor: Amazon Technologies Inc.
+
 net_hp_laptop:
   hide_if_away: false
   icon:
@@ -214,6 +232,14 @@ brandon_phone:
 #############################
 ## Smart Devices
 #############################
+net_hue_bridge:
+  hide_if_away: false
+  icon:
+  mac: 00:17:88:78:31:82
+  name: Philips Hue Bridge
+  track: true
+  vendor: Philips
+
 net_sonoff_1:
   hide_if_away: false
   icon:

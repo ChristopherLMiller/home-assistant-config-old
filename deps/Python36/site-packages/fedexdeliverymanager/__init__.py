@@ -9,7 +9,7 @@ import requests
 from requests.auth import AuthBase
 
 
-LOGIN_URL = 'https://www.fedex.com/fcl/logon.do'
+LOGIN_URL = 'https://www.fedex.com/etc/services/fedexlogin'
 TRACKING_URL = 'https://www.fedex.com/trackingCal/track'
 LOGIN_REDIRECT_URL = 'https://www.fedex.com/fedextracking'
 COOKIE_PATH = './fedexdeliverymanager_cookies.pickle'
@@ -69,14 +69,8 @@ def authenticated(function):
 def _login(session):
     """Login to Fedex Delivery Manager."""
     resp = session.post(LOGIN_URL, {
-        'appName': 'fclinsight',
-        'locale': session.auth.locale,
-        'username': session.auth.username,
-        'password': session.auth.password,
-        'steps': 2,
-        'step3URL': LOGIN_REDIRECT_URL,
-        'afterwardsURL': LOGIN_REDIRECT_URL,
-        'returnurl': LOGIN_REDIRECT_URL,
+        'user': session.auth.username,
+        'pwd': session.auth.password
     })
     parsed = BeautifulSoup(resp.text, HTML_PARSER)
     error_elem = parsed.find(ERROR_FIND_TAG, ERROR_FIND_ATTR)

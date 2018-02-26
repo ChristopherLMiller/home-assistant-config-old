@@ -1,2 +1,0 @@
-speedtest
-speedtest_cli

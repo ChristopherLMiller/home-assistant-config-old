@@ -1,9 +1,6 @@
 media_player.galaxy_s6_edge:
   platform: plex
   unique_id: 36a13c64b39cfc6a-com-plexapp-android
-media_player.aftt:
-  platform: plex
-  unique_id: 72dfad7f56344886-com-plexapp-android
 media_player.plex_web_chrome:
   platform: plex
   unique_id: zqtdbwle6ee22rwqpekpauf3
@@ -19,3 +16,15 @@ light.outside:
 light.overhead_2:
   platform: hue
   unique_id: 00:17:88:01:02:a8:92:2c-0b
+sensor.us_main_pollutant:
+  platform: airvisual
+  unique_id: 41.52354249999999,-85.69924609375_main_pollutant
+sensor.us_air_quality_index:
+  platform: airvisual
+  unique_id: 41.52354249999999,-85.69924609375_aqi
+sensor.us_air_pollution_level:
+  platform: airvisual
+  unique_id: 41.52354249999999,-85.69924609375_pollution_level
+media_player.chris_bedroom_speaker:
+  platform: cast
+  unique_id: 0060306f-cf4a-cfba-8d7e-2d3aeeee0b3e
