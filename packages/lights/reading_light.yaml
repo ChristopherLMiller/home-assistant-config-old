@@ -16,7 +16,7 @@ homeassistant:
       customize: &customize
         package: 'light/reading_light'
 
-    light.reading_light:
+    light.reading:
       <<: *customize
       friendly_name: Reading Light
 
@@ -29,7 +29,7 @@ homeassistant:
 #################################################
 light:
   - platform: mqtt
-    name: reading_light
+    name: reading
     state_topic: "home/sonoff_1/stat/POWER"
     command_topic: "home/sonoff_1/cmnd/power"
     payload_on: "ON"
@@ -56,4 +56,4 @@ automation:
       - service: light.turn_off
         data:
           entity_id:
-            - light.reading_light
+            - light.reading

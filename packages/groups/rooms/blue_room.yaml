@@ -40,7 +40,8 @@ group:
   blue_room_lights:
     control: hidden
     entities:
-      - light.modeling_desk
+      - light.blue_room
+      - light.modeling
       - light.overhead
 
   blue_room_media_players:

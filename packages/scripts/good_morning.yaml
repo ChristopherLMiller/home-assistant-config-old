@@ -26,12 +26,12 @@ homeassistant:
 script:
   good_morning:
     sequence:
+      - service: notify.discord
+        data:
+          message: 'Morning wakeup initiated.'
       - service: light.turn_on
         data:
-          entity_id: light.tree_light
+          entity_id: light.tree
       - service: light.turn_on
         data:
           entity_id: light.outside
-      - service: light.turn_on
-        data:
-          entity_id: light.porch_light

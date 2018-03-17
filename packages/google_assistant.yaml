@@ -35,21 +35,17 @@ google_assistant:
   entity_config:
     light.computer_floorlamp:
       expose: false
-    light.tree_light:
+    light.tree:
       expose: false
-    light.floorlamp_light:
+    light.floorlamp:
       expose: false
     light.modeling_desk:
-      expose: false
-    light.chris_bedroom:
       expose: false
     light.blue_room:
       expose: false
     light.overhead:
       expose: false
     light.driveway:
-      expose: false
-    light.outside:
       expose: false
 
     media_player.spotify:

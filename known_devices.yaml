@@ -350,3 +350,11 @@ d44b5e7010ae:
   picture:
   track: true
   vendor: TAIYO YUDEN CO., LTD.
+androidde5fd2cc63040d00:
+  hide_if_away: false
+  icon:
+  mac: C0:17:4D:7A:D0:E6
+  name: android-de5fd2cc63040d00
+  picture:
+  track: true
+  vendor: unknown

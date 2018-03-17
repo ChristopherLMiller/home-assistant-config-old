@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="751.30202"
-     inkscape:cy="357.37483"
+     inkscape:cx="766.95938"
+     inkscape:cy="337.17178"
      inkscape:document-units="px"
      inkscape:current-layer="svg8"
      showgrid="false"
@@ -165,12 +165,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline" />
-  <path
-     id="light.reading_light"
-     d="m 706.09663,313.26131 c 5.38285,0 9.74108,-4.35823 9.74108,-9.74108 0,-5.38286 -4.35823,-9.74109 -9.74108,-9.74109 -5.38286,0 -9.74109,4.36545 -9.74109,9.74109 0,5.37563 4.35823,9.74108 9.74109,9.74108 z m -3.64389,-9.22878 1.26273,-5.05093 c 0.065,-0.24532 0.28862,-0.42572 0.54118,-0.42572 h 3.73768 c 0.25977,0 0.47623,0.17318 0.54117,0.42572 l 1.26274,5.05093 c 0.0866,0.35356 -0.1804,0.6927 -0.54117,0.6927 h -2.74194 v 1.52251 c 0,0.7432 0.52674,1.36374 1.22666,1.50806 0.1876,0.0361 0.31748,0.20925 0.31748,0.39685 0,0.22369 -0.18038,0.40407 -0.40408,0.40407 h -3.03055 c -0.22369,0 -0.40408,-0.18038 -0.40408,-0.40407 0,-0.1876 0.12989,-0.35357 0.3175,-0.39685 0.69991,-0.14432 1.21943,-0.76486 1.21943,-1.50806 v -1.52251 h -2.76358 c -0.368,0 -0.62776,-0.33914 -0.54117,-0.6927 z"
-     inkscape:connector-curvature="0"
-     style="fill:#cccccc;stroke-width:0.99999994"
-     inkscape:label="#path883" />
   <g
      inkscape:groupmode="layer"
      id="layer2"
@@ -178,23 +172,58 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-     x="613.66772"
-     y="312.10654"
+     x="671.75153"
+     y="259.57861"
      id="sensor.humidity"
      inkscape:label="#text3905"><tspan
        sodipodi:role="line"
        id="tspan3903"
-       x="613.66772"
-       y="312.10654">XX%</tspan></text>
+       x="671.75153"
+       y="259.57861">XX%</tspan></text>
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-     x="613.64734"
-     y="296.8324"
+     x="682.84277"
+     y="243.79939"
      id="sensor.temperature"
      inkscape:label="#text3909"><tspan
        sodipodi:role="line"
-       x="613.64734"
-       y="296.8324"
+       x="682.84277"
+       y="243.79939"
        id="tspan3911">XX</tspan></text>
+  <rect
+     style="fill:#cccccc;fill-opacity:0.83333333;stroke:none;stroke-width:6;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0;paint-order:markers stroke fill"
+     id="rect72"
+     width="69.195465"
+     height="30.809652"
+     x="599.48492"
+     y="231.31464"
+     rx="0"
+     ry="0" />
+  <rect
+     style="fill:#cccccc;fill-opacity:0.83333333;stroke:none;stroke-width:6;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0;paint-order:markers stroke fill"
+     id="rect74"
+     width="44.951786"
+     height="84.347733"
+     x="548.00775"
+     y="264.69028" />
+  <rect
+     style="fill:#cccccc;fill-opacity:0.83333333;stroke:none;stroke-width:6;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0;paint-order:markers stroke fill"
+     id="rect76"
+     width="13.637059"
+     height="38.385796"
+     x="702.5611"
+     y="266.64966" />
+  <rect
+     style="fill:#cccccc;fill-opacity:0.83333333;stroke:none;stroke-width:6;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0;paint-order:markers stroke fill"
+     id="rect78"
+     width="68.690407"
+     height="86.368042"
+     x="647.50775"
+     y="309.03546" />
+  <polygon
+     id="light.reading"
+     points="72,55 63,19 36,19 27,55 45,55 45,73 36,73 36,82 63,82 63,73 54,73 54,55 "
+     transform="matrix(0.38268456,0,0,0.38268456,690.08905,269.37865)"
+     style="stroke-width:2.61311817"/>
 </svg>

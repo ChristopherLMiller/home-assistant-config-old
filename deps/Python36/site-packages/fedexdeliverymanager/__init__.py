@@ -11,7 +11,7 @@ from requests.auth import AuthBase
 
 LOGIN_URL = 'https://www.fedex.com/etc/services/fedexlogin'
 TRACKING_URL = 'https://www.fedex.com/trackingCal/track'
-LOGIN_REDIRECT_URL = 'https://www.fedex.com/fedextracking'
+LOGIN_REFERER = 'https://www.fedex.com/en-us/home.html'
 COOKIE_PATH = './fedexdeliverymanager_cookies.pickle'
 DEFAULT_LOCALE = 'en_US'
 HTML_PARSER = 'html.parser'
@@ -33,6 +33,8 @@ SHIPMENT_LIST_REQUEST = {
         'shipmentFilterList': []
     }
 }
+USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 ' \
+             '(KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
 ATTRIBUTION = 'Information provided by www.fedex.com'
 
 
@@ -68,14 +70,19 @@ def authenticated(function):
 
 def _login(session):
     """Login to Fedex Delivery Manager."""
+    session.get(LOGIN_REFERER)
     resp = session.post(LOGIN_URL, {
         'user': session.auth.username,
         'pwd': session.auth.password
+    }, headers={
+        'Referer': LOGIN_REFERER,
+        'X-Requested-With': 'XMLHttpRequest'
     })
-    parsed = BeautifulSoup(resp.text, HTML_PARSER)
-    error_elem = parsed.find(ERROR_FIND_TAG, ERROR_FIND_ATTR)
-    if error_elem:
-        raise FedexError(error_elem.string)
+    if resp.status_code != 200:
+        raise FedexError('could not login')
+    data = resp.json()
+    if not data['successful']:
+        raise FedexError(data['errorList'][0]['error']['message'])
     _save_cookies(session.cookies, session.auth.cookie_path)
 
 
@@ -134,6 +141,7 @@ def get_session(username, password, locale=DEFAULT_LOCALE, cookie_path=COOKIE_PA
 
     session = requests.session()
     session.auth = FedexAuth(username, password, locale, cookie_path)
+    session.headers.update({'User-Agent': USER_AGENT})
     if os.path.exists(cookie_path):
         session.cookies = _load_cookies(cookie_path)
     else:

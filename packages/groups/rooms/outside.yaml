@@ -38,4 +38,5 @@ group:
     control: hidden
     entities:
       - light.outside
-      - light.porch_light
+      - light.garage
+      - light.porch

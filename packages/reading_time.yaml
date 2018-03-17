@@ -105,7 +105,7 @@ script:
     sequence:
       - service: light.turn_on
         data: 
-          entity_id: light.reading_light
+          entity_id: light.reading
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.spotify
@@ -132,7 +132,7 @@ script:
     sequence:
       - service: light.turn_off
         data:
-          entity_id: light.reading_light
+          entity_id: light.reading
       - service: media_player.media_pause
         data:
           entity_id: media_player.spotify

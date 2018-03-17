@@ -31,16 +31,7 @@ script:
           entity_id: media_player.lg_tv_living_room
       - service: light.turn_off
         data:
-          entity_id: light.computer_floorlamp
-      - service: light.turn_off
-        data:
-          entity_id: light.tree_light
-      - service: light.turn_off
-        data:
-          entity_id: light.floorlamp_light
+          entity_id: light.living_room
       - service: light.turn_off
         data:
           entity_id: light.outside
-      - service: light.turn_off
-        data:
-          entity_id: light.porch_light

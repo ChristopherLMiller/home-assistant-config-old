@@ -29,7 +29,7 @@ homeassistant:
 #################################################
 light:
   - platform: mqtt
-    name: modeling_desk
+    name: modeling
     state_topic: "home/sonoff_6/stat/POWER"
     command_topic: "home/sonoff_6/cmnd/power"
     payload_on: "ON"
@@ -56,4 +56,4 @@ automation:
       - service: light.turn_off
         data:
           entity_id:
-            - light.modeling_desk
+            - light.modeling

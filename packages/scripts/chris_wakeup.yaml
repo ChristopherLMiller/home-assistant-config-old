@@ -31,7 +31,7 @@ script:
           entity_id: input_boolean.chris_bed
       - service: light.turn_on
         data:
-          entity_id: light.reading_light
+          entity_id: light.reading
       - service: light.turn_on
         data:
           entity_id: light.outside
@@ -72,7 +72,7 @@ script:
             {%- endif -%}.
             {{-'  '-}}
             {{ ["Have a good night.", "Enjoy your work night", "Go earn that money."] | random }}
-      - delay: '00:10:00'
+      - delay: '00:15:00'
       - service: light.turn_off
         data:
           entity_id: light.outside

@@ -1,0 +1,6 @@
+
+[interactive_ui]
+curses
+
+[websocket]
+websocket-client

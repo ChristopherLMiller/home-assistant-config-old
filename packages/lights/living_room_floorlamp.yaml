@@ -16,7 +16,7 @@ homeassistant:
       customize: &customize
         package: 'light/floorlamp_light'
 
-    light.floorlamp_light:
+    light.floorlamp:
       <<: *customize
       friendly_name: Floor Light
 
@@ -33,7 +33,7 @@ homeassistant:
 #################################################
 light:
   - platform: mqtt
-    name: floorlamp_light
+    name: floorlamp
     state_topic: "home/sonoff_4/stat/POWER"
     command_topic: "home/sonoff_4/cmnd/power"
     payload_on: "ON"
@@ -60,19 +60,4 @@ automation:
       - service: light.turn_off
         data:
           entity_id:
-            - light.floorlamp_light
-
-  - alias: floorlamp_light_on
-    initial_state: true
-    trigger:
-      - platform: state
-        entity_id: sensor.household
-        to: 'home'
-    action:
-      - service: script.notify_discord
-        data_template:
-          message: 'Turning on living room light'
-      - service: light.turn_on
-        data:
-          entity_id:
-            - ligh.floorlamp_light
+            - light.floorlamp

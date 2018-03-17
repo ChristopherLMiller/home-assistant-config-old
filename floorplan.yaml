@@ -40,7 +40,7 @@
 
         - name: Switches
           entities:
-            - light.reading_light
+            - light.reading
           states:
             - state: 'on'
               class: 'light-on'

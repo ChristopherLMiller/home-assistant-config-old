@@ -16,7 +16,7 @@ homeassistant:
       customize: &customize
         package: 'light/tree_light'
 
-    light.tree_light:
+    light.tree:
       <<: *customize
       friendly_name: Tree Light
 
@@ -33,7 +33,7 @@ homeassistant:
 #################################################
 light:
   - platform: mqtt
-    name: tree_light
+    name: tree
     state_topic: "home/sonoff_2/stat/POWER"
     command_topic: "home/sonoff_2/cmnd/power"
     payload_on: "ON"
@@ -60,7 +60,7 @@ automation:
       - service: light.turn_off
         data:
           entity_id:
-            - light.tree_light
+            - light.tree
 
   - alias: tree_light_on
     initial_state: true
@@ -75,4 +75,4 @@ automation:
       - service: light.turn_on
         data:
           entity_id:
-            - ligh.tree_light
+            - ligh.tree

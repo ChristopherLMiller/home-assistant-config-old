@@ -253,6 +253,9 @@ automation:
         data_template:
           message: >-
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} has left home.
+      - service: light.turn_off
+        data:
+          entity_id: light.outside
 
   - alias: people_returning_home
     initial_state: true
@@ -281,10 +284,6 @@ automation:
           - device_tracker.brandon_phone
           - device_tracker.erin_phone
     action:
-      - service: script.notify_discord
-        data_template:
-          message: >-
-            {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is visiting.
       - service: script.notify_all
         data_template:
           message: >-
