@@ -26,8 +26,8 @@ homeassistant:
 switch:
   - platform: mqtt
     name: scentsy
-    state_topic: "home/sonoff_4/stat/POWER"
-    command_topic: "home/sonoff_4/cmnd/power"
+    state_topic: "home/sonoff_5/stat/POWER"
+    command_topic: "home/sonoff_5/cmnd/power"
     payload_on: "ON"
     payload_off: "OFF"
     qos: 1
