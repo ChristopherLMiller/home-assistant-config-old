@@ -10,7 +10,6 @@ homeassistant:
 ## INCLUDE ##
 conversation:
 discovery:
-#python_script:
 dialogflow:
 config:
 updater:

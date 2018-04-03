@@ -29,13 +29,13 @@ light:
   - platform: group
     name: Blue Room
     entities:
-      - light.modeling
-      - light.overhead
+      - light.model
+      - light.overhead_2
 
   - platform: group
     name: Chris Room
     entities:
-      - light.overhead_2
+      - light.overhead
       - light.reading
 
   - platform: group

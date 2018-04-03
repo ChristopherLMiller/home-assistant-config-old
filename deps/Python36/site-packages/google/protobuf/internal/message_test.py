@@ -191,7 +191,7 @@ class MessageTest(BaseTestCase):
 
     class BadArg(object):
 
-      def __nonzero__(self):
+      def __bool__(self):
         raise BadArgError()
 
       def __bool__(self):
@@ -458,7 +458,7 @@ class MessageTest(BaseTestCase):
     self.assertEqual(message.repeated_string[0], 'a')
     self.assertEqual(message.repeated_string[1], 'b')
     self.assertEqual(message.repeated_string[2], 'c')
-    self.assertEqual(str(message.repeated_string), str([u'a', u'b', u'c']))
+    self.assertEqual(str(message.repeated_string), str(['a', 'b', 'c']))
 
     message.repeated_bytes.append(b'a')
     message.repeated_bytes.append(b'c')
@@ -683,7 +683,7 @@ class MessageTest(BaseTestCase):
     self.assertEqual('oneof_uint32', m.WhichOneof('oneof_field'))
     self.assertTrue(m.HasField('oneof_uint32'))
 
-    m.oneof_string = u'foo'
+    m.oneof_string = 'foo'
     self.assertEqual('oneof_string', m.WhichOneof('oneof_field'))
     self.assertFalse(m.HasField('oneof_uint32'))
     self.assertTrue(m.HasField('oneof_string'))
@@ -831,12 +831,12 @@ class MessageTest(BaseTestCase):
 
     # Repeated scalar
     m.repeated_int32.append(1)
-    sl = m.repeated_int32[long(0):long(len(m.repeated_int32))]
+    sl = m.repeated_int32[int(0):int(len(m.repeated_int32))]
     self.assertEqual(len(m.repeated_int32), len(sl))
 
     # Repeated composite
     m.repeated_nested_message.add().bb = 3
-    sl = m.repeated_nested_message[long(0):long(len(m.repeated_nested_message))]
+    sl = m.repeated_nested_message[int(0):int(len(m.repeated_nested_message))]
     self.assertEqual(len(m.repeated_nested_message), len(sl))
 
   def testExtendShouldNotSwallowExceptions(self, message_module):
@@ -848,7 +848,7 @@ class MessageTest(BaseTestCase):
       m.repeated_nested_enum.extend(
           a for i in range(10))  # pylint: disable=undefined-variable
 
-  FALSY_VALUES = [None, False, 0, 0.0, b'', u'', bytearray(), [], {}, set()]
+  FALSY_VALUES = [None, False, 0, 0.0, b'', '', bytearray(), [], {}, set()]
 
   def testExtendInt32WithNothing(self, message_module):
     """Test no-ops extending repeated int32 fields."""
@@ -939,7 +939,7 @@ class MessageTest(BaseTestCase):
     def __init__(self, values=None):
       self._list = values or []
 
-    def __nonzero__(self):
+    def __bool__(self):
       size = len(self._list)
       if size == 0:
         return False
@@ -1023,7 +1023,7 @@ class MessageTest(BaseTestCase):
     m = message_module.TestAllTypes()
     with self.assertRaises(IndexError) as _:
       m.repeated_int32.pop()
-    m.repeated_int32.extend(range(5))
+    m.repeated_int32.extend(list(range(5)))
     self.assertEqual(4, m.repeated_int32.pop())
     self.assertEqual(0, m.repeated_int32.pop(0))
     self.assertEqual(2, m.repeated_int32.pop(1))
@@ -1297,7 +1297,7 @@ class Proto2Test(BaseTestCase):
     self.assertEqual(0, len(message.repeated_float))
     self.assertEqual(42, message.default_int64)
 
-    message = unittest_pb2.TestAllTypes(optional_nested_enum=u'BAZ')
+    message = unittest_pb2.TestAllTypes(optional_nested_enum='BAZ')
     self.assertEqual(unittest_pb2.TestAllTypes.BAZ,
                      message.optional_nested_enum)
 
@@ -1559,7 +1559,7 @@ class Proto3Test(BaseTestCase):
   def testStringUnicodeConversionInMap(self):
     msg = map_unittest_pb2.TestMap()
 
-    unicode_obj = u'\u1234'
+    unicode_obj = '\u1234'
     bytes_obj = unicode_obj.encode('utf8')
 
     msg.map_string_string[bytes_obj] = bytes_obj
@@ -1704,7 +1704,7 @@ class Proto3Test(BaseTestCase):
 
   def testMergeFromBadType(self):
     msg = map_unittest_pb2.TestMap()
-    with self.assertRaisesRegexp(
+    with self.assertRaisesRegex(
         TypeError,
         r'Parameter to MergeFrom\(\) must be instance of same class: expected '
         r'.*TestMap got int\.'):
@@ -1712,7 +1712,7 @@ class Proto3Test(BaseTestCase):
 
   def testCopyFromBadType(self):
     msg = map_unittest_pb2.TestMap()
-    with self.assertRaisesRegexp(
+    with self.assertRaisesRegex(
         TypeError,
         r'Parameter to [A-Za-z]*From\(\) must be instance of same class: '
         r'expected .*TestMap got int\.'):
@@ -1720,10 +1720,10 @@ class Proto3Test(BaseTestCase):
 
   def testIntegerMapWithLongs(self):
     msg = map_unittest_pb2.TestMap()
-    msg.map_int32_int32[long(-123)] = long(-456)
-    msg.map_int64_int64[long(-2**33)] = long(-2**34)
-    msg.map_uint32_uint32[long(123)] = long(456)
-    msg.map_uint64_uint64[long(2**33)] = long(2**34)
+    msg.map_int32_int32[int(-123)] = int(-456)
+    msg.map_int64_int64[int(-2**33)] = int(-2**34)
+    msg.map_uint32_uint32[int(123)] = int(456)
+    msg.map_uint64_uint64[int(2**33)] = int(2**34)
 
     serialized = msg.SerializeToString()
     msg2 = map_unittest_pb2.TestMap()
@@ -1823,7 +1823,7 @@ class Proto3Test(BaseTestCase):
   def testMapIteration(self):
     msg = map_unittest_pb2.TestMap()
 
-    for k, v in msg.map_int32_int32.items():
+    for k, v in list(msg.map_int32_int32.items()):
       # Should not be reached.
       self.assertTrue(False)
 
@@ -1833,7 +1833,7 @@ class Proto3Test(BaseTestCase):
     self.assertEqual(3, len(msg.map_int32_int32))
 
     matching_dict = {2: 4, 3: 6, 4: 8}
-    self.assertMapIterEquals(msg.map_int32_int32.items(), matching_dict)
+    self.assertMapIterEquals(list(msg.map_int32_int32.items()), matching_dict)
 
   def testPython2Map(self):
     if sys.version_info < (3,):
@@ -1851,9 +1851,9 @@ class Proto3Test(BaseTestCase):
         self.assertEqual(next(iterator), seq[0])
         self.assertEqual(list(iterator), seq[1:])
 
-      CheckItems(map_int32.items(), map_int32.iteritems())
-      CheckItems(map_int32.keys(), map_int32.iterkeys())
-      CheckItems(map_int32.values(), map_int32.itervalues())
+      CheckItems(list(map_int32.items()), iter(map_int32.items()))
+      CheckItems(list(map_int32.keys()), iter(map_int32.keys()))
+      CheckItems(list(map_int32.values()), iter(map_int32.values()))
 
       self.assertEqual(6, map_int32.get(3))
       self.assertEqual(None, map_int32.get(999))
@@ -1894,8 +1894,8 @@ class Proto3Test(BaseTestCase):
     msg.map_string_string['variables'] = ''
     msg.map_string_string['init_op'] = ''
     msg.map_string_string['summaries'] = ''
-    items1 = msg.map_string_string.items()
-    items2 = msg.map_string_string.items()
+    items1 = list(msg.map_string_string.items())
+    items2 = list(msg.map_string_string.items())
     self.assertEqual(items1, items2)
 
   def testMapDeterministicSerialization(self):
@@ -1935,7 +1935,7 @@ class Proto3Test(BaseTestCase):
     msg.map_int32_int32[3] = 6
     msg.map_int32_int32[4] = 8
 
-    it = msg.map_int32_int32.items()
+    it = list(msg.map_int32_int32.items())
     del msg
 
     matching_dict = {2: 4, 3: 6, 4: 8}
@@ -1964,7 +1964,7 @@ class Proto3Test(BaseTestCase):
     msg.ClearField('map_int32_int32')
     self.assertEqual(b'', msg.SerializeToString())
     matching_dict = {2: 4, 3: 6, 4: 8}
-    self.assertMapIterEquals(int32_map.items(), matching_dict)
+    self.assertMapIterEquals(list(int32_map.items()), matching_dict)
 
   def testMessageMapValidAfterFieldCleared(self):
     # Map needs to work even if field is cleared.
@@ -1977,7 +1977,7 @@ class Proto3Test(BaseTestCase):
 
     msg.ClearField('map_int32_foreign_message')
     self.assertEqual(b'', msg.SerializeToString())
-    self.assertTrue(2 in int32_foreign_message.keys())
+    self.assertTrue(2 in list(int32_foreign_message.keys()))
 
   def testMapIterInvalidatedByClearField(self):
     # Map iterator is invalidated when field is cleared.

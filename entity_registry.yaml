@@ -10,18 +10,6 @@ media_player.chrismillerpc:
   name:
   platform: plex
   unique_id: xxevsmiz5q7qukye5bfomkj4
-light.overhead:
-  name:
-  platform: hue
-  unique_id: 00:17:88:01:02:95:9a:b2-0b
-light.garage:
-  name:
-  platform: hue
-  unique_id: 00:17:88:01:02:f5:c7:07-0b
-light.overhead_2:
-  name:
-  platform: hue
-  unique_id: 00:17:88:01:02:a8:92:2c-0b
 sensor.us_main_pollutant:
   name:
   platform: airvisual
@@ -38,18 +26,10 @@ media_player.chris_bedroom_speaker:
   name:
   platform: cast
   unique_id: 0060306f-cf4a-cfba-8d7e-2d3aeeee0b3e
-light.porch:
-  name:
-  platform: hue
-  unique_id: 00:17:88:01:02:a8:64:71-0b
 media_player.fire_stick_living_room:
   name:
   platform: plex
   unique_id: 72dfad7f56344886-com-plexapp-android
-media_player.aftt:
-  name:
-  platform: plex
-  unique_id: 4b5ffa77ece98dc1-com-plexapp-android
 media_player.fire_stick_kids:
   name:
   platform: plex
@@ -58,3 +38,27 @@ media_player.xboxonemoose:
   name:
   platform: plex
   unique_id: mosk6fm17xg4a8xfvyekvrxs
+light.garage:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:f5:c7:07-0b
+light.overhead:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:a8:92:2c-0b
+light.overhead_2:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:95:9a:b2-0b
+light.porch:
+  name:
+  platform: hue
+  unique_id: 00:17:88:01:02:a8:64:71-0b
+media_player.chrome:
+  name:
+  platform: plex
+  unique_id: m75osa8t93oqkhm0qkod1cjx
+media_player.aftt:
+  name:
+  platform: plex
+  unique_id: 4b5ffa77ece98dc1-com-plexapp-android

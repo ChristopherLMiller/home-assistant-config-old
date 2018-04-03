@@ -258,7 +258,7 @@ class DescriptorPool(object):
     # TODO(jieluo): This is a temporary solution for FieldDescriptor.file.
     # FieldDescriptor.file is added in code gen. Remove this solution after
     # maybe 2020 for compatibility reason (with 3.4.1 only).
-    for extension in file_desc.extensions_by_name.values():
+    for extension in list(file_desc.extensions_by_name.values()):
       self._file_desc_by_toplevel_extension[
           extension.full_name] = file_desc
 
@@ -561,9 +561,9 @@ class DescriptorPool(object):
       # file proto.
       for dependency in built_deps:
         scope.update(self._ExtractSymbols(
-            dependency.message_types_by_name.values()))
+            list(dependency.message_types_by_name.values())))
         scope.update((_PrefixWithDot(enum.full_name), enum)
-                     for enum in dependency.enum_types_by_name.values())
+                     for enum in list(dependency.enum_types_by_name.values()))
 
       for message_type in file_proto.message_type:
         message_desc = self._ConvertMessageDescriptor(
@@ -798,7 +798,7 @@ class DescriptorPool(object):
       self._SetFieldType(field_proto, field_desc, nested_package, scope)
 
     for extension_proto, extension_desc in (
-        zip(desc_proto.extension, main_desc.extensions)):
+        list(zip(desc_proto.extension, main_desc.extensions))):
       extension_desc.containing_type = self._GetTypeFromScope(
           nested_package, extension_proto.extendee, scope)
       self._SetFieldType(extension_proto, extension_desc, nested_package, scope)
@@ -863,7 +863,7 @@ class DescriptorPool(object):
           field_proto.type == descriptor.FieldDescriptor.TYPE_FLOAT):
         field_desc.default_value = 0.0
       elif field_proto.type == descriptor.FieldDescriptor.TYPE_STRING:
-        field_desc.default_value = u''
+        field_desc.default_value = ''
       elif field_proto.type == descriptor.FieldDescriptor.TYPE_BOOL:
         field_desc.default_value = False
       elif field_proto.type == descriptor.FieldDescriptor.TYPE_ENUM:

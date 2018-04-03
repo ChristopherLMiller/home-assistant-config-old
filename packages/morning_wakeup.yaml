@@ -24,6 +24,10 @@ homeassistant:
       <<: *customize
       friendly_name: Wakeup Time
 
+    automation:morning_wakeup:
+      <<: *customize
+      friendly_name: Morning Wakeup
+
 ##################################################
 ## Group
 ##################################################
@@ -40,6 +44,7 @@ input_datetime:
   wakeup_time:
     has_date: false
     has_time: true
+    initial: 03:40
 
 ##################################################
 ## Automation

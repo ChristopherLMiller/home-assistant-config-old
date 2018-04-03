@@ -28,7 +28,6 @@ google_assistant:
   exposed_domains:
     - switch
     - light
-    - media_player
     - fan
     - scene
     - script
@@ -39,23 +38,20 @@ google_assistant:
       expose: false
     light.floorlamp:
       expose: false
-    light.modeling_desk:
+    light.model:
+      expose: false
+    light.overhead_2:
       expose: false
     light.blue_room:
       expose: false
+    light.reading:
+      expose: true
     light.overhead:
-      expose: false
-    light.driveway:
-      expose: false
-
-    media_player.spotify:
-      expose: false
-    media_player.lg_tv_living_room:
-      expose: false
-    media_player.gpm_desktop_player:
-      expose: false
-    media_player.chris_bedroom_speaker:
-      expose: false
+      expose: true
+    light.garage:
+      expose: true
+    light.outside:
+      expose: true
 
     script.good_morning:
       expose: false

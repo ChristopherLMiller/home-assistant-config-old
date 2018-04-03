@@ -572,7 +572,7 @@ class ReflectionTest(BaseTestCase):
                      proto.default_import_enum)
 
     proto = unittest_pb2.TestExtremeDefaultValues()
-    self.assertEqual(u'\u1234', proto.utf8_string)
+    self.assertEqual('\u1234', proto.utf8_string)
 
   def testHasFieldWithUnknownFieldName(self):
     proto = unittest_pb2.TestAllTypes()
@@ -648,7 +648,7 @@ class ReflectionTest(BaseTestCase):
     TestGetAndDeserialize('optional_int32', 1 << 30, int)
     TestGetAndDeserialize('optional_uint32', 1 << 30, int)
     try:
-      integer_64 = long
+      integer_64 = int
     except NameError:  # Python3
       integer_64 = int
     if struct.calcsize('L') == 4:
@@ -677,7 +677,7 @@ class ReflectionTest(BaseTestCase):
       pb.optional_uint64 = '2'
 
     # The exact error should propagate with a poorly written custom integer.
-    with self.assertRaisesRegexp(RuntimeError, 'my_error'):
+    with self.assertRaisesRegex(RuntimeError, 'my_error'):
       pb.optional_uint64 = test_util.NonStandardInteger(5, 'my_error')
 
   def assetIntegerBoundsChecking(self, integer_fn):
@@ -1774,7 +1774,7 @@ class ReflectionTest(BaseTestCase):
 
     # Assignment of a unicode object to a field of type 'bytes' is not allowed.
     self.assertRaises(TypeError,
-                      setattr, proto, 'optional_bytes', u'unicode object')
+                      setattr, proto, 'optional_bytes', 'unicode object')
 
     # Check that the default value is of python's 'unicode' type.
     self.assertEqual(type(proto.optional_string), six.text_type)
@@ -1790,10 +1790,10 @@ class ReflectionTest(BaseTestCase):
     self.assertRaises(ValueError,
                       setattr, proto, 'optional_string', b'a\x80a')
     # No exception: Assign already encoded UTF-8 bytes to a string field.
-    utf8_bytes = u'Тест'.encode('utf-8')
+    utf8_bytes = 'Тест'.encode('utf-8')
     proto.optional_string = utf8_bytes
     # No exception: Assign the a non-ascii unicode object.
-    proto.optional_string = u'Тест'
+    proto.optional_string = 'Тест'
     # No exception thrown (normal str assignment containing ASCII).
     proto.optional_string = 'abc'
 
@@ -1802,7 +1802,7 @@ class ReflectionTest(BaseTestCase):
     extension_message = message_set_extensions_pb2.TestMessageSetExtension2
     extension = extension_message.message_set_extension
 
-    test_utf8 = u'Тест'
+    test_utf8 = 'Тест'
     test_utf8_bytes = test_utf8.encode('utf-8')
 
     # 'Test' in another language, using UTF-8 charset.
@@ -1853,7 +1853,7 @@ class ReflectionTest(BaseTestCase):
 
   def testBytesInTextFormat(self):
     proto = unittest_pb2.TestAllTypes(optional_bytes=b'\x00\x7f\x80\xff')
-    self.assertEqual(u'optional_bytes: "\\000\\177\\200\\377"\n',
+    self.assertEqual('optional_bytes: "\\000\\177\\200\\377"\n',
                      six.text_type(proto))
 
   def testEmptyNestedMessage(self):
@@ -2089,7 +2089,7 @@ class ByteSizeTest(BaseTestCase):
       self.assertEqual(expected_varint_size + 1, self.Size())
     Test(0, 1)
     Test(1, 1)
-    for i, num_bytes in zip(range(7, 63, 7), range(1, 10000)):
+    for i, num_bytes in zip(list(range(7, 63, 7)), list(range(1, 10000))):
       Test((1 << i) - 1, num_bytes)
     Test(-1, 10)
     Test(-2, 10)

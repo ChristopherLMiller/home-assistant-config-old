@@ -178,11 +178,11 @@ chris_phone:
 teresa_phone:
   hide_if_away: false
   icon:
-  mac: 9C:8B:A0:13:C0:94
-  name: Teresa
+  mac: A8:81:95:31:BC:48
+  name: Teresa Phone
   picture:
   track: true
-  vendor: Apple, Inc.
+  vendor: Samsung Electronics Co.,Ltd
 
 mikayla_phone:
   hide_if_away: false
@@ -196,8 +196,8 @@ mikayla_phone:
 corey_phone:
   hide_if_away: false
   icon:
-  mac: 14:56:8E:7C:20:87
-  name: Corey Phone
+  mac: C0:17:4D:7A:D0:E6
+  name: android-de5fd2cc63040d00
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
@@ -350,11 +350,3 @@ d44b5e7010ae:
   picture:
   track: true
   vendor: TAIYO YUDEN CO., LTD.
-androidde5fd2cc63040d00:
-  hide_if_away: false
-  icon:
-  mac: C0:17:4D:7A:D0:E6
-  name: android-de5fd2cc63040d00
-  picture:
-  track: true
-  vendor: unknown

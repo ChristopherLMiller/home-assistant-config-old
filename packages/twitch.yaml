@@ -62,4 +62,7 @@ automation:
       - service: script.notify_discord
         data_template:
           message: '{{ trigger.to_state.attributes.friendly_name }} has started streaming.'
+      - service: script.notify_voice
+        data_template:
+          message: '{{ trigger.to_state.attributes.friendly_name }} has started streaming on twich.'
 

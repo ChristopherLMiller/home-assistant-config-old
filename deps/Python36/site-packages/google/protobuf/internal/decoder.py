@@ -158,8 +158,8 @@ def _SignedVarintDecoder(bits, result_type):
 # alternate implementations where the distinction is more significant
 # (e.g. the C++ implementation) simpler.
 
-_DecodeVarint = _VarintDecoder((1 << 64) - 1, long)
-_DecodeSignedVarint = _SignedVarintDecoder(64, long)
+_DecodeVarint = _VarintDecoder((1 << 64) - 1, int)
+_DecodeSignedVarint = _SignedVarintDecoder(64, int)
 
 # Use these versions for values which must be limited to 32 bits.
 _DecodeVarint32 = _VarintDecoder((1 << 32) - 1, int)

@@ -42,7 +42,7 @@ import gc
 import sys
 
 try:
-  import copy_reg as copyreg  #PY26
+  import copyreg as copyreg  #PY26
 except ImportError:
   import copyreg
 
@@ -93,7 +93,7 @@ class ReferenceLeakCheckerTestCase(unittest.TestCase):
       super(ReferenceLeakCheckerTestCase, self).run(result=local_result)
       newrefcount = self._getRefcounts()
       refcount_deltas.append(newrefcount - oldrefcount)
-    print(refcount_deltas, self)
+    print((refcount_deltas, self))
 
     try:
       self.assertEqual(refcount_deltas, [0] * self.NB_RUNS)

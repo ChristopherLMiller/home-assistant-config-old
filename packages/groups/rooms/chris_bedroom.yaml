@@ -45,9 +45,9 @@ group:
   chris_bedroom_lights:
     control: hidden
     entities:
-      - light.chris_bedroom
+      - light.chris_room
       - light.reading
-      - light.overhead_2
+      - light.overhead
 
   chris_bedroom_media_players:
     control: hidden

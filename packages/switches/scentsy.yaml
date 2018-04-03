@@ -1,0 +1,53 @@
+################################################################
+## Packages / Switch / Scentsy
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'switch/scentsy'
+
+    automation.scentsy_off_not_home:
+      <<: *customize
+      friendly_name: Scentsy off not home
+
+##################################################
+## Switch
+##################################################
+switch:
+  - platform: mqtt
+    name: scentsy
+    state_topic: "home/sonoff_4/stat/POWER"
+    command_topic: "home/sonoff_4/cmnd/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true
+
+##################################################
+automation:
+  - alias: scentsy_off_not_home
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: device_tracker.chris_phone
+        to: 'not_home'
+        for:
+          minutes: 5
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: 'Turning off scentsy'
+      - service: switch.turn_off
+        data:
+          entity_id:
+            - switch.scentsy

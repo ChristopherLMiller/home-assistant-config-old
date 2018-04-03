@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Light / Modeling Desk
+## Packages / Light / Model Light
 ################################################################
 
 ################################################
@@ -14,22 +14,22 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'light/modeling_desk'
+        package: 'light/model_light'
 
-    light.modeling_desk:
+    light.model:
       <<: *customize
       friendly_name: Model Light
 
-    automation.modeling_light_off_not_home:
+    automation.model_light_off_not_home:
       <<: *customize
-      friendly_name: Modeling Light Off Not Home
+      friendly_name: Model Light Off Not Home
 
 #################################################
 ## Light
 #################################################
 light:
   - platform: mqtt
-    name: modeling
+    name: model
     state_topic: "home/sonoff_6/stat/POWER"
     command_topic: "home/sonoff_6/cmnd/power"
     payload_on: "ON"
@@ -41,7 +41,7 @@ light:
 ## Automations
 ##################################################
 automation:
-  - alias: modeling_light_off_not_home
+  - alias: model_light_off_not_home
     initial_state: true
     trigger:
       - platform: state

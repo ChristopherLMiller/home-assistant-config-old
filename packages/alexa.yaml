@@ -19,8 +19,8 @@ homeassistant:
 ##################################################
 ## Alexa
 ##################################################
-alexa:
-  smart_home:
+cloud:
+  alexa:
     filter:
       include_domains:
         - alert
@@ -40,6 +40,7 @@ alexa:
         - script.notify_discord
         - script.notify_all
         - script.notify_voice
+        - light.overhead
 
     entity_config:
       media_player.lg_tv_living_room:

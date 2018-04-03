@@ -1,0 +1,26 @@
+Metadata-Version: 2.0
+Name: warrant
+Version: 0.6.1
+Summary: Python class to integrate Boto3's Cognito client so it is easy to login users. With SRP support.
+Home-page: https://github.com/capless/warrant
+Author: Brian Jinwright
+Author-email: opensource@capless.io
+License: Apache License 2.0
+Keywords: aws,cognito,api,gateway,capless
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Environment :: Web Environment
+Requires-Dist: boto3 (>=1.4.3)
+Requires-Dist: envs (>=0.3.0)
+Requires-Dist: python-jose-cryptodome (>=1.3.2)
+Requires-Dist: requests (>=2.13.0)
+Provides-Extra: test
+Requires-Dist: mock (>=2.0.0); extra == 'test'
+Requires-Dist: nose; extra == 'test'
+Requires-Dist: coverage; extra == 'test'
+
+Python class to integrate Boto3's Cognito client so it is easy to login users. With SRP support.
+
+

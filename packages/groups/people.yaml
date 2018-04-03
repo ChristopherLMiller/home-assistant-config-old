@@ -152,24 +152,6 @@ group:
 ## Sensor
 ################################################
 sensor:
-  - platform: google_geocode
-    origin: device_tracker.chris_phone
-    options: street, city
-    name: chris_google_location
-    api_key: !secret google_api_key
-
-  - platform: google_geocode
-    origin: device_tracker.teresa_phone
-    options: street, city
-    name: teresa_google_location
-    api_key: !secret google_api_key
-
-  - platform: google_geocode
-    origin: device_tracker.bruce_phone
-    options: street, city
-    name: bruce_google_location
-    api_key: !secret google_api_key
-
   - platform: mqtt
     state_topic: "household/location/chris"
     name: chris_house_location
@@ -201,14 +183,10 @@ sensor:
             {%- if is_state('sensor.chris_house_location', 'unknown') -%}
               Home
             {%- else -%}
-              {{ states.sensor.chris_house_location.state }}
+              {{ states.sensor.chris_house_location.state | capitalize }}
             {%- endif -%}
           {%- else -%}
-            {% if is_state('sensor.chris_google_location', 'Awaiting Update') -%}
-              Away
-            {%- else -%}
-              {{ states.sensor.chris_google_location.attributes['Street'] }} {{ states.sensor.chris_google_location.attributes['City'] }}, {{ states.sensor.chris_google_location.attributes['State'] }}
-            {%- endif -%}
+            Away
           {%- endif -%}
 
       teresa_location:
@@ -216,11 +194,7 @@ sensor:
           {%- if is_state('device_tracker.teresa_phone', 'home') -%}
             Home
           {%- else -%}
-            {% if is_state('sensor.teresa_google_location', 'Awaiting Update') -%}
-              Away
-            {%- else -%}
-              {{ states.sensor.teresa_google_location.attributes['Street'] }} {{ states.sensor.teresa_google_location.attributes['City'] }}, {{ states.sensor.teresa_google_location.attributes['State'] }}
-            {%- endif -%}
+            Away
           {%- endif -%}
 
       bruce_location:
@@ -228,11 +202,7 @@ sensor:
           {%- if is_state('device_tracker.bruce_phone', 'home') -%}
             Home
           {%- else -%}
-            {% if is_state('sensor.bruce_google_location', 'Awaiting Update') -%}
-              Away
-            {%- else -%}
-              {{ states.sensor.bruce_google_location.attributes['Street'] }} {{ states.sensor.bruce_google_location.attributes['City'] }}, {{ states.sensor.bruce_google_location.attributes['State'] }}
-            {%- endif -%}
+            Away
           {%- endif -%}
 
 ################################################

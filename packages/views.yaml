@@ -70,6 +70,7 @@ group:
     view: yes
     entities:
       - group.network_devices
+      - group.pihole
       - group.speedtest
       - group.utilities
       - group.uptime

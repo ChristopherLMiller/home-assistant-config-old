@@ -1,0 +1,14 @@
+Metadata-Version: 1.1
+Name: myusps
+Version: 1.3.2
+Summary: Python 3 API for USPS Informed Delivery, a way to track packages and mailpieces.
+Home-page: https://github.com/happyleavesaoc/python-myusps/
+Author: happyleaves
+Author-email: happyleaves.tfr@gmail.com
+License: MIT
+Description-Content-Type: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3

@@ -272,75 +272,75 @@ class TimeUtilTest(TimeUtilTestBase):
 
   def testInvalidTimestamp(self):
     message = timestamp_pb2.Timestamp()
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.ParseError,
         'Failed to parse timestamp: missing valid timezone offset.',
         message.FromJsonString,
         '')
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.ParseError,
         'Failed to parse timestamp: invalid trailing data '
         '1970-01-01T00:00:01Ztrail.',
         message.FromJsonString,
         '1970-01-01T00:00:01Ztrail')
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         ValueError,
         'time data \'10000-01-01T00:00:00\' does not match'
         ' format \'%Y-%m-%dT%H:%M:%S\'',
         message.FromJsonString, '10000-01-01T00:00:00.00Z')
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.ParseError,
         'nanos 0123456789012 more than 9 fractional digits.',
         message.FromJsonString,
         '1970-01-01T00:00:00.0123456789012Z')
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.ParseError,
         (r'Invalid timezone offset value: \+08.'),
         message.FromJsonString,
         '1972-01-01T01:00:00.01+08',)
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         ValueError,
         'year (0 )?is out of range',
         message.FromJsonString,
         '0000-01-01T00:00:00Z')
     message.seconds = 253402300800
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         OverflowError,
         'date value out of range',
         message.ToJsonString)
 
   def testInvalidDuration(self):
     message = duration_pb2.Duration()
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.ParseError,
         'Duration must end with letter "s": 1.',
         message.FromJsonString, '1')
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.ParseError,
         'Couldn\'t parse duration: 1...2s.',
         message.FromJsonString, '1...2s')
     text = '-315576000001.000000000s'
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.Error,
         r'Duration is not valid\: Seconds -315576000001 must be in range'
         r' \[-315576000000\, 315576000000\].',
         message.FromJsonString, text)
     text = '315576000001.000000000s'
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.Error,
         r'Duration is not valid\: Seconds 315576000001 must be in range'
         r' \[-315576000000\, 315576000000\].',
         message.FromJsonString, text)
     message.seconds = -315576000001
     message.nanos = 0
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.Error,
         r'Duration is not valid\: Seconds -315576000001 must be in range'
         r' \[-315576000000\, 315576000000\].',
         message.ToJsonString)
     message.seconds = 0
     message.nanos = 999999999 + 1
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.Error,
         r'Duration is not valid\: Nanos 1000000000 must be in range'
         r' \[-999999999\, 999999999\].',
@@ -621,7 +621,7 @@ class FieldMaskTest(unittest.TestCase):
                      well_known_types._SnakeCaseToCamelCase('foo3_bar'))
 
     # No uppercase letter is allowed.
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.Error,
         'Fail to print FieldMask to Json string: Path name Foo must '
         'not contain uppercase letters.',
@@ -631,19 +631,19 @@ class FieldMaskTest(unittest.TestCase):
     #   1. "_" cannot be followed by another "_".
     #   2. "_" cannot be followed by a digit.
     #   3. "_" cannot appear as the last character.
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.Error,
         'Fail to print FieldMask to Json string: The character after a '
         '"_" must be a lowercase letter in path name foo__bar.',
         well_known_types._SnakeCaseToCamelCase,
         'foo__bar')
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.Error,
         'Fail to print FieldMask to Json string: The character after a '
         '"_" must be a lowercase letter in path name foo_3bar.',
         well_known_types._SnakeCaseToCamelCase,
         'foo_3bar')
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.Error,
         'Fail to print FieldMask to Json string: Trailing "_" in path '
         'name foo_bar_.',
@@ -657,7 +657,7 @@ class FieldMaskTest(unittest.TestCase):
                      well_known_types._CamelCaseToSnakeCase('FooBar'))
     self.assertEqual('foo3_bar',
                      well_known_types._CamelCaseToSnakeCase('foo3Bar'))
-    self.assertRaisesRegexp(
+    self.assertRaisesRegex(
         well_known_types.ParseError,
         'Fail to parse FieldMask: Path name foo_bar must not contain "_"s.',
         well_known_types._CamelCaseToSnakeCase,
@@ -701,20 +701,20 @@ class StructTest(unittest.TestCase):
     struct2.ParseFromString(serialized)
 
     self.assertEqual(struct, struct2)
-    for key, value in struct.items():
+    for key, value in list(struct.items()):
       self.assertIn(key, struct)
       self.assertIn(key, struct2)
       self.assertEqual(value, struct2[key])
 
-    self.assertEqual(7, len(struct.keys()))
-    self.assertEqual(7, len(struct.values()))
-    for key in struct.keys():
+    self.assertEqual(7, len(list(struct.keys())))
+    self.assertEqual(7, len(list(struct.values())))
+    for key in list(struct.keys()):
       self.assertIn(key, struct)
       self.assertIn(key, struct2)
       self.assertEqual(struct[key], struct2[key])
 
-    item = (next(iter(struct.keys())), next(iter(struct.values())))
-    self.assertEqual(item, next(iter(struct.items())))
+    item = (next(iter(list(struct.keys()))), next(iter(list(struct.values()))))
+    self.assertEqual(item, next(iter(list(struct.items()))))
 
     self.assertTrue(isinstance(struct2, well_known_types.Struct))
     self.assertEqual(5, struct2['key1'])
@@ -838,7 +838,7 @@ class AnyTest(unittest.TestCase):
     msg_descriptor = msg.DESCRIPTOR
     all_types = unittest_pb2.TestAllTypes()
     all_descriptor = all_types.DESCRIPTOR
-    all_types.repeated_string.append(u'\u00fc\ua71f')
+    all_types.repeated_string.append('\u00fc\ua71f')
     # Packs to Any.
     msg.value.Pack(all_types)
     self.assertEqual(msg.value.type_url,

@@ -554,15 +554,15 @@ class GeneratedDescriptorTest(unittest.TestCase):
     self.assertNotEqual(mapping, {})
     self.assertNotEqual(mapping, 1)
     self.assertFalse(mapping == 1)  # Only for cpp test coverage
-    excepted_dict = dict(mapping.items())
+    excepted_dict = dict(list(mapping.items()))
     self.assertEqual(mapping, excepted_dict)
     self.assertEqual(mapping, mapping)
     self.assertGreater(len(mapping), 0)  # Sized
     self.assertEqual(len(mapping), len(excepted_dict))  # Iterable
     if sys.version_info >= (3,):
-      key, item = next(iter(mapping.items()))
+      key, item = next(iter(list(mapping.items())))
     else:
-      key, item = mapping.items()[0]
+      key, item = list(mapping.items())[0]
     self.assertIn(key, mapping)  # Container
     self.assertEqual(mapping.get(key), item)
     with self.assertRaises(TypeError):
@@ -573,15 +573,15 @@ class GeneratedDescriptorTest(unittest.TestCase):
     else:
       self.assertEqual(None, mapping.get([]))
     # keys(), iterkeys() &co
-    item = (next(iter(mapping.keys())), next(iter(mapping.values())))
-    self.assertEqual(item, next(iter(mapping.items())))
+    item = (next(iter(list(mapping.keys()))), next(iter(list(mapping.values()))))
+    self.assertEqual(item, next(iter(list(mapping.items()))))
     if sys.version_info < (3,):
       def CheckItems(seq, iterator):
         self.assertEqual(next(iterator), seq[0])
         self.assertEqual(list(iterator), seq[1:])
-      CheckItems(mapping.keys(), mapping.iterkeys())
-      CheckItems(mapping.values(), mapping.itervalues())
-      CheckItems(mapping.items(), mapping.iteritems())
+      CheckItems(list(mapping.keys()), iter(mapping.keys()))
+      CheckItems(list(mapping.values()), iter(mapping.values()))
+      CheckItems(list(mapping.items()), iter(mapping.items()))
     excepted_dict[key] = 'change value'
     self.assertNotEqual(mapping, excepted_dict)
     del excepted_dict[key]
@@ -591,7 +591,7 @@ class GeneratedDescriptorTest(unittest.TestCase):
     self.assertRaises(KeyError, mapping.__getitem__, len(mapping) + 1)
     # TODO(jieluo): Add __repr__ support for DescriptorMapping.
     if api_implementation.Type() == 'python':
-      self.assertEqual(len(str(dict(mapping.items()))), len(str(mapping)))
+      self.assertEqual(len(str(dict(list(mapping.items())))), len(str(mapping)))
     else:
       self.assertEqual(str(mapping)[0], '<')
 
