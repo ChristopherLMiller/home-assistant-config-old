@@ -26,7 +26,10 @@ homeassistant:
 script:
   people_arriving_home:
     sequence:
-      # start by turning on interior lights
+      # Begin by turning on exterior lights
+      - service: script.outside_lights_on
+
+      # Next interior lights
       - service: light.turn_on
         data:
           entity_id: light.tree
@@ -45,15 +48,3 @@ script:
           cache: true
           message: >-
             {{ person }} is home.
-
-      # lastly check outside light and turn it on
-      - condition: state
-        entity_id: sun.sun
-        state: 'below_horizon'
-      - service: light.turn_on
-        data:
-          entity_id: light.outside
-      - delay: '00:10:00'
-      - service: light.turn_off
-        data:
-          entity_id: light.outside

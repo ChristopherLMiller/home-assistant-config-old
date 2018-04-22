@@ -40,7 +40,7 @@ group:
     view: yes
     entities:
       - group.blue_room_lights
-      - group.blue_room_switches
+      - group.scentsy
 
   blue_room_lights:
     control: hidden
@@ -49,11 +49,6 @@ group:
       - light.model
       - light.overhead_2
   
-  blue_room_switches:
-    control: hidden
-    entities:
-      - switch.scentsy
-
   blue_room_media_players:
     control: hidden
     entities:

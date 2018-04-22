@@ -1,0 +1,38 @@
+################################################################
+## Packages / Scripts / Outside Lights
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'scripts/outside_lights'
+
+    script.outside_light_on:
+      <<: *customize
+      friendly_name: Outside Lights On
+
+##################################################
+## Script
+##################################################
+script:
+  outside_lights_on:
+    sequence:
+      - condition: state
+        entity_id: sun.sun
+        state: 'below_horizon'
+      - service: light.turn_on
+        data:
+          entity_id: light.outside
+      - delay: '00:15:00'
+      - service: light.turn_off
+        data:
+          entity_id: light.outside

@@ -24,7 +24,7 @@ homeassistant:
       <<: *customize
       friendly_name: Wakeup Time
 
-    automation:morning_wakeup:
+    automation.morning_wakeup:
       <<: *customize
       friendly_name: Morning Wakeup
 

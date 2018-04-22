@@ -28,7 +28,7 @@ script:
     sequence:
       - service: light.turn_off
         data:
-          entity_id: light.reading
+          entity_id: light.chris_room
       - service: script.reading_time_off
       - service: media_player.volume_set
         data:
@@ -43,6 +43,7 @@ script:
       - service: script.notify_voice
         data:
           message: 'Good Night'
+
       # must be last step or cuts out any TTS playback
       - service: input_boolean.turn_on
         data:

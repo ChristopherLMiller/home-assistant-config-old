@@ -23,3 +23,4 @@ gpmpd.conf
 google_calendars.yaml
 /tts
 phue.conf
+.cloud/production_auth.json

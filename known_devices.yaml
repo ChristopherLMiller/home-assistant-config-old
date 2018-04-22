@@ -214,7 +214,7 @@ kennady_phone:
 erin_phone:
   hide_if_away: false
   icon:
-  mac: C0:1A:DA:BD:4C:5F
+  mac: 34:08:BC:C5:2B:EF
   name: Erin Phone
   picture:
   track: true
@@ -223,7 +223,7 @@ erin_phone:
 brandon_phone:
   hide_if_away: false
   icon:
-  mac: 4C:7C:5F:58:BD:8E
+  mac: 38:89:2C:90:7B:23
   name: Brandon Phone
   picture:
   track: true

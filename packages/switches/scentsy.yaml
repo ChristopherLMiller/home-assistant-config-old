@@ -16,9 +16,25 @@ homeassistant:
       customize: &customize
         package: 'switch/scentsy'
 
+    group.scentsy:
+      <<: *customize
+      friendly_name: Scentsy Controls
+
+    switch.scentsy:
+      <<: *customize
+      friendly_name: Scentsy
+
     automation.scentsy_off_not_home:
       <<: *customize
       friendly_name: Scentsy off not home
+
+    automation.scentsy_on_with_modeling_desk:
+      <<: *customize
+      friendly_name: Scentsy on with modeling desk
+
+    automation.scentsy_off_with_modeling_desk:
+      <<: *customize
+      friendly_name: Scentsy off with modeling desk
 
 ##################################################
 ## Switch
@@ -33,6 +49,29 @@ switch:
     qos: 1
     retain: true
 
+##################################################
+## Input Number
+##################################################
+input_number:
+  scentsy_time:
+    name: Scentsy On Time
+    initial: 30
+    min: 0
+    max: 60
+    step: 1
+
+##################################################
+## Group
+##################################################
+group:
+  scentsy:
+    control: hidden
+    entities:
+      - switch.scentsy
+      - input_number.scentsy_time
+
+##################################################
+## Automation
 ##################################################
 automation:
   - alias: scentsy_off_not_home
@@ -51,3 +90,27 @@ automation:
         data:
           entity_id:
             - switch.scentsy
+
+  - alias: scentsy_on_with_modeling_desk
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: light.model
+        to: 'on'
+    action:
+      - service: switch.turn_on
+        data:
+          entity_id: switch.scentsy
+
+  - alias: scentsy_off_with_modeling_desk
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: light.model
+        to: 'off'
+        for:
+          minutes: 30
+    action:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.scentsy
