@@ -44,6 +44,12 @@ google_assistant:
       expose: false
     light.blue_room:
       expose: false
+    light.living_room:
+      expose: false
+    light.toy_room:
+      expose: false
+    light.overhead_3:
+      expose: false
     light.reading:
       expose: true
     light.overhead:
@@ -52,6 +58,8 @@ google_assistant:
       expose: true
     light.outside:
       expose: true
+    light.other:
+      expose: false
 
     script.good_morning:
       expose: false
@@ -68,4 +76,9 @@ google_assistant:
     script.notify_voice:
       expose: false
     script.people_arriving_home:
+      expose: false
+    script.outside_lights_on:
+      expose: false
+
+    switch.scentsy:
       expose: false

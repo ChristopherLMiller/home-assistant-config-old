@@ -41,8 +41,16 @@ script:
           media_content_id: 'https://millerresidence.site/local/audio/taps.mp3'
       - delay: '00:01:00'
       - service: script.notify_voice
-        data:
-          message: 'Good Night'
+        data_template:
+          message: >-
+            {%- set work_date = states.calendar.moose51789gmailcom.attributes.start_time.split(' ')[0] -%}
+            {%- set work_start = as_timestamp(states.calendar.moose51789gmailcom.attributes.start_time) | timestamp_custom('%I:%M%p') -%}
+            {%- if work_date == states.sensor.date.state -%}
+              You have a shift starting at {{ work_start }}.
+            {%- else -%}
+              Enjoy your night off.
+            {%- endif -%}
+            Good night.
 
       # must be last step or cuts out any TTS playback
       - service: input_boolean.turn_on

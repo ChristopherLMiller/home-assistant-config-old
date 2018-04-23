@@ -43,3 +43,8 @@ light:
     entities:
       - light.tree
       - light.floorlamp
+
+  - platform: group
+    name: Toy Room
+    entities:
+      - light.overhead_3
