@@ -125,6 +125,9 @@ Valid values for ``isolation_level`` include:
 Remote-Schema Table Introspection and PostgreSQL search_path
 ------------------------------------------------------------
 
+**TL;DR;**: keep the ``search_path`` variable set to its default of ``public``,
+name schemas **other** than ``public`` explicitly within ``Table`` defintitions.
+
 The PostgreSQL dialect can reflect tables from any schema.  The
 :paramref:`.Table.schema` argument, or alternatively the
 :paramref:`.MetaData.reflect.schema` argument determines which schema will
@@ -780,7 +783,14 @@ dialect in conjunction with the :class:`.Table` construct:
 
     Table("some_table", metadata, ..., postgresql_inherits=("t1", "t2", ...))
 
-.. versionadded:: 1.0.0
+    .. versionadded:: 1.0.0
+
+* ``PARTITION BY``::
+
+    Table("some_table", metadata, ...,
+          postgresql_partition_by='LIST (part_column)')
+
+    .. versionadded:: 1.2.6
 
 .. seealso::
 
@@ -991,6 +1001,16 @@ class OID(sqltypes.TypeEngine):
 
     """
     __visit_name__ = "OID"
+
+
+class REGCLASS(sqltypes.TypeEngine):
+
+    """Provide the PostgreSQL REGCLASS type.
+
+    .. versionadded:: 1.2.7
+
+    """
+    __visit_name__ = "REGCLASS"
 
 
 class TIMESTAMP(sqltypes.TIMESTAMP):
@@ -1375,6 +1395,7 @@ ischema_names = {
     'macaddr': MACADDR,
     'money': MONEY,
     'oid': OID,
+    'regclass': REGCLASS,
     'double precision': DOUBLE_PRECISION,
     'timestamp': TIMESTAMP,
     'timestamp with time zone': TIMESTAMP,
@@ -1471,7 +1492,7 @@ class PGCompiler(compiler.SQLCompiler):
             value = value.replace('\\', '\\\\')
         return value
 
-    def visit_sequence(self, seq):
+    def visit_sequence(self, seq, **kw):
         return "nextval('%s')" % self.preparer.format_sequence(seq)
 
     def limit_clause(self, select, **kw):
@@ -1829,6 +1850,9 @@ class PGDDLCompiler(compiler.DDLCompiler):
                 ', '.join(self.preparer.quote(name) for name in inherits) +
                 ' )')
 
+        if pg_opts['partition_by']:
+            table_opts.append('\n PARTITION BY %s' % pg_opts['partition_by'])
+
         if pg_opts['with_oids'] is True:
             table_opts.append('\n WITH OIDS')
         elif pg_opts['with_oids'] is False:
@@ -1865,6 +1889,9 @@ class PGTypeCompiler(compiler.GenericTypeCompiler):
 
     def visit_OID(self, type_, **kw):
         return "OID"
+
+    def visit_REGCLASS(self, type_, **kw):
+        return "REGCLASS"
 
     def visit_FLOAT(self, type_, **kw):
         if not type_.precision:
@@ -2166,6 +2193,7 @@ class PGDialect(default.DefaultDialect):
         (schema.Table, {
             "ignore_search_path": False,
             "tablespace": None,
+            "partition_by": None,
             "with_oids": None,
             "on_commit": None,
             "inherits": None

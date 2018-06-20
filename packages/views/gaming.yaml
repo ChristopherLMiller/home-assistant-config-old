@@ -1,0 +1,34 @@
+################################################################
+## Packages / Views / Gaming
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'views/gaming'
+
+    group.gaming:
+      <<: *customize
+      friendly_name: "Gaming"
+      icon: mdi:gamepad-variant
+
+################################################
+## Group
+################################################
+group:
+  gaming:
+    view: yes
+    entities:
+      - group.minecraft_servers
+      - group.xbox_live
+      - group.steam
+      - group.twitch

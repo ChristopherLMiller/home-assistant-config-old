@@ -28,7 +28,9 @@ script:
     sequence:
       - service: light.turn_off
         data:
-          entity_id: light.chris_room
+          entity_id:
+            - light.chris_room
+            - light.blue_room
       - service: script.reading_time_off
       - service: media_player.volume_set
         data:

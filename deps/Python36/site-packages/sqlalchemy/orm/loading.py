@@ -177,8 +177,23 @@ def load_on_ident(query, key,
 
     if key is not None:
         ident = key[1]
+        identity_token = key[2]
     else:
-        ident = None
+        ident = identity_token = None
+
+    return load_on_pk_identity(
+        query, ident, refresh_state=refresh_state,
+        with_for_update=with_for_update,
+        only_load_props=only_load_props,
+        identity_token=identity_token
+    )
+
+
+def load_on_pk_identity(query, primary_key_identity,
+                        refresh_state=None, with_for_update=None,
+                        only_load_props=None, identity_token=None):
+
+    """Load the given primary key identity from the database."""
 
     if refresh_state is None:
         q = query._clone()
@@ -186,17 +201,18 @@ def load_on_ident(query, key,
     else:
         q = query._clone()
 
-    if ident is not None:
+    if primary_key_identity is not None:
         mapper = query._mapper_zero()
 
         (_get_clause, _get_params) = mapper._get_clause
 
         # None present in ident - turn those comparisons
         # into "IS NULL"
-        if None in ident:
+        if None in primary_key_identity:
             nones = set([
                         _get_params[col].key for col, value in
-                        zip(mapper.primary_key, ident) if value is None
+                        zip(mapper.primary_key, primary_key_identity)
+                        if value is None
                         ])
             _get_clause = sql_util.adapt_criterion_to_null(
                 _get_clause, nones)
@@ -206,7 +222,8 @@ def load_on_ident(query, key,
 
         params = dict([
             (_get_params[primary_key].key, id_val)
-            for id_val, primary_key in zip(ident, mapper.primary_key)
+            for id_val, primary_key
+            in zip(primary_key_identity, mapper.primary_key)
         ])
 
         q._params = params
@@ -225,7 +242,8 @@ def load_on_ident(query, key,
         populate_existing=bool(refresh_state),
         version_check=version_check,
         only_load_props=only_load_props,
-        refresh_state=refresh_state)
+        refresh_state=refresh_state,
+        identity_token=identity_token)
     q._order_by = None
 
     try:

@@ -28,8 +28,8 @@ homeassistant:
 
     device_tracker.teresa_phone:
       <<: *customize
-      friendly_name: "Teresa (iPhone)"
-      icon: mdi:cellphone-iphone
+      friendly_name: "Teresa (Android)"
+      icon: mdi:cellphone-android
 
     group.guests:
       <<: *customize
@@ -156,6 +156,16 @@ sensor:
     state_topic: "household/location/chris"
     name: chris_house_location
     value_template: '{{ value_json.location }}'
+  
+  - platform: mqtt
+    state_topic: "household/location/teresa"
+    name: teresa_house_location
+    value_template: '{{ value_json.location }}'
+
+  - platform: mqtt
+    state_topic: "household/location/bruce"
+    name: bruce_house_location
+    value_template: '{{ value_json.location }}'
 
   - platform: template
     sensors:
@@ -192,7 +202,11 @@ sensor:
       teresa_location:
         value_template: >
           {%- if is_state('device_tracker.teresa_phone', 'home') -%}
-            Home
+            {%- if is_state('sensor.teresa_house_location', 'unknown') -%}
+              Home
+            {%- else -%}
+              {{ states.sensor.teresa_house_location.state | capitalize }}
+            {%- endif -%}
           {%- else -%}
             Away
           {%- endif -%}
@@ -200,7 +214,11 @@ sensor:
       bruce_location:
         value_template: >
           {%- if is_state('device_tracker.bruce_phone', 'home') -%}
-            Home
+            {%- if is_state('sensor.bruce_house_location', 'unknown') -%}
+              Home
+            {%- else -%}
+              {{ states.sensor.bruce_house_location.state | capitalize }}
+            {%- endif -%}
           {%- else -%}
             Away
           {%- endif -%}
@@ -254,7 +272,7 @@ automation:
           - device_tracker.brandon_phone
           - device_tracker.erin_phone
     action:
-      - service: script.notify_all
+      - service: script.notify_html5
         data_template:
           message: >-
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is visiting
@@ -263,144 +281,3 @@ automation:
           cache: true
           message: >-
             {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is here to visit.
-
-##################################################
-## Intent Scripts
-##################################################
-intent_script:
-  # Locate certain person
-  LocateIntent:
-    speech:
-      text: >
-        {% if states['sensor'][User + '_location'] %}
-          {{ User }} is currently at {{ states['sensor'][User + '_location'].state }}
-        {% else %}
-          The person you seek doesn't seem to exist.
-        {% endif %}
-    card:
-      type: simple
-      title: Home Assistant - Household Member Location
-      content: >
-        {% if states['sensor'][User + '_location'] %}
-          {{ User }} is currently at {{ states['sensor'][User + '_location'].state }}
-        {% else %}
-          The person you seek doesn't seem to exist.
-        {% endif %}
-
-  # Give status of household members
-  WhereAreWeIntent:
-    speech:
-      text: >
-        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
-          Everyone is currently home.
-        {%- else -%}
-          {%- set comma = joiner('. ') -%}
-          {%- set entities = states.group.household_members.attributes.entity_id -%}
-          I pulled the latest data for you, here is the last known location of everyone.
-          {{- ' ' -}}
-          {%- for entity_id in entities -%}
-            {%- set entity_parts = entity_id.split('.') -%}
-            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
-            {{- comma() -}}
-            {{- entity.name.split(' ')[0]  }} is currently at {{ entity.state -}}
-          {%- endfor -%}
-        {% endif %}
-    card:
-      type: simple
-      title: Home Assistant - Current Locations
-      content: >
-        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
-          Everyone is currently home.
-        {%- else -%}
-          {%- set comma = joiner('\n') -%}
-          {%- set entities = states.group.household_members.attributes.entity_id -%}
-          Current Locations:
-          {{- '\n' -}}
-          {%- for entity_id in entities -%}
-            {%- set entity_parts = entity_id.split('.') -%}
-            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
-            {{- comma() -}}
-            {{- entity.name.split(' ')[0]  }} - {{ entity.state -}}
-          {%- endfor -%}
-        {% endif %}
-
-
-  # List off who is currently at home
-  WhosHomeIntent:
-    speech:
-      text: >
-        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
-          Everyone is currently home.
-        {%- elif is_state('states.group.people.state', 'not_home') -%}
-          The house is currently empty.  Should I be worried that you're talking to me?
-        {%- else -%}
-          {%- set comma = joiner(', ') -%}
-          {%- set entities = states.group.household_members_source.attributes.entity_id -%}
-          There are a few people home, they are
-          {{- ' ' -}}
-          {%- for entity_id in entities if is_state(entity_id, 'home') -%}
-            {%- set entity_parts = entity_id.split('.') -%}
-            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
-            {{- comma() -}}
-            {% if loop.first and loop.last %}{% elif loop.last %}and {% endif %}
-            {{- entity.name.split(' ')[0]  -}}
-          {%- endfor -%}
-        {%- endif -%}
-    card:
-      type: simple
-      title: "Home Assistant - Who's home"
-      content: >
-        {%- if is_state('device_tracker.bruce_phone', 'home') and is_state('device_tracker.chris_phone', 'home') and is_state('device_tracker.teresa_phone', 'home') -%}
-          Everyone is currently home.
-        {%- elif is_state('states.group.people.state', 'not_home') -%}
-          The house is currently empty.  Should I be worried that you're talking to me?
-        {%- else -%}
-          {%- set comma = joiner('\n') -%}
-          {%- set entities = states.group.household_members_source.attributes.entity_id -%}
-          Currently Home:
-          {{- '\n' -}}
-          {%- for entity_id in entities if is_state(entity_id, 'home') -%}
-            {%- set entity_parts = entity_id.split('.') -%}
-            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
-            {{- comma() -}}
-            {{- entity.name.split(' ')[0]  -}}
-          {%- endfor -%}
-        {%- endif -%}
-
-  # Guests visiting
-  WhosVisitingIntent:
-    speech:
-      text: >
-        {% if is_state('group.guests_source', 'not_home') %}
-          There are currently no guests visiting.
-        {% else %}
-          {%- set comma = joiner(', ') -%}
-          {%- set entities = states.group.guests_source.attributes.entity_id -%}
-          Guests currently visiting include 
-          {{- ' ' -}}
-          {%- for entity_id in entities if is_state(entity_id, 'home') -%}
-            {%- set entity_parts = entity_id.split('.') -%}
-            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
-            {{- comma() -}}
-            {% if loop.first and loop.last %}{% elif loop.last %}and {% endif %}
-            {{- entity.name.split(' ')[0]  -}}
-          {%- endfor -%}
-        {% endif %}
-    card:
-      type: simple
-      title: "Home Assistant - Current Guests"
-      content: >
-        {% if is_state('group.guests_source', 'not_home') %}
-          There are currently no guests visiting.
-        {% else %}
-          {%- set comma = joiner('\n') -%}
-          {%- set entities = states.group.guests_source.attributes.entity_id -%}
-          Guests currently visiting:
-          {{- '\n' -}}
-          {%- for entity_id in entities if is_state(entity_id, 'home') -%}
-            {%- set entity_parts = entity_id.split('.') -%}
-            {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
-            {{- comma() -}}
-            {{- entity.name.split(' ')[0]  -}}
-          {%- endfor -%}
-        {% endif %}

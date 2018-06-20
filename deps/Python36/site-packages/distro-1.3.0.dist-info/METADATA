@@ -1,0 +1,34 @@
+Metadata-Version: 2.0
+Name: distro
+Version: 1.3.0
+Summary: Distro - an OS platform information API
+Home-page: https://github.com/nir0s/distro
+Author: Nir Cohen
+Author-email: nir36g@gmail.com
+License: Apache License, Version 2.0
+Description-Content-Type: UNKNOWN
+Platform: All
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: POSIX :: BSD
+Classifier: Operating System :: POSIX :: BSD :: FreeBSD
+Classifier: Operating System :: POSIX :: BSD :: NetBSD
+Classifier: Operating System :: POSIX :: BSD :: OpenBSD
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Operating System
+
+Distro - an OS platform information API
+=======================================
+
+See `Official GitHub repo <https://github.com/nir0s/distro#distro---a-linux-os-platform-information-api>`_.
+
+

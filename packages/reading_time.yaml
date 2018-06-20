@@ -85,11 +85,9 @@ input_number:
 input_select:
   reading_time_playlist:
     options:
-      - 'Classical' 
-      #|'
-      - 'Christmas' 
-      #|'
-  
+      - 'Classical'
+      - 'Christmas'
+
   reading_time_source:
     options:
       - Google Home 

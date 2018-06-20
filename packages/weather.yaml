@@ -132,21 +132,16 @@ group:
   weather_darksky:
     control: hidden
     entities:
+      - sensor.dark_sky_minutely_summary
+      - sensor.dark_sky_hourly_summary
       - sensor.dark_sky_temperature
-      - sensor.dark_sky_apparent_temperature
       - sensor.dark_sky_humidity
+      - sensor.dark_sky_apparent_temperature
       - sensor.dark_sky_cloud_coverage
+      - sensor.dark_sky_precip
       - sensor.dark_sky_precip_probability
-
-  weather_wunderground:
-    control: hidden
-    entities:
-      - sensor.pws_feelslike_f
-      - sensor.pws_heat_index_f
-      - sensor.pws_relative_humidity
-      - sensor.pws_precip_today_in
-      - sensor.pws_temp_f
-      - sensor.pws_weather
+      - sensor.dark_sky_wind_bearing
+      - sensor.dark_sky_wind_speed
 
   airvisual:
     control: hidden
@@ -174,20 +169,6 @@ sensor:
       - apparent_temperature
       - minutely_summary
       - hourly_summary
-      - temperature_max
-      - temperature_min
-      - apparent_temperature_max
-      - apparent_temperature_min
-
-  - platform: wunderground
-    api_key: !secret wunderground_api_key
-    monitored_conditions:
-      - feelslike_f
-      - heat_index_f
-      - precip_today_in
-      - relative_humidity
-      - temp_f
-      - weather
 
   - platform: season
     type: astronomical

@@ -1,0 +1,35 @@
+################################################################
+## Packages / Views / Network
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'views/network'
+
+    group.network:
+      <<: *customize
+      friendly_name: "Network"
+      icon: mdi:switch
+
+################################################
+## Group
+################################################
+group:
+  network:
+    view: yes
+    entities:
+      - group.network_devices
+      - group.pihole
+      - group.speedtest
+      - group.utilities
+      - group.uptime

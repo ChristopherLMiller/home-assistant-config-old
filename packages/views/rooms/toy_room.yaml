@@ -1,0 +1,40 @@
+################################################################
+## Packages / Views / Rooms / Toy Room
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'views/rooms/toy_room'
+
+    group.toy_room_view:
+      <<: *customize
+      friendly_name: Toy Room
+
+    group.toy_room_lights:
+      <<: *customize
+      friendly_name: Lights
+
+##################################################
+## Group
+##################################################
+group:
+  toy_room_view:
+    view: yes
+    entities:
+      - group.toy_room_lights
+
+  toy_room_lights:
+    control: hidden
+    entities:
+      - light.toy_room
+      - light.overhead_3

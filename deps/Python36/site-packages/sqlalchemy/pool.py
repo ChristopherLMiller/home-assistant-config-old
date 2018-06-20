@@ -532,9 +532,9 @@ class _ConnectionRecord(object):
         rec = pool._do_get()
         try:
             dbapi_connection = rec.get_connection()
-        except:
+        except Exception as err:
             with util.safe_reraise():
-                rec.checkin()
+                rec._checkin_failed(err)
         echo = pool._should_log_debug()
         fairy = _ConnectionFairy(dbapi_connection, rec, echo)
         rec.fairy_ref = weakref.ref(
@@ -550,7 +550,14 @@ class _ConnectionRecord(object):
                               dbapi_connection)
         return fairy
 
-    def checkin(self):
+    def _checkin_failed(self, err):
+        self.invalidate(e=err)
+        self.checkin(_no_fairy_ref=True)
+
+    def checkin(self, _no_fairy_ref=False):
+        if self.fairy_ref is None and not _no_fairy_ref:
+            util.warn("Double checkin attempted on %s" % self)
+            return
         self.fairy_ref = None
         connection = self.connection
         pool = self.__pool
@@ -717,7 +724,7 @@ def _finalize_fairy(connection, connection_record,
             if not isinstance(e, Exception):
                 raise
 
-    if connection_record:
+    if connection_record and connection_record.fairy_ref is not None:
         connection_record.checkin()
 
 
@@ -840,9 +847,9 @@ class _ConnectionFairy(object):
                 try:
                     fairy.connection = \
                         fairy._connection_record.get_connection()
-                except:
+                except Exception as err:
                     with util.safe_reraise():
-                        fairy._connection_record.checkin()
+                        fairy._connection_record._checkin_failed(err)
 
                 attempts -= 1
 

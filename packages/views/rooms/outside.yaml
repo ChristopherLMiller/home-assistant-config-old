@@ -1,0 +1,42 @@
+################################################################
+## Packages / Views / Rooms / Outside
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'views/rooms/outside'
+
+    group.outside_view:
+      <<: *customize
+      friendly_name: Outside
+
+    group.outside_lights:
+      <<: *customize
+      friendly_name: Lights
+
+##################################################
+## Group
+##################################################
+group:
+  outside_view:
+    view: yes
+    entities:
+      - group.outside_lights
+      - group.morning_wakeup
+
+  outside_lights:
+    control: hidden
+    entities:
+      - light.outside
+      - light.garage
+      - light.porch

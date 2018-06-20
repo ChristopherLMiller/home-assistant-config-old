@@ -178,7 +178,7 @@ chris_phone:
 teresa_phone:
   hide_if_away: false
   icon:
-  mac: A8:81:95:31:BC:48
+  mac: 8C:45:00:9E:8D:DB
   name: Teresa Phone
   picture:
   track: true
@@ -197,7 +197,7 @@ corey_phone:
   hide_if_away: false
   icon:
   mac: C0:17:4D:7A:D0:E6
-  name: android-de5fd2cc63040d00
+  name: Corey Phone
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
@@ -320,6 +320,14 @@ net_googlehome:
   picture:
   track: true
   vendor: unknown
+
+net_toycam:
+  hide_if_away: false
+  icon:
+  mac: A8:81:95:31:BC:48
+  name: Camera-Toy Room
+  picture:
+  track: true
 
 ################
 ## Misc

@@ -39,7 +39,7 @@ script:
         data_template:
           message: >-
             {{ person }} has returned home.
-      - service: script.notify_all
+      - service: script.notify_html5
         data_template:
           message: >-
             {{ person }} is home

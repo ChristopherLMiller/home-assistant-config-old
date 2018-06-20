@@ -1,0 +1,34 @@
+################################################################
+## Packages / Light / Tree
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'light/tree'
+
+    light.tree:
+      <<: *customize
+      friendly_name: Tree Light
+
+#################################################
+## Light
+#################################################
+light:
+  - platform: mqtt
+    name: tree
+    state_topic: "home/sonoff_2/stat/POWER"
+    command_topic: "home/sonoff_2/cmnd/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true

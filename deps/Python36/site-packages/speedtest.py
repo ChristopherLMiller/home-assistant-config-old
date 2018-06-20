@@ -36,7 +36,7 @@ except ImportError:
     gzip = None
     GZIP_BASE = object
 
-__version__ = '2.0.0'
+__version__ = '2.0.2'
 
 
 class FakeShutdownEvent(object):
@@ -70,6 +70,7 @@ except ImportError:
         import xml.etree.ElementTree as ET
     except ImportError:
         from xml.dom import minidom as DOM
+        from xml.parsers.expat import ExpatError
         ET = None
 
 try:
@@ -84,9 +85,9 @@ except ImportError:
                                 HTTPErrorProcessor, OpenerDirector)
 
 try:
-    from httplib import HTTPConnection
+    from httplib import HTTPConnection, BadStatusLine
 except ImportError:
-    from http.client import HTTPConnection
+    from http.client import HTTPConnection, BadStatusLine
 
 try:
     from httplib import HTTPSConnection
@@ -265,10 +266,13 @@ try:
     except AttributeError:
         CERT_ERROR = tuple()
 
-    HTTP_ERRORS = ((HTTPError, URLError, socket.error, ssl.SSLError) +
-                   CERT_ERROR)
+    HTTP_ERRORS = (
+        (HTTPError, URLError, socket.error, ssl.SSLError, BadStatusLine) +
+        CERT_ERROR
+    )
 except ImportError:
-    HTTP_ERRORS = (HTTPError, URLError, socket.error)
+    ssl = None
+    HTTP_ERRORS = (HTTPError, URLError, socket.error, BadStatusLine)
 
 
 class SpeedtestException(Exception):
@@ -284,7 +288,11 @@ class SpeedtestHTTPError(SpeedtestException):
 
 
 class SpeedtestConfigError(SpeedtestException):
-    """Configuration provided is invalid"""
+    """Configuration XML is invalid"""
+
+
+class SpeedtestServersError(SpeedtestException):
+    """Servers XML is invalid"""
 
 
 class ConfigRetrievalError(SpeedtestHTTPError):
@@ -384,13 +392,11 @@ class SpeedtestHTTPConnection(HTTPConnection):
     """
     def __init__(self, *args, **kwargs):
         source_address = kwargs.pop('source_address', None)
-        context = kwargs.pop('context', None)
         timeout = kwargs.pop('timeout', 10)
 
         HTTPConnection.__init__(self, *args, **kwargs)
 
         self.source_address = source_address
-        self._context = context
         self.timeout = timeout
 
     def connect(self):
@@ -415,16 +421,28 @@ if HTTPSConnection:
         """Custom HTTPSConnection to support source_address across
         Python 2.4 - Python 3
         """
+        def __init__(self, *args, **kwargs):
+            source_address = kwargs.pop('source_address', None)
+            timeout = kwargs.pop('timeout', 10)
+
+            HTTPSConnection.__init__(self, *args, **kwargs)
+
+            self.timeout = timeout
+            self.source_address = source_address
+
         def connect(self):
             "Connect to a host on a given (SSL) port."
 
             SpeedtestHTTPConnection.connect(self)
 
             kwargs = {}
-            if hasattr(ssl, 'SSLContext'):
-                kwargs['server_hostname'] = self.host
-
-            self.sock = self._context.wrap_socket(self.sock, **kwargs)
+            if ssl:
+                if hasattr(ssl, 'SSLContext'):
+                    kwargs['server_hostname'] = self.host
+                try:
+                    self.sock = self._context.wrap_socket(self.sock, **kwargs)
+                except AttributeError:
+                    self.sock = ssl.wrap_socket(self.sock, **kwargs)
 
 
 def _build_connection(connection, source_address, timeout, context=None):
@@ -1042,16 +1060,16 @@ class Speedtest(object):
         uh, e = catch_request(request, opener=self._opener)
         if e:
             raise ConfigRetrievalError(e)
-        configxml = []
+        configxml_list = []
 
         stream = get_response_stream(uh)
 
         while 1:
             try:
-                configxml.append(stream.read(1024))
+                configxml_list.append(stream.read(1024))
             except (OSError, EOFError):
                 raise ConfigRetrievalError(get_exception())
-            if len(configxml[-1]) == 0:
+            if len(configxml_list[-1]) == 0:
                 break
         stream.close()
         uh.close()
@@ -1059,10 +1077,18 @@ class Speedtest(object):
         if int(uh.code) != 200:
             return None
 
-        printer('Config XML:\n%s' % ''.encode().join(configxml), debug=True)
+        configxml = ''.encode().join(configxml_list)
+
+        printer('Config XML:\n%s' % configxml, debug=True)
 
         try:
-            root = ET.fromstring(''.encode().join(configxml))
+            try:
+                root = ET.fromstring(configxml)
+            except ET.ParseError:
+                e = get_exception()
+                raise SpeedtestConfigError(
+                    'Malformed speedtest.net configuration: %s' % e
+                )
             server_config = root.find('server-config').attrib
             download = root.find('download').attrib
             upload = root.find('upload').attrib
@@ -1070,7 +1096,13 @@ class Speedtest(object):
             client = root.find('client').attrib
 
         except AttributeError:
-            root = DOM.parseString(''.join(configxml))
+            try:
+                root = DOM.parseString(configxml)
+            except ExpatError:
+                e = get_exception()
+                raise SpeedtestConfigError(
+                    'Malformed speedtest.net configuration: %s' % e
+                )
             server_config = get_attributes_by_tag_name(root, 'server-config')
             download = get_attributes_by_tag_name(root, 'download')
             upload = get_attributes_by_tag_name(root, 'upload')
@@ -1119,7 +1151,13 @@ class Speedtest(object):
             'upload_max': upload_count * size_count
         })
 
-        self.lat_lon = (float(client['lat']), float(client['lon']))
+        try:
+            self.lat_lon = (float(client['lat']), float(client['lon']))
+        except ValueError:
+            raise SpeedtestConfigError(
+                'Unknown location: lat=%r lon=%r' %
+                (client.get('lat'), client.get('lon'))
+            )
 
         printer('Config:\n%r' % self.config, debug=True)
 
@@ -1173,13 +1211,13 @@ class Speedtest(object):
 
                 stream = get_response_stream(uh)
 
-                serversxml = []
+                serversxml_list = []
                 while 1:
                     try:
-                        serversxml.append(stream.read(1024))
+                        serversxml_list.append(stream.read(1024))
                     except (OSError, EOFError):
                         raise ServersRetrievalError(get_exception())
-                    if len(serversxml[-1]) == 0:
+                    if len(serversxml_list[-1]) == 0:
                         break
 
                 stream.close()
@@ -1188,15 +1226,28 @@ class Speedtest(object):
                 if int(uh.code) != 200:
                     raise ServersRetrievalError()
 
-                printer('Servers XML:\n%s' % ''.encode().join(serversxml),
-                        debug=True)
+                serversxml = ''.encode().join(serversxml_list)
+
+                printer('Servers XML:\n%s' % serversxml, debug=True)
 
                 try:
                     try:
-                        root = ET.fromstring(''.encode().join(serversxml))
+                        try:
+                            root = ET.fromstring(serversxml)
+                        except ET.ParseError:
+                            e = get_exception()
+                            raise SpeedtestServersError(
+                                'Malformed speedtest.net server list: %s' % e
+                            )
                         elements = root.getiterator('server')
                     except AttributeError:
-                        root = DOM.parseString(''.join(serversxml))
+                        try:
+                            root = DOM.parseString(serversxml)
+                        except ExpatError:
+                            e = get_exception()
+                            raise SpeedtestServersError(
+                                'Malformed speedtest.net server list: %s' % e
+                            )
                         elements = root.getElementsByTagName('server')
                 except (SyntaxError, xml.parsers.expat.ExpatError):
                     raise ServersRetrievalError()
@@ -1809,6 +1860,9 @@ def shell():
 
     printer('Results:\n%r' % results.dict(), debug=True)
 
+    if not args.simple and args.share:
+        results.share()
+
     if args.simple:
         printer('Ping: %s ms\nDownload: %0.2f M%s/s\nUpload: %0.2f M%s/s' %
                 (results.ping,
@@ -1819,8 +1873,6 @@ def shell():
     elif args.csv:
         printer(results.csv(delimiter=args.csv_delimiter))
     elif args.json:
-        if args.share:
-            results.share()
         printer(results.json())
 
     if args.share and not machine_format:

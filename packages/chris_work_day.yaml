@@ -1,0 +1,44 @@
+################################################################
+## Packages / Chris Work Day
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'work_day'
+
+    group.work_day:
+      <<: *customize
+      friendly_name: Work Day
+
+    sensor.next_work_day:
+      <<: *customize
+      friendly_name: Next Shift
+      icon: mdi:briefcase
+
+##################################################
+## Sensor
+##################################################
+sensor:
+  - platform: template
+    sensors:
+      next_work_day:
+        value_template: "{{ as_timestamp(states.calendar.moose51789gmailcom.attributes['start_time']) | timestamp_custom('%A, %d %b @ %I:%M%p') }}"
+
+##################################################
+## Group
+##################################################
+group:
+  work_day:
+    control: hidden
+    entities:
+      - sensor.next_work_day

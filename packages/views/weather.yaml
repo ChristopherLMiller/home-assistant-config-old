@@ -1,0 +1,34 @@
+################################################################
+## Packages / Views / Weather
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'views/weather'
+
+    group.weather:
+      <<: *customize
+      friendly_name: "Weather"
+      icon: mdi:weather-partlycloudy
+
+################################################
+## Group
+################################################
+group:
+  weather:
+    view: yes
+    entities:
+      - group.weather_general
+      - group.weather_radar
+      - group.weather_darksky
+      - group.airvisual

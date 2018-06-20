@@ -1,0 +1,40 @@
+################################################################
+## Packages / Scripts / Notify / Discord
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'scripts/notify/discord'
+
+    script.notify_discord:
+      <<: *customize
+      friendly_name: Notify Discord
+
+##################################################
+## Notify
+##################################################
+notify:
+  - platform: discord
+    name: discord
+    token: !secret discord_token
+
+##################################################
+## Script
+##################################################
+script:
+  notify_discord:
+    sequence:
+      - service: notify.discord
+        data_template:
+          target: '355096664241078272'
+          message: '[{{ as_timestamp(now()) | timestamp_custom("%H:%M:%S") }}] {{ message }}'

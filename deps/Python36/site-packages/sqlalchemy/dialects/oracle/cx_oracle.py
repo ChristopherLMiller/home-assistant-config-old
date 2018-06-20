@@ -93,6 +93,37 @@ Python 2:
   The above approach will add significant latency to result-set fetches
   of plain string values.
 
+Sending String Values as Unicode or Non-Unicode
+------------------------------------------------
+
+As of SQLAlchemy 1.2.2, the cx_Oracle dialect unconditionally calls
+``setinputsizes()`` for bound values that are passed as Python unicode objects.
+In Python 3, all string values are Unicode; for cx_Oracle, this corresponds to
+``cx_Oracle.NCHAR`` being passed to ``setinputsizes()`` for that parameter.
+In some edge cases, such as passing format specifiers for
+the ``trunc()`` function, Oracle does not accept these as NCHAR::
+
+    from sqlalchemy import func
+
+    conn.execute(
+        func.trunc(func.sysdate(), 'dd')
+    )
+
+In these cases, an error as follows may be raised::
+
+    ORA-01899: bad precision specifier
+
+When this error is encountered, it may be necessary to pass the string value
+with an explicit non-unicode type::
+
+    from sqlalchemy import func
+    from sqlalchemy import literal
+    from sqlalchemy import String
+
+    conn.execute(
+        func.trunc(func.sysdate(), literal('dd', String))
+    )
+
 
 .. _cx_oracle_returning:
 
@@ -291,10 +322,21 @@ class _OracleNumeric(sqltypes.Numeric):
         return handler
 
 
+class _OracleBinaryFloat(_OracleNumeric):
+    def get_dbapi_type(self, dbapi):
+        return dbapi.NATIVE_FLOAT
+
+
+class _OracleBINARY_FLOAT(_OracleBinaryFloat, oracle.BINARY_FLOAT):
+    pass
+
+
+class _OracleBINARY_DOUBLE(_OracleBinaryFloat, oracle.BINARY_DOUBLE):
+    pass
+
+
 class _OracleNUMBER(_OracleNumeric):
     is_number = True
-
-
 
 
 class _OracleDate(sqltypes.Date):
@@ -564,9 +606,11 @@ class OracleDialect_cx_oracle(OracleDialect):
 
     driver = "cx_oracle"
 
-    colspecs = colspecs = {
+    colspecs = {
         sqltypes.Numeric: _OracleNumeric,
         sqltypes.Float: _OracleNumeric,
+        oracle.BINARY_FLOAT: _OracleBINARY_FLOAT,
+        oracle.BINARY_DOUBLE: _OracleBINARY_DOUBLE,
         sqltypes.Integer: _OracleInteger,
         oracle.NUMBER: _OracleNUMBER,
 
@@ -614,16 +658,17 @@ class OracleDialect_cx_oracle(OracleDialect):
             self.cx_oracle_ver = (0, 0, 0)
         else:
             self.cx_oracle_ver = self._parse_cx_oracle_ver(cx_Oracle.version)
-            if self.cx_oracle_ver < (5, 0) and self.cx_oracle_ver > (0, 0, 0):
+            if self.cx_oracle_ver < (5, 2) and self.cx_oracle_ver > (0, 0, 0):
                 raise exc.InvalidRequestError(
-                    "cx_Oracle version 5.0 and above are supported")
+                    "cx_Oracle version 5.2 and above are supported")
 
             self._has_native_int = hasattr(cx_Oracle, "NATIVE_INT")
 
             self._include_setinputsizes = {
                 cx_Oracle.NCLOB, cx_Oracle.CLOB, cx_Oracle.LOB,
                 cx_Oracle.NCHAR, cx_Oracle.FIXED_NCHAR,
-                cx_Oracle.BLOB, cx_Oracle.FIXED_CHAR, cx_Oracle.TIMESTAMP
+                cx_Oracle.BLOB, cx_Oracle.FIXED_CHAR, cx_Oracle.TIMESTAMP,
+                _OracleInteger, _OracleBINARY_FLOAT, _OracleBINARY_DOUBLE
             }
 
         self._is_cx_oracle_6 = self.cx_oracle_ver >= (6, )

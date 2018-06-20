@@ -27,10 +27,20 @@ light:
       - light.porch
 
   - platform: group
-    name: Blue Room
+    name: Spare Room
     entities:
-      - light.model
       - light.overhead_2
+
+  - platform: group
+    name: Model Room
+    entities:
+      - light.overhead_2
+      - light.model_desk
+
+  - platform: group
+    name: Computer Room
+    entities:
+      - light.computer_room_floor
 
   - platform: group
     name: Chris Room
@@ -42,7 +52,7 @@ light:
     name: Living Room
     entities:
       - light.tree
-      - light.floorlamp
+      - light.living_room_floor
 
   - platform: group
     name: Toy Room

@@ -24,10 +24,6 @@ homeassistant:
       <<: *customize
       friendly_name: Scentsy
 
-    automation.scentsy_off_not_home:
-      <<: *customize
-      friendly_name: Scentsy off not home
-
     automation.scentsy_on_with_modeling_desk:
       <<: *customize
       friendly_name: Scentsy on with modeling desk
@@ -74,30 +70,16 @@ group:
 ## Automation
 ##################################################
 automation:
-  - alias: scentsy_off_not_home
-    initial_state: true
-    trigger:
-      - platform: state
-        entity_id: device_tracker.chris_phone
-        to: 'not_home'
-        for:
-          minutes: 5
-    action:
-      - service: script.notify_discord
-        data_template:
-          message: 'Turning off scentsy'
-      - service: switch.turn_off
-        data:
-          entity_id:
-            - switch.scentsy
-
   - alias: scentsy_on_with_modeling_desk
     initial_state: true
     trigger:
       - platform: state
-        entity_id: light.model
+        entity_id: light.model_desk
         to: 'on'
     action:
+      - service: script.notify_discord
+        data_template:
+          message: "Turning on scentsy with modeling desk"
       - service: switch.turn_on
         data:
           entity_id: switch.scentsy
@@ -105,12 +87,12 @@ automation:
   - alias: scentsy_off_with_modeling_desk
     initial_state: true
     trigger:
-      - platform: state
-        entity_id: light.model
-        to: 'off'
-        for:
-          minutes: 30
+      - platform: template
+        value_template: '{{ as_timestamp( now() ) - as_timestamp(states.light.model_desk.last_changed)|float >=  states("input_number.scentsy_time")|float * 60}}'
     action:
+      - service: script.notify_discord
+        data_template:
+          message: "Turning off scentsy - time limit reached"
       - service: switch.turn_off
         data:
           entity_id: switch.scentsy

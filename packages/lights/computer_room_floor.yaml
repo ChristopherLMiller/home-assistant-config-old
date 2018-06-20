@@ -1,0 +1,34 @@
+################################################################
+## Packages / Light / Computer Room Floor
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'light/computer_room_floor'
+
+    light.computer_room_floor:
+      <<: *customize
+      friendly_name: Computer Floor Light
+
+#################################################
+## Light
+#################################################
+light:
+  - platform: mqtt
+    name: computer_room_floor
+    state_topic: "home/sonoff_3/stat/POWER"
+    command_topic: "home/sonoff_3/cmnd/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true

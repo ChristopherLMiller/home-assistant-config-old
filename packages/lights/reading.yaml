@@ -1,0 +1,34 @@
+################################################################
+## Packages / Light / Reading
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'light/reading'
+
+    light.reading:
+      <<: *customize
+      friendly_name: Reading Light
+
+#################################################
+## Light
+#################################################
+light:
+  - platform: mqtt
+    name: reading
+    state_topic: "home/sonoff_1/stat/POWER"
+    command_topic: "home/sonoff_1/cmnd/power"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 1
+    retain: true

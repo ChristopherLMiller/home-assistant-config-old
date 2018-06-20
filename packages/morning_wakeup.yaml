@@ -60,15 +60,3 @@ automation:
         state: 'on'
     action:
       - service: script.good_morning
-
-##################################################
-## Intent
-##################################################
-intent_script:
-  WakeupTimeIntent:
-    speech:
-      text: "Okay.  Wakeup time is set to {{ time }}."
-    card:
-      type: simple
-      title: Home Assistant
-      content: "Wakeup Time: {{ time }}."

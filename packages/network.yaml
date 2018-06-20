@@ -144,6 +144,11 @@ homeassistant:
       friendly_name: "Philips Hue Bridge"
       hidden: true
 
+    device_tracker.net_toycam:
+      <<: *customize
+      friendly_name: "Toy Room Camera"
+      hidden: true
+
     sensor.net_printer_computer_room:
       <<: *customize
       friendly_name: "HP Printer (Computer Room)"
@@ -236,6 +241,10 @@ homeassistant:
       <<: *customize
       friendly_name: "Philips Hue Bridge"
 
+    sensor.net_toycam:
+      <<: *customize
+      friendly_name: "Toy Room Camera"
+
 ################################################
 ## Group
 ################################################
@@ -265,6 +274,7 @@ group:
       - device_tracker.net_sonoff_5
       - device_tracker.net_sonoff_6
       - device_tracker.net_hue_bridge
+      - device_tracker.net_toycam
 
   network_devices:
     control: hidden
@@ -291,6 +301,7 @@ group:
       - sensor.net_sonoff_5
       - sensor.net_sonoff_6
       - sensor.net_hue_bridge
+      - sensor.net_toycam
 
 ################################################
 ## Sensor
@@ -386,6 +397,10 @@ sensor:
         value_template: "{{ 'online' if is_state('device_tracker.net_hue_bridge', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_hue_bridge', 'home') else 'mdi:alert-circle' }}"
 
+      net_toycam:
+        value_template: "{{ 'online' if is_state('device_tracker.net_toycam', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_toycam', 'home') else 'mdi:alert-circle' }}"
+
 ################################################
 ## Automation
 ################################################
@@ -417,36 +432,8 @@ automation:
           - sensor.net_sonoff_5
           - sensor.net_sonoff_6
           - sensor.net_hue_bridge
+          - sensor.net_toycam
     action:
       - service: script.notify_discord
         data_template:
           message: '{{ trigger.to_state.attributes.friendly_name }} is now {{ trigger.to_state.state }}'
-
-##################################################
-## Intent Script
-##################################################
-intent_script:
-  NetworkStatusIntent:
-    speech:
-      text: >
-        Network devices report.  The following devices are showing as offline:
-        {{- ' ' -}}
-        {%- set entities = states.group.network_devices.attributes.entity_id -%}
-        {%- for entity_id in entities -%}
-          {%- set entity_parts = entity_id.split('.') -%}
-          {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
-          {%- if entity.state == "offline" -%}{{ entity.name }}{{- ' ' -}}{%- endif -%}
-        {%- endfor -%}
-    card:
-      type: simple
-      title: 'Home Assistant - Network Status'
-      content: >
-        Network devices offline:
-        {{- '\n' -}}
-        {%- set comma = joiner(', ') -%}
-        {%- set entities = states.group.network_devices.attributes.entity_id -%}
-        {%- for entity_id in entities -%}
-          {%- set entity_parts = entity_id.split('.') -%}
-          {%- set entity = states[entity_parts[0]][entity_parts[1]] -%}
-          {%- if entity.state == "offline" -%}{{- comma() -}}{{ entity.name }}{%- endif -%}
-        {%- endfor -%}

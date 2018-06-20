@@ -43,16 +43,3 @@ sensor:
     minute:
       - 0
       - 30
-
-################################################
-## Intent Scripts
-################################################
-intent_script:
-  NetworkSpeedIntent:
-    speech:
-      text: >
-        The network is {% if states.sensor.speedtest_download.state | int < 5  or states.sensor.speedtest_upload.state | int <= 1 or states.sensor.speedtest_ping.state | int > 40 %}suffering bad{% elif states.sensor.speedtest_download.state | int < 10  or states.sensor.speedtest_upload.state | int <= 2 or states.sensor.speedtest_ping.state | int > 30 %}doing okay{% else %}performing great{%endif%}.  Downloads are showing at {{ states.sensor.speedtest_download.state }} megabits per second, upload is showing as {{ states.sensor.speedtest_upload.state }} megabits per second, with a ping time of {{ states.sensor.speedtest_ping.state }} milliseconds.
-    card:
-      type: simple
-      title: Home Assistant - Network Speeds
-      content: "Download: {{ states.sensor.speedtest_download.state }}mbps\nUpload: {{ states.sensor.speedtest_upload.state }}mbps\nPing: {{ states.sensor.speedtest_ping.state }}ms"

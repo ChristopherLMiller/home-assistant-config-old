@@ -1820,7 +1820,8 @@ class MSDialect(default.DefaultDialect):
 
     ischema_names = ischema_names
 
-    supports_native_boolean = True
+    supports_native_boolean = False
+    non_native_boolean_check_constraint = False
     supports_unicode_binds = True
     postfetch_lastrowid = True
 
@@ -2241,7 +2242,7 @@ class MSDialect(default.DefaultDialect):
                         RR.c.delete_rule],
                        sql.and_(C.c.table_name == tablename,
                                 C.c.table_schema == owner,
-                                R.c.table_schema == C.c.table_schema,
+                                RR.c.constraint_schema == C.c.table_schema,
                                 C.c.constraint_name == RR.c.constraint_name,
                                 R.c.constraint_name ==
                                 RR.c.unique_constraint_name,

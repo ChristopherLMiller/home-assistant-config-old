@@ -71,7 +71,7 @@ google_assistant:
       expose: false
     script.notify_discord:
       expose: false
-    script.notify_all:
+    script.notify_html5:
       expose: false
     script.notify_voice:
       expose: false

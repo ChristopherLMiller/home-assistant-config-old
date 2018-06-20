@@ -1,0 +1,43 @@
+################################################################
+## Packages / Scripts / Notify / Voice
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'scripts/notify/voice'
+
+    script.notify_voice:
+      <<: *customize
+      friendly_name: Notify Voice
+
+##################################################
+## Script
+##################################################
+script:
+  notify_voice:
+    sequence:
+      - condition: state
+        entity_id: device_tracker.chris_phone
+        state: 'home'
+      - condition: state
+        entity_id: input_boolean.chris_bed
+        state: 'off'
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.chris_bedroom_speaker
+          volume_level: 0.4
+      - service: tts.google_say
+        data_template:
+          cache: false
+          message: '{{ message }}'            
+          entity_id: media_player.chris_bedroom_speaker

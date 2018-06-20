@@ -70,3 +70,31 @@ light.overhead_3:
   name:
   platform: hue
   unique_id: 00:17:88:01:03:4e:f4:91-0b
+media_player.chrismillerpc_2:
+  name:
+  platform: plex
+  unique_id: b56ade01-4ef4-4e55-9485-34ac8a780cb1
+sensor.pws_precip_today_in:
+  name:
+  platform: wunderground
+  unique_id: '@-85.699246,41.523542,precip_today_in'
+sensor.pws_temp_f:
+  name:
+  platform: wunderground
+  unique_id: '@-85.699246,41.523542,temp_f'
+sensor.pws_heat_index_f:
+  name:
+  platform: wunderground
+  unique_id: '@-85.699246,41.523542,heat_index_f'
+sensor.pws_feelslike_f:
+  name:
+  platform: wunderground
+  unique_id: '@-85.699246,41.523542,feelslike_f'
+sensor.pws_relative_humidity:
+  name:
+  platform: wunderground
+  unique_id: '@-85.699246,41.523542,relative_humidity'
+sensor.pws_weather:
+  name:
+  platform: wunderground
+  unique_id: '@-85.699246,41.523542,weather'

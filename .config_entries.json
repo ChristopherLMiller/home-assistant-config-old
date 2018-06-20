@@ -1,0 +1,14 @@
+[
+    {
+        "data": {
+            "bridge_id": "001788FFFE783182",
+            "host": "10.19.136.71",
+            "username": "pn9PBEMyvPcZNsH66qTDTYE2m1plDMNi58voc0xF"
+        },
+        "domain": "hue",
+        "entry_id": "e2118771f6c14ea1982c18927d86525b",
+        "source": "import",
+        "title": "Philips hue",
+        "version": 1
+    }
+]

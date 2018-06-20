@@ -21,14 +21,9 @@ homeassistant:
       friendly_name: "LG Smart TV (Living Room)"
       icon: mdi:monitor
 
-    automation.tv_off_nobody_home:
-      <<: *customize
-      friendly_name: "Living TV off nobody home"
-
 ################################################
 ## Media Player
 ################################################
-
 media_player:
   - platform: lg_netcast
     name: lg_tv_living_room
@@ -36,23 +31,3 @@ media_player:
     port: 8001
     access_token: !secret lg_tv_living_room_access_token
     mac: !secret lg_tv_living_room_mac
-
-################################################
-## Automation
-################################################
-automation:
-  - alias: tv_off_nobody_home
-    initial_state: true
-    trigger:
-      - platform: state
-        entity_id: sensor.house_mode
-        to: 'away'
-        for:
-          minutes: 5
-    action:
-      - service: script.notify_discord
-        data_template:
-          message: 'Turning off living room TV'
-      - service: media_player.turn_off
-        data:
-          entity_id: media_player.lg_tv_living_room
