@@ -41,6 +41,7 @@ group:
       - group.reading_time
       - group.environment
       - group.chris_bed
+      - group.chris_alarm_clock
 
   chris_bedroom_lights:
     control: hidden

@@ -31,10 +31,6 @@ homeassistant:
     sensor.mc_ironraptor_com:
       <<: *customize
       friendly_name: "Iron Raptor"
-    
-    sensor.gnd_mc_com:
-      <<: *customize
-      friendly_name: "GND MC"
 
 ##################################################
 ## group
@@ -46,7 +42,6 @@ group:
       - sensor.mc_hypixel_net
       - sensor.mc_moosecraft_us
       - sensor.mc_ironraptor_com
-      - sensor.gnd_mc_com
 
 ##################################################
 ## Sensor
@@ -57,5 +52,3 @@ sensor:
     - mc.hypixel.net
     - mc.moosecraft.us
     - mc.ironraptor.com
-    - gnd-mc.com
-  

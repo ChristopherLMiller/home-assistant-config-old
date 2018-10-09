@@ -169,11 +169,11 @@ cassie_phone:
 chris_phone:
   hide_if_away: false
   icon:
-  mac: FC:DB:B3:DD:B4:F7
+  mac: B4:F7:A1:C3:79:0B
   name: Chris
   picture:
   track: true
-  vendor: Samsung Electronics Co.,Ltd
+  vendor: Google Inc.
 
 teresa_phone:
   hide_if_away: false
@@ -321,11 +321,27 @@ net_googlehome:
   track: true
   vendor: unknown
 
-net_toycam:
+net_alred_cam_1:
   hide_if_away: false
   icon:
   mac: A8:81:95:31:BC:48
-  name: Camera-Toy Room
+  name: Alfred Cam 1 (J7)
+  picture:
+  track: true
+
+net_alfred_cam_2:
+  hide_if_away: false
+  icon:
+  mac: FC:DB:B3:DD:B4:F7
+  name: Alfred Cam 2 (S6 Edge+)
+  picture:
+  track: true
+
+net_alfred_cam_3:
+  hide_if_away: false
+  icon:
+  mac: 48:60:5F:66:50:63
+  name: Alfred Cam 3 (Pixel 2)
   picture:
   track: true
 
@@ -350,11 +366,34 @@ nintendo_3ds:
   track: true
   vendor: Nintendo Co., Ltd.
 
-d44b5e7010ae:
+steamlink:
   hide_if_away: false
   icon:
-  mac: D4:4B:5E:70:10:AE
-  name: d44b5e7010ae
+  mac: E0:31:9E:49:53:3A
+  name: steamlink
   picture:
   track: true
-  vendor: TAIYO YUDEN CO., LTD.
+
+androida9f06b012d13dafc:
+  hide_if_away: false
+  icon:
+  mac: DC:BF:E9:76:B1:D0
+  name: android-a9f06b012d13dafc
+  picture:
+  track: true
+
+teresasiphone:
+  hide_if_away: false
+  icon:
+  mac: 9C:8B:A0:13:C0:94
+  name: Teresas-iPhone
+  picture:
+  track: true
+
+raspberrypi:
+  hide_if_away: false
+  icon:
+  mac: B8:27:EB:0B:92:A1
+  name: raspberrypi
+  picture:
+  track: true

@@ -16,6 +16,10 @@ homeassistant:
       customize: &customize
         package: 'pihole'
 
+    group.pihole:
+      <<: *customize
+      friendly_name: PiHole
+
 ##################################################
 ## Sensor
 ##################################################

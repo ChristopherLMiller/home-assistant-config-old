@@ -28,9 +28,7 @@ group:
   default_view:
     view: yes
     entities:
-      - group.alarm_control_panel
       - group.house_mode
       - group.household_members
       - group.guests
       - group.mail_packages
-      - group.crime_reports

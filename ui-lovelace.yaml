@@ -1,0 +1,44 @@
+title: Miller House
+views:
+  - icon: mdi:home
+    title: Home
+    id: home
+    theme: minimal
+    cards:
+      - type: entity-filter
+        entities:
+          - sensor.chris_location
+          - sensor.teresa_location
+          - sensor.bruce_location
+        state_filter:
+          - 'Home'
+        card:
+          type: glance
+          title: Household
+      - type: entity-filter
+        entities:
+          - sensor.brandon_location
+          - sensor.cassie_location
+          - sensor.corey_location
+          - sensor.erin_location
+          - sensor.kennady_location
+          - sensor.mikayla_location
+        state_filter:
+          - 'Visiting'
+        card:
+          type: glance
+          title: Visitors
+
+  - icon: mdi:cog
+    title: Second View
+    cards:
+      - type: entities
+        title: Example
+        entities:
+          - light.reading
+          - light.overhead
+      
+      - type: markdown
+        title: Lovelace
+        content: >
+          Welcome to your **Lovelace UI**.

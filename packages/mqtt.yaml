@@ -24,3 +24,13 @@ mqtt:
   port: !secret mqtt_port
   username: !secret mqtt_username
   password: !secret mqtt_password
+  birth_message:
+    topic: "home/hass/LWT"
+    payload: "Online"
+    qos: 1
+    retain: true
+  will_message:
+    topic: "home/hass/LWT"
+    payload: "Offline"
+    qos: 1
+    retain: true

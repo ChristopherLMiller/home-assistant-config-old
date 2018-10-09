@@ -6,12 +6,16 @@ homeassistant:
   unit_system: imperial
   time_zone: !secret ha_timezone
   packages: !include_dir_named packages
+  auth_providers:
+    - type: homeassistant
+    - type: legacy_api_password
 
 ## INCLUDE ##
 conversation:
 discovery:
 dialogflow:
 config:
+auth:
 updater:
   include_used_components: true
 

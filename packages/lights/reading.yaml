@@ -26,9 +26,12 @@ homeassistant:
 light:
   - platform: mqtt
     name: reading
-    state_topic: "home/sonoff_1/stat/POWER"
-    command_topic: "home/sonoff_1/cmnd/power"
+    state_topic: "home/sonoff_1/stat/POWER1"
+    command_topic: "home/sonoff_1/cmnd/POWER"
+    availability_topic: "home/sonoff_1/tele/LWT"
     payload_on: "ON"
     payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     qos: 1
     retain: true

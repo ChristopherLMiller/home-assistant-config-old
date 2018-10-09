@@ -40,6 +40,7 @@ group:
 ##################################################
 sensor:
   platform: twitch
+  client_id: !secret twitch_client_id
   channels:
     - moose517
     - juhstinfx

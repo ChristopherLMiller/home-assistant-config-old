@@ -1,0 +1,119 @@
+################################################################
+## Packages / Chris Alarm Clock
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'chris_alarm_clock'
+
+    group.chris_alarm_clock:
+      <<: *customize
+      friendly_name: Alarm Clock
+
+    input_boolean.alarm_clock_enabled:
+      <<: *customize
+      friendly_name: Enabled
+      icon: mdi:clock-outline
+
+    input_boolean.alarm_clock_override:
+      <<: *customize
+      friendly_name: Override
+      description: Override work calendar to always trigger
+      icon: mdi:clock-alert-outline
+
+    input_datetime.alarm_clock_manual_time:
+      <<: *customize
+      friendly_name: Override wakeup time
+
+    input_number.alarm_clock_volume:
+      <<: *customize
+      friendly_name: Volume
+      icon: mdi:volume-high
+
+    input_select.alarm_clock_device:
+      <<: *customize
+      friendly_name: Alarm Device
+
+    input_select.alarm_clock_lights:
+      <<: *customize
+      friendly_name: Lights Enabled
+
+##################################################
+## Group
+##################################################
+group:
+  chris_alarm_clock:
+    control: hidden
+    entities:
+      - input_boolean.alarm_clock_enabled
+      - input_boolean.alarm_clock_override
+      - input_datetime.alarm_clock_manual_time
+      - input_number.alarm_clock_volume
+      - input_select.alarm_clock_device
+      - input_select.alarm_clock_lights
+
+##################################################
+## Input Boolean
+##################################################
+input_boolean:
+  alarm_clock_enabled:
+    initial: on
+  alarm_clock_override:
+    initial: off
+
+##################################################
+## Input Datetime
+##################################################
+input_datetime:
+  alarm_clock_manual_time:
+    has_date: false
+    has_time: true
+    initial: '00:00:00'
+
+##################################################
+## Input Number
+##################################################
+input_number:
+  alarm_clock_volume:
+    initial: 5
+    min: 0
+    max: 10
+    step: 0.5
+
+##################################################
+## Input Select
+##################################################
+input_select:
+  alarm_clock_device:
+    options:
+      - Google Home Mini
+  alarm_clock_lights:
+    options:
+      - All
+      - Reading
+      - Overhead
+
+##################################################
+## Automations
+##################################################
+#automation:
+#  - alias: manual wakeup
+#    initial_state: true
+#    trigger:
+#      - platform: template
+#        value_template: '{{  }}'
+#    action:
+#      - service: script.notify_discord
+#        data_template:
+#          message: 'triggering alarm clock'
+

@@ -26,19 +26,22 @@ homeassistant:
 script:
   chris_wakeup:
     sequence:
+      - service: script.notify_discord
+        data_template:
+          message: Waking Up Chris!
       - service: input_boolean.turn_off
         data:
           entity_id: input_boolean.chris_bed
       - service: light.turn_on
         data:
-          entity_id: light.chris_room
+          entity_id: light.reading
       - service: light.turn_on
         data:
           entity_id: light.outside
       - service: media_player.volume_set
-        data:
+        data_template:
           entity_id: media_player.chris_bedroom_speaker
-          volume_level: 0.5
+          volume_level: '{{states.input_number.alarm_clock_volume}}'
       - service: media_player.play_media
         data:
           entity_id: media_player.chris_bedroom_speaker
@@ -52,12 +55,12 @@ script:
             {{-'  '-}}
             {{ ["It's time to get ready for work.", "Start getting ready for work.", "Ready to start the work day?"]|random }}
             {{-'  '-}}
-            Here is the weather: {{ states.sensor.dark_sky_hourly_summary.state }}  Overnight temperature is expected to be {{ states.sensor.dark_sky_daily_low_apparent_temperature.state | round(0) }} degrees with tomorrows high reaching {{ states.sensor.dark_sky_daily_high_apparent_temperature.state | round(0) }}.
+            Weather summary: {{ states.sensor.dark_sky_hourly_summary.state }}  Current Temperature: {{ states.sensor.dark_sky_temperature.state | round(0) }} degrees.
             {{-'  '-}}
             {%- if not is_state('sensor.dark_sky_precip', 'unknown') -%}
             Current precipitation is {{ states.sensor.dark_sky_precip.state }}.
-            {%- endif -%}
             {{-'  '-}}
+            {%- endif -%}
             Winds are currently {{ states.sensor.dark_sky_wind_speed.state | round(0) }} miles per hour and are out of the
             {{-' '-}}
             {%- set wind_direction =  states.sensor.dark_sky_wind_bearing.state | round(0) -%}
@@ -71,11 +74,11 @@ script:
               west
             {%- endif -%}.
             {{-'  '-}}
-            {{ ["Have a good night.", "Enjoy your work night", "Go earn that money."] | random }}
+            {{ ["Have a good night", "Enjoy your work night", "Go earn that money"] | random }}.
       - delay: '00:15:00'
       - service: light.turn_off
         data:
-          entity_id: light.chris_room
+          entity_id: light.reading
       - service: light.turn_off
         data:
           entity_id: light.outside

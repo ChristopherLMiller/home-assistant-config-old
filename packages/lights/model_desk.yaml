@@ -27,8 +27,11 @@ light:
   - platform: mqtt
     name: model_desk
     state_topic: "home/sonoff_6/stat/POWER"
-    command_topic: "home/sonoff_6/cmnd/power"
+    command_topic: "home/sonoff_6/cmnd/POWER"
+    availability_topic: "home/sonoff_6/tele/LWT"
     payload_on: "ON"
     payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     qos: 1
     retain: true

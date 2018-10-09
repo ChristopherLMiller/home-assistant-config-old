@@ -1,0 +1,93 @@
+################################################################
+## Packages / Alexa
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'google_assistant'
+
+##################################################
+## Alexa
+##################################################
+cloud:
+  alexa:
+    filter:
+      include_domains:
+        - alert
+        #- automation
+        - cover
+        - fan
+        #- group
+        #- input_boolean
+        - light
+        #- media_player
+        - scene
+        - script
+        - switch
+      
+      exclude_entities:
+        - script.notify_discord
+        - script.notify_html5
+        - script.notify_voice
+        - light.overhead
+        - light.overhead_2
+        - light.overhead_3
+        - light.other
+
+    entity_config:
+      media_player.lg_tv_living_room:
+        name: TV
+      script.downstairs_bedtime:
+        name: Bedtime
+      script.good_morning:
+        name: Good Morning
+
+  google_actions:
+    filter:
+      include_domains:
+        #- group
+        #- input_boolean
+        - scene
+        - script
+        - switch
+        - fan
+        - light
+        - cover
+        #- media_player
+        - climate
+      exclude_entities:
+        - light.computer_room_floor
+        - light.tree
+        - light.living_room_floor
+        - light.model_desk
+        - light.overhead_2
+        - light.model_room
+        - light.spare_room
+        - light.computer_room
+        - light.living_room
+        - light.toy_room
+        - light.chris_room
+        - light.overhead_3
+        - light.outside
+        - light.other
+        - script.good_morning
+        - script.notify_discord
+        - script.notify_html5
+        - script.notify_voice
+        - script.people_arriving_home
+        - script.outside_lights_on
+    entity_config:
+      script.chris_wakeup:
+        name: Wake Up
+      script.chris_bedtime:
+        name: Bedtime

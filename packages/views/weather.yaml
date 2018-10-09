@@ -16,16 +16,17 @@ homeassistant:
       customize: &customize
         package: 'views/weather'
 
-    group.weather:
+    group.weather_view:
       <<: *customize
       friendly_name: "Weather"
       icon: mdi:weather-partlycloudy
+      hidden: false
 
 ################################################
 ## Group
 ################################################
 group:
-  weather:
+  weather_view:
     view: yes
     entities:
       - group.weather_general

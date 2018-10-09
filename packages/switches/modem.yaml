@@ -1,0 +1,59 @@
+################################################################
+## Packages / Switch / Modem
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: 'switch/modem'
+
+    switch.modem:
+      <<: *customize
+      friendly_name: Cable Modem
+
+    binary_sensor.internet_ping:
+      <<: *customize
+      friendly_name: Internet Pingable
+
+##################################################
+## Switch
+##################################################
+switch:
+  - platform: mqtt
+    name: modem
+    state_topic: "home/sonoff_5/stat/POWER"
+    command_topic: "home/sonoff_5/cmnd/POWER"
+    availability_topic: "home/sonoff_5/tele/LWT"
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+
+##################################################
+## Binary Sensor
+##################################################
+binary_sensor:
+  - platform: ping
+    host: 1.1.1.1
+    name: internet_ping
+
+##################################################
+## Group
+##################################################
+group:
+  modem:
+    control: hidden
+    entities:
+      - switch.modem
+      - binary_sensor.internet_ping

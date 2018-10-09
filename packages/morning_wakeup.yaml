@@ -24,9 +24,21 @@ homeassistant:
       <<: *customize
       friendly_name: Wakeup Time
 
+    input_boolean.wakeup_force_day:
+      <<: *customize
+      friendly_name: Wakeup Active Always
+
+    input_boolean.wakeup_skip_day:
+      <<: *customize
+      friendly_name: Skip Next Day
+
     automation.morning_wakeup:
       <<: *customize
       friendly_name: Morning Wakeup
+
+    automation.morning_wakeup_turn_off_skip_day:
+      <<: *customize
+      friendly_name: Morning Wakeup Turn Off Skip Day
 
 ##################################################
 ## Group
@@ -36,6 +48,8 @@ group:
     control: hidden
     entities:
       - input_datetime.wakeup_time
+      - input_boolean.wakeup_force_day
+      - input_boolean.wakeup_skip_day
 
 ##################################################
 ## Input DateTime
@@ -47,16 +61,57 @@ input_datetime:
     initial: 03:40
 
 ##################################################
+## Input Boolean 
+##################################################
+input_boolean:
+  wakeup_force_day:
+    initial: off
+    icon: mdi:calendar-range
+  wakeup_skip_day:
+    initial: off
+
+##################################################
 ## Automation
 ##################################################
 automation:
   - alias: morning_wakeup
+    initial_state: on
     trigger:
       - platform: template
         value_template: "{{ states('sensor.time') == (states.input_datetime.wakeup_time.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
     condition:
-      - condition: state
-        entity_id: binary_sensor.workday_sensor
-        state: 'on'
+      condition: and
+      conditions:
+        ## If skip day is on, return false as we don't want script to run
+        - condition: state
+          entity_id: input_boolean.wakeup_skip_day
+          state: 'off'
+
+      ## Wakeup if it weekends are set to enabled or its a workday
+        - condition: or
+          conditions:
+            - condition: state
+              entity_id: input_boolean.wakeup_force_day
+              state: 'on'
+            - condition: state
+              entity_id: binary_sensor.workday_sensor
+              state: 'on'
     action:
+      - service: script.notify_discord
+        data:
+          message: House Morning wakeup triggered.
       - service: script.good_morning
+
+  ## Automation with same trigger as above but check if the skip day boolean is on, if so turn it off but only after a 10 minute delay to ensure that the above automation doesn't fire still even though day is to be skipped
+  - alias: morning_wakeup_turn_off_skip_day
+    initial_state: on
+    trigger:
+      - platform: template
+        value_template: "{{ states('sensor.time') == (states.input_datetime.wakeup_time.attributes.timestamp | int | timestamp_custom('%H:%M', False)) }}"
+    action:
+      - delay: '00:10:00'
+      - service: script.notify_discord
+        data:
+          message: Turning off Skip Day
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.wakeup_skip_day

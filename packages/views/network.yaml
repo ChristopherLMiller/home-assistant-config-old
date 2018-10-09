@@ -16,7 +16,7 @@ homeassistant:
       customize: &customize
         package: 'views/network'
 
-    group.network:
+    group.network_view:
       <<: *customize
       friendly_name: "Network"
       icon: mdi:switch
@@ -25,11 +25,14 @@ homeassistant:
 ## Group
 ################################################
 group:
-  network:
+  network_view:
     view: yes
     entities:
       - group.network_devices
+      - group.network_switches
+      - group.network_cameras
       - group.pihole
       - group.speedtest
       - group.utilities
       - group.uptime
+      - group.modem
