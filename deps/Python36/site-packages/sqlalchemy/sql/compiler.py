@@ -968,11 +968,7 @@ class SQLCompiler(Compiled):
              for i, c in enumerate(cs.selects))
         )
 
-        group_by = cs._group_by_clause._compiler_dispatch(
-            self, asfrom=asfrom, **kwargs)
-        if group_by:
-            text += " GROUP BY " + group_by
-
+        text += self.group_by_clause(cs, **dict(asfrom=asfrom, **kwargs))
         text += self.order_by_clause(cs, **kwargs)
         text += (cs._limit_clause is not None
                  or cs._offset_clause is not None) and \
@@ -1019,13 +1015,15 @@ class SQLCompiler(Compiled):
                 "Unary expression has no operator or modifier")
 
     def visit_istrue_unary_operator(self, element, operator, **kw):
-        if self.dialect.supports_native_boolean:
+        if element._is_implicitly_boolean or \
+                self.dialect.supports_native_boolean:
             return self.process(element.element, **kw)
         else:
             return "%s = 1" % self.process(element.element, **kw)
 
     def visit_isfalse_unary_operator(self, element, operator, **kw):
-        if self.dialect.supports_native_boolean:
+        if element._is_implicitly_boolean or \
+                self.dialect.supports_native_boolean:
             return "NOT %s" % self.process(element.element, **kw)
         else:
             return "%s = 0" % self.process(element.element, **kw)
@@ -1909,10 +1907,7 @@ class SQLCompiler(Compiled):
                 text += " \nWHERE " + t
 
         if select._group_by_clause.clauses:
-            group_by = select._group_by_clause._compiler_dispatch(
-                self, **kwargs)
-            if group_by:
-                text += " GROUP BY " + group_by
+            text += self.group_by_clause(select, **kwargs)
 
         if select._having is not None:
             t = select._having._compiler_dispatch(self, **kwargs)
@@ -1968,7 +1963,18 @@ class SQLCompiler(Compiled):
         """
         return select._distinct and "DISTINCT " or ""
 
+    def group_by_clause(self, select, **kw):
+        """allow dialects to customize how GROUP BY is rendered."""
+
+        group_by = select._group_by_clause._compiler_dispatch(self, **kw)
+        if group_by:
+            return " GROUP BY " + group_by
+        else:
+            return ""
+
     def order_by_clause(self, select, **kw):
+        """allow dialects to customize how ORDER BY is rendered."""
+
         order_by = select._order_by_clause._compiler_dispatch(self, **kw)
         if order_by:
             return " ORDER BY " + order_by
@@ -2105,7 +2111,12 @@ class SQLCompiler(Compiled):
             returning_clause = None
 
         if insert_stmt.select is not None:
-            text += " %s" % self.process(self._insert_from_select, **kw)
+            select_text = self.process(self._insert_from_select, **kw)
+
+            if self.ctes and toplevel and self.dialect.cte_follows_insert:
+                text += " %s%s" % (self._render_cte_clause(), select_text)
+            else:
+                text += " %s" % select_text
         elif not crud_params and supports_default_values:
             text += " DEFAULT VALUES"
         elif insert_stmt._has_multi_parameters:
@@ -2130,7 +2141,7 @@ class SQLCompiler(Compiled):
         if returning_clause and not self.returning_precedes_values:
             text += " " + returning_clause
 
-        if self.ctes and toplevel:
+        if self.ctes and toplevel and not self.dialect.cte_follows_insert:
             text = self._render_cte_clause() + text
 
         self.stack.pop(-1)
@@ -2172,12 +2183,24 @@ class SQLCompiler(Compiled):
     def visit_update(self, update_stmt, asfrom=False, **kw):
         toplevel = not self.stack
 
-        self.stack.append(
-            {'correlate_froms': {update_stmt.table},
-             "asfrom_froms": {update_stmt.table},
-             "selectable": update_stmt})
-
         extra_froms = update_stmt._extra_froms
+        is_multitable = bool(extra_froms)
+
+        if is_multitable:
+            # main table might be a JOIN
+            main_froms = set(selectable._from_objects(update_stmt.table))
+            render_extra_froms = [
+                f for f in extra_froms if f not in main_froms
+            ]
+            correlate_froms = main_froms.union(extra_froms)
+        else:
+            render_extra_froms = []
+            correlate_froms = {update_stmt.table}
+
+        self.stack.append(
+            {'correlate_froms': correlate_froms,
+             "asfrom_froms": correlate_froms,
+             "selectable": update_stmt})
 
         text = "UPDATE "
 
@@ -2186,8 +2209,7 @@ class SQLCompiler(Compiled):
                                             update_stmt._prefixes, **kw)
 
         table_text = self.update_tables_clause(update_stmt, update_stmt.table,
-                                               extra_froms, **kw)
-
+                                               render_extra_froms, **kw)
         crud_params = crud._setup_crud_params(
             self, update_stmt, crud.ISUPDATE, **kw)
 
@@ -2200,7 +2222,7 @@ class SQLCompiler(Compiled):
         text += table_text
 
         text += ' SET '
-        include_table = extra_froms and \
+        include_table = is_multitable and \
             self.render_table_with_column_in_update_from
         text += ', '.join(
             c[0]._compiler_dispatch(self,
@@ -2217,7 +2239,7 @@ class SQLCompiler(Compiled):
             extra_from_text = self.update_from_clause(
                 update_stmt,
                 update_stmt.table,
-                extra_froms,
+                render_extra_froms,
                 dialect_hints, **kw)
             if extra_from_text:
                 text += " " + extra_from_text
@@ -2272,13 +2294,14 @@ class SQLCompiler(Compiled):
     def visit_delete(self, delete_stmt, asfrom=False, **kw):
         toplevel = not self.stack
 
-        self.stack.append({'correlate_froms': {delete_stmt.table},
-                           "asfrom_froms": {delete_stmt.table},
-                           "selectable": delete_stmt})
-
         crud._setup_crud_params(self, delete_stmt, crud.ISDELETE, **kw)
 
         extra_froms = delete_stmt._extra_froms
+
+        correlate_froms = {delete_stmt.table}.union(extra_froms)
+        self.stack.append({'correlate_froms': correlate_froms,
+                           "asfrom_froms": correlate_froms,
+                           "selectable": delete_stmt})
 
         text = "DELETE "
 
@@ -2384,9 +2407,9 @@ class StrSQLCompiler(SQLCompiler):
             for t in extra_froms)
 
     def delete_extra_from_clause(self, update_stmt,
-                           from_table, extra_froms,
-                           from_hints,
-                           **kw):
+                                 from_table, extra_froms,
+                                 from_hints,
+                                 **kw):
         return ', ' + ', '.join(
             t._compiler_dispatch(self, asfrom=True,
                                  fromhints=from_hints, **kw)

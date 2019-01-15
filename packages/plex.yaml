@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'plex'
+        package: "plex"
 
 ##################################################
 ## Media Player
@@ -26,11 +26,6 @@ media_player:
 ## Sensor
 ##################################################
 sensor:
-  - platform: plex
-    host: !secret plex_host
-    username: !secret plex_username
-    password: !secret plex_password
-
   - platform: template
     sensors:
       plex_list:

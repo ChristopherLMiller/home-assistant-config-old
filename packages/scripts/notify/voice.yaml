@@ -14,11 +14,43 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'scripts/notify/voice'
+        package: "scripts/notify/voice"
 
     script.notify_voice:
       <<: *customize
       friendly_name: Notify Voice
+
+##################################################
+## Group
+##################################################
+group:
+  voice_notifications:
+    control: hidden
+    entities:
+      - input_boolean.voice_enabled
+      - input_boolean.voice_enabled_chris
+      - input_number.voice_volume
+
+##################################################
+## Input Number
+##################################################
+input_number:
+  voice_volume:
+    initial: 0.5
+    min: 0
+    max: 1
+    step: 0.01
+
+##################################################
+## Input Boolean
+##################################################
+input_boolean:
+  voice_enabled:
+    initial: on
+    icon: mdi:voice
+  voice_enabled_chris:
+    initial: on
+    icon: mdi:voice
 
 ##################################################
 ## Script
@@ -26,18 +58,31 @@ homeassistant:
 script:
   notify_voice:
     sequence:
+      # verify voice notifications are enabled
       - condition: state
-        entity_id: device_tracker.chris_phone
-        state: 'home'
-      - condition: state
-        entity_id: input_boolean.chris_bed
-        state: 'off'
+        entity_id: input_boolean.voice_enabled
+        state: "on"
+      # Check that we aren't in sleeping hours
+      - condition: time
+        after: "06:00:00"
+        before: "22:00:00"
+      # Delay 5 seconds to allow google to finish talking first
+      - delay: "00:00:05"
       - service: media_player.volume_set
-        data:
-          entity_id: media_player.chris_bedroom_speaker
-          volume_level: 0.4
+        data_template:
+          entity_id:
+            - media_player.spare_room_speaker
+            - media_player.living_room_speaker
+            - media_player.computer_room_speaker
+          volume_level: "{{ states.input_number.voice_volume.state }}"
       - service: tts.google_say
         data_template:
           cache: false
-          message: '{{ message }}'            
-          entity_id: media_player.chris_bedroom_speaker
+          message: "{{ message }}"
+          entity_id:
+            - media_player.spare_room_speaker
+            - media_player.living_room_speaker
+            - media_player.computer_room_speaker
+      - service: script.notify_voice_chris
+        data_template:
+          message: "{{ message }}"

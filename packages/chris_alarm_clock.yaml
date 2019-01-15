@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'chris_alarm_clock'
+        package: "chris_alarm_clock"
 
     group.chris_alarm_clock:
       <<: *customize
@@ -61,6 +61,7 @@ group:
       - input_number.alarm_clock_volume
       - input_select.alarm_clock_device
       - input_select.alarm_clock_lights
+      - input_boolean.bedtime_music
 
 ##################################################
 ## Input Boolean
@@ -70,6 +71,8 @@ input_boolean:
     initial: on
   alarm_clock_override:
     initial: off
+  bedtime_music:
+    initial: on
 
 ##################################################
 ## Input Datetime
@@ -78,17 +81,17 @@ input_datetime:
   alarm_clock_manual_time:
     has_date: false
     has_time: true
-    initial: '00:00:00'
+    initial: "00:00:00"
 
 ##################################################
 ## Input Number
 ##################################################
 input_number:
   alarm_clock_volume:
-    initial: 5
+    initial: 0.4
     min: 0
-    max: 10
-    step: 0.5
+    max: 1
+    step: 0.05
 
 ##################################################
 ## Input Select
@@ -102,18 +105,3 @@ input_select:
       - All
       - Reading
       - Overhead
-
-##################################################
-## Automations
-##################################################
-#automation:
-#  - alias: manual wakeup
-#    initial_state: true
-#    trigger:
-#      - platform: template
-#        value_template: '{{  }}'
-#    action:
-#      - service: script.notify_discord
-#        data_template:
-#          message: 'triggering alarm clock'
-

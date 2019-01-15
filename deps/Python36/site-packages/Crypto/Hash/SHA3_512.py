@@ -18,40 +18,32 @@
 # SOFTWARE.
 # ===================================================================
 
-"""SHA-3/512 cryptographic hash algorithm.
-
-SHA-3/512 belongs to the SHA-3 family of cryptographic hashes, as specified
-in `FIPS 202`__.
-
-The hash function produces the 512 bit digest of a message.
-
-    >>> from Crypto.Hash import SHA3_512
-    >>>
-    >>> h_obj = SHA3_512.new()
-    >>> h_obj.update(b'Some data')
-    >>> print h_obj.hexdigest()
-
-.. __: http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf
-"""
-
 from Crypto.Util.py3compat import bord
 
 from Crypto.Util._raw_api import (load_pycryptodome_raw_lib,
                                   VoidPointer, SmartPointer,
                                   create_string_buffer,
                                   get_raw_buffer, c_size_t,
-                                  expect_byte_string)
+                                  c_uint8_ptr)
 
 from Crypto.Hash.keccak import _raw_keccak_lib
 
 class SHA3_512_Hash(object):
-    """Class that implements a SHA-3/512 hash
+    """A SHA3-512 hash object.
+    Do not instantiate directly.
+    Use the :func:`new` function.
+
+    :ivar oid: ASN.1 Object ID
+    :vartype oid: string
+
+    :ivar digest_size: the size in bytes of the resulting hash
+    :vartype digest_size: integer
     """
 
-    #: The size of the resulting hash in bytes.
+    # The size of the resulting hash in bytes.
     digest_size = 64
 
-    #: ASN.1 Object ID
+    # ASN.1 Object ID
     oid = "2.16.840.1.101.3.4.2.10"
 
     def __init__(self, data, update_after_digest):
@@ -73,26 +65,15 @@ class SHA3_512_Hash(object):
     def update(self, data):
         """Continue hashing of a message by consuming the next chunk of data.
 
-        Repeated calls are equivalent to a single call with the concatenation
-        of all the arguments. In other words:
-
-           >>> m.update(a); m.update(b)
-
-        is equivalent to:
-
-           >>> m.update(a+b)
-
-        :Parameters:
-          data : byte string
-            The next chunk of the message being hashed.
+        Args:
+            data (byte string/byte array/memoryview): The next chunk of the message being hashed.
         """
 
         if self._digest_done and not self._update_after_digest:
             raise TypeError("You can only call 'digest' or 'hexdigest' on this object")
 
-        expect_byte_string(data)
         result = _raw_keccak_lib.keccak_absorb(self._state.get(),
-                                               data,
+                                               c_uint8_ptr(data),
                                                c_size_t(len(data)))
         if result:
             raise ValueError("Error %d while updating SHA-3/512"
@@ -100,13 +81,12 @@ class SHA3_512_Hash(object):
         return self
 
     def digest(self):
+
         """Return the **binary** (non-printable) digest of the message that has been hashed so far.
 
-        You cannot update the hash anymore after the first call to ``digest``
-        (or ``hexdigest``).
-
-        :Return: A byte string of `digest_size` bytes. It may contain non-ASCII
-         characters, including null bytes.
+        :return: The hash digest, computed over the data processed so far.
+                 Binary form.
+        :rtype: byte string
         """
 
         self._digest_done = True
@@ -125,31 +105,31 @@ class SHA3_512_Hash(object):
     def hexdigest(self):
         """Return the **printable** digest of the message that has been hashed so far.
 
-        This method does not change the state of the hash object.
-
-        :Return: A string of 2* `digest_size` characters. It contains only
-         hexadecimal ASCII digits.
+        :return: The hash digest, computed over the data processed so far.
+                 Hexadecimal encoded.
+        :rtype: string
         """
 
         return "".join(["%02x" % bord(x) for x in self.digest()])
 
     def new(self):
+        """Create a fresh SHA3-512 hash object."""
+
         return type(self)(None, self._update_after_digest)
 
 
 def new(*args, **kwargs):
-    """Return a fresh instance of the hash object.
+    """Create a new hash object.
 
-    :Keywords:
-      data : byte string
-        Optional. The very first chunk of the message to hash.
-        It is equivalent to an early call to ``update()``.
-      update_after_digest : boolean
-        Optional. By default, a hash object cannot be updated anymore after
-        the digest is computed. When this flag is ``True``, such check
-        is no longer enforced.
+    Args:
+        data (byte string/byte array/memoryview):
+            The very first chunk of the message to hash.
+            It is equivalent to an early call to :meth:`update`.
+        update_after_digest (boolean):
+            Whether :meth:`digest` can be followed by another :meth:`update`
+            (default: ``False``).
 
-    :Return: A `SHA3_512_Hash` object
+    :Return: A :class:`SHA3_512_Hash` hash object
     """
 
     data = kwargs.pop("data", None)
@@ -164,5 +144,5 @@ def new(*args, **kwargs):
 
     return SHA3_512_Hash(data, update_after_digest)
 
-#: The size of the resulting hash in bytes.
+# The size of the resulting hash in bytes.
 digest_size = SHA3_512_Hash.digest_size

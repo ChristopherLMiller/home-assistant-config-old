@@ -113,7 +113,7 @@ class FileType(DictMixin):
         Does nothing if the file has no tags.
 
         Raises:
-            MutagenError: if deleting wasn't possible
+            mutagen.MutagenError: if deleting wasn't possible
         """
 
         if self.tags is not None:
@@ -150,14 +150,15 @@ class FileType(DictMixin):
         """Adds new tags to the file.
 
         Raises:
-            MutagenError: if tags already exist or adding is not possible.
+            mutagen.MutagenError:
+                if tags already exist or adding is not possible.
         """
 
         raise NotImplementedError
 
     @property
     def mime(self):
-        """A list of mime types (`text`)"""
+        """A list of mime types (:class:`mutagen.text`)"""
 
         mimes = []
         for Kind in type(self).__mro__:
@@ -171,7 +172,7 @@ class FileType(DictMixin):
         """Returns a score for how likely the file can be parsed by this type.
 
         Args:
-            filename (path): a file path
+            filename (fspath): a file path
             fileobj (fileobj): a file object open in rb mode. Position is
                 undefined
             header (bytes): data of undefined length, starts with the start of

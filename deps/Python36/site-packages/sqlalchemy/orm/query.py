@@ -112,6 +112,18 @@ class Query(object):
     _current_path = _path_registry
     _has_mapper_entities = False
 
+    lazy_loaded_from = None
+    """An :class:`.InstanceState` that is using this :class:`.Query` for a
+    lazy load operation.
+
+    This can be used for extensions like the horizontal sharding extension
+    as well as event handlers and custom mapper options to determine
+    when a query is being used to lazy load a relationship on an object.
+
+    .. versionadded:: 1.2.9
+
+    """
+
     def __init__(self, entities, session=None):
         """Construct a :class:`.Query` directly.
 
@@ -147,7 +159,27 @@ class Query(object):
         self._entities = []
         self._primary_entity = None
         self._has_mapper_entities = False
-        if entities:
+
+        # 1. don't run util.to_list() or _set_entity_selectables
+        #    if no entities were passed - major performance bottleneck
+        #    from lazy loader implementation when it seeks to use Query
+        #    class for an identity lookup, causes test_orm.py to fail
+        #    with thousands of extra function calls, see issue #4228
+        #    for why this use had to be added
+        # 2. can't use classmethod on Query because session.query_cls
+        #    is an arbitrary callable in some user recipes, not
+        #    necessarily a class, so we don't have the class available.
+        #    see issue #4256
+        # 3. can't do "if entities is not None" because we usually get here
+        #    from session.query() which takes in *entities.
+        # 4. can't do "if entities" because users make use of undocumented
+        #    to_list() behavior here and they pass clause expressions that
+        #    can't be evaluated as boolean.  See issue #4269.
+        # 5. the empty tuple is a singleton in cPython, take advantage of this
+        #    so that we can skip for the empty "*entities" case without using
+        #    any Python overloadable operators.
+        #
+        if entities is not ():
             for ent in util.to_list(entities):
                 entity_wrapper(self, ent)
 
@@ -259,6 +291,10 @@ class Query(object):
                 True, True)
             for o in cols
         ]
+
+    @_generative()
+    def _set_lazyload_from(self, state):
+        self.lazy_loaded_from = state
 
     @_generative()
     def _adapt_all_clauses(self):
@@ -508,6 +544,7 @@ class Query(object):
         if with_labels:
             q = q.with_labels()
         q = q.statement
+
         if reduce_columns:
             q = q.reduce_columns()
         return q.alias(name=name)
@@ -887,8 +924,8 @@ class Query(object):
             ident, loading.load_on_pk_identity)
 
     def _identity_lookup(self, mapper, primary_key_identity,
-                         identity_token=None,
-                         passive=attributes.PASSIVE_OFF):
+                         identity_token=None, passive=attributes.PASSIVE_OFF,
+                         lazy_loaded_from=None):
         """Locate an object in the identity map.
 
         Given a primary key identity, constructs an identity key and then
@@ -913,6 +950,14 @@ class Query(object):
          :func:`.loading.get_from_identity`, which impacts the behavior if
          the object is found; the object may be validated and/or unexpired
          if the flag allows for SQL to be emitted.
+        :param lazy_loaded_from: an :class:`.InstanceState` that is
+         specifically asking for this identity as a related identity.  Used
+         for sharding schemes where there is a correspondence between an object
+         and a related object being lazy-loaded (or otherwise
+         relationship-loaded).
+
+         .. versionadded:: 1.2.9
+
         :return: None if the object is not found in the identity map, *or*
          if the object was unexpired and found to have been deleted.
          if passive flags disallow SQL and the object is expired, returns
@@ -1411,6 +1456,8 @@ class Query(object):
         # most MapperOptions write to the '_attributes' dictionary,
         # so copy that as well
         self._attributes = self._attributes.copy()
+        if '_unbound_load_dedupes' not in self._attributes:
+            self._attributes['_unbound_load_dedupes'] = set()
         opts = tuple(util.flatten_iterator(args))
         self._with_options = self._with_options + opts
         if conditional:
@@ -2198,6 +2245,13 @@ class Query(object):
 
                 left_entity = onclause._parententity
 
+                alias = self._polymorphic_adapters.get(left_entity, None)
+                # could be None or could be ColumnAdapter also
+                if isinstance(alias, ORMAdapter) and \
+                        alias.mapper.isa(left_entity):
+                    left_entity = alias.aliased_class
+                    onclause = getattr(left_entity, onclause.key)
+
                 prop = onclause.property
                 if not isinstance(onclause, attributes.QueryableAttribute):
                     onclause = prop
@@ -2329,6 +2383,12 @@ class Query(object):
             right_mapper = prop.mapper
 
         need_adapter = False
+
+        if r_info.is_clause_element and right_selectable._is_lateral:
+            # orm_only is disabled to suit the case where we have to
+            # adapt an explicit correlate(Entity) - the select() loses
+            # the ORM-ness in this case right now, ideally it would not
+            right = self._adapt_clause(right, True, False)
 
         if right_mapper and right is right_selectable:
             if not right_selectable.is_derived_from(
@@ -3902,7 +3962,7 @@ class Bundle(InspectionAttr):
         return cloned
 
     def __clause_element__(self):
-        return expression.ClauseList(group=False, *self.c)
+        return expression.ClauseList(group=False, *self.exprs)
 
     @property
     def clauses(self):
@@ -4166,6 +4226,11 @@ class _ColumnEntity(_QueryEntity):
         else:
             column = query._adapt_clause(self.column, False, True)
 
+        if column._annotations:
+            # annotated columns perform more slowly in compiler and
+            # result due to the __eq__() method, so use deannotated
+            column = column._deannotate()
+
         if context.adapter:
             column = context.adapter.columns[column]
 
@@ -4174,6 +4239,12 @@ class _ColumnEntity(_QueryEntity):
 
     def setup_context(self, query, context):
         column = query._adapt_clause(self.column, False, True)
+
+        if column._annotations:
+            # annotated columns perform more slowly in compiler and
+            # result due to the __eq__() method, so use deannotated
+            column = column._deannotate()
+
         context.froms += tuple(self.froms)
         context.primary_columns.append(column)
 

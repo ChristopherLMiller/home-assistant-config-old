@@ -1,7 +1,7 @@
 #############################
 ## network
 #############################
-net_printer_computer_room:
+net_hp_printer:
   hide_if_away: false
   icon:
   mac: 3C:A8:2A:CC:91:22
@@ -9,16 +9,6 @@ net_printer_computer_room:
   picture:
   track: true
   vendor: Hewlett Packard
-
-net_echo_show_chris_bedroom:
-  hide_if_away: false
-  icon:
-  mac: 00:FC:8B:B0:A4:7E
-  name: Chris's Echo Show
-  picture:
-  track: true
-  vendor: Amazon
-
 net_asus_tablet:
   hide_if_away: false
   icon:
@@ -27,7 +17,6 @@ net_asus_tablet:
   picture:
   track: true
   vendor: unknown
-
 net_asus_laptop_gaming:
   hide_if_away: false
   icon:
@@ -36,8 +25,7 @@ net_asus_laptop_gaming:
   picture:
   track: true
   vendor: Asus
-
-net_samsung_smart_tv_chris_bedroom:
+net_samsung_smart_tv:
   hide_if_away: false
   icon:
   mac: FC:F1:36:75:EF:C0
@@ -45,16 +33,6 @@ net_samsung_smart_tv_chris_bedroom:
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
-
-net_xbox_one_chris_bedroom:
-  hide_if_away: false
-  icon:
-  mac: 4C:0B:BE:79:A2:A2
-  name: Xbox One
-  picture:
-  track: true
-  vendor: Microsoft
-
 net_lenovo_laptop:
   hide_if_away: false
   icon:
@@ -63,7 +41,6 @@ net_lenovo_laptop:
   picture:
   track: true
   vendor: Liteon Technology Corporation
-
 net_amazon_kindle:
   hide_if_away: false
   icon:
@@ -72,8 +49,7 @@ net_amazon_kindle:
   picture:
   track: true
   vendor: Amazon
-
-net_lg_smart_tv_living_room:
+net_lg_smart_tv:
   hide_if_away: false
   icon:
   mac: 5C:DC:96:22:A9:97
@@ -81,25 +57,6 @@ net_lg_smart_tv_living_room:
   picture:
   track: true
   vendor: LG Technology
-
-net_ps3_chris_bedroom:
-  hide_if_away: false
-  icon:
-  mac: 00:24:8D:B9:BA:3E
-  name: Playstation 3
-  picture:
-  track: true
-  vendor: Sony Interactive Entertainment Inc.
-
-net_echo_living_room:
-  hide_if_away: false
-  icon:
-  mac: 68:37:E9:40:C9:0A
-  name: Echo Dot
-  picture:
-  track: true
-  vendor: Amazon Technologies Inc.
-
 net_amazon_firestick:
   hide_if_away: false
   icon:
@@ -108,7 +65,6 @@ net_amazon_firestick:
   picture:
   track: true
   vendor: Amazon Technologies Inc.
-
 net_amazon_firestick_2:
   hide_if_away: false
   icon:
@@ -117,7 +73,6 @@ net_amazon_firestick_2:
   picture:
   track: true
   vendor: Amazon Technologies Inc.
-
 net_amazon_firestick_3:
   hide_if_away: false
   icon:
@@ -126,7 +81,6 @@ net_amazon_firestick_3:
   picture:
   track: true
   vendor: Amazon Technologies Inc.
-
 net_hp_laptop:
   hide_if_away: false
   icon:
@@ -135,7 +89,6 @@ net_hp_laptop:
   picture:
   track: true
   vendor: unknown
-
 net_cassie_laptop:
   hide_if_away: false
   icon:
@@ -152,11 +105,10 @@ bruce_phone:
   hide_if_away: false
   icon:
   mac: A8:81:95:31:BB:76
-  name: Bruce
+  name: Bruce Phone
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
-
 cassie_phone:
   hide_if_away: false
   icon:
@@ -165,16 +117,21 @@ cassie_phone:
   picture:
   track: true
   vendor: Apple, Inc.
-
 chris_phone:
   hide_if_away: false
   icon:
   mac: B4:F7:A1:C3:79:0B
-  name: Chris
+  name: Chris Phone
   picture:
   track: true
   vendor: Google Inc.
-
+kyrie_phone:
+  hide_if_away: false
+  icon:
+  mac: 54:33:CB:D7:7A:CC
+  name: Kyrie Phone
+  picture:
+  track: true
 teresa_phone:
   hide_if_away: false
   icon:
@@ -183,7 +140,6 @@ teresa_phone:
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
-
 mikayla_phone:
   hide_if_away: false
   icon:
@@ -192,7 +148,6 @@ mikayla_phone:
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
-
 corey_phone:
   hide_if_away: false
   icon:
@@ -201,7 +156,6 @@ corey_phone:
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
-
 kennady_phone:
   hide_if_away: false
   icon:
@@ -210,7 +164,6 @@ kennady_phone:
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
-
 erin_phone:
   hide_if_away: false
   icon:
@@ -219,7 +172,6 @@ erin_phone:
   picture:
   track: true
   vendor: Apple, Inc.
-
 brandon_phone:
   hide_if_away: false
   icon:
@@ -239,7 +191,6 @@ net_hue_bridge:
   name: Philips Hue Bridge
   track: true
   vendor: Philips
-
 net_sonoff_1:
   hide_if_away: false
   icon:
@@ -248,7 +199,6 @@ net_sonoff_1:
   picture:
   track: true
   vendor: Espressif Inc.
-
 net_sonoff_2:
   hide_if_away: false
   icon:
@@ -257,7 +207,6 @@ net_sonoff_2:
   picture:
   track: true
   vendor: Espressif Inc.
-
 net_sonoff_3:
   hide_if_away: false
   icon:
@@ -266,7 +215,6 @@ net_sonoff_3:
   picture:
   track: true
   vendor: Espressic Inc.
-
 net_sonoff_4:
   hide_if_away: false
   icon:
@@ -275,7 +223,6 @@ net_sonoff_4:
   picture:
   track: true
   vendor: Espressif Inc.
-
 net_sonoff_5:
   hide_if_away: false
   icon:
@@ -284,7 +231,6 @@ net_sonoff_5:
   picture:
   track: true
   vendor: Espressif Inc.
-
 net_sonoff_6:
   hide_if_away: false
   icon:
@@ -293,26 +239,7 @@ net_sonoff_6:
   picture:
   track: true
   vendor: Espressif Inc.
-
-esp_easy_0:
-  hide_if_away: false
-  icon:
-  mac: 5C:CF:7F:3C:85:AE
-  name: ESP Easy 0
-  picture:
-  track: true
-  vendor: unknown
-
-hassbian:
-  hide_if_away: false
-  icon:
-  mac: 00:C3:16:A1:D5:FB
-  name: hassbian
-  picture:
-  track: true
-  vendor: unknown
-
-net_googlehome:
+net_google_home:
   hide_if_away: false
   icon:
   mac: 20:DF:B9:CE:CE:09
@@ -320,15 +247,54 @@ net_googlehome:
   picture:
   track: true
   vendor: unknown
+net_google_home_2:
+  hide_if_away: false
+  icon:
+  mac: 38:8B:59:81:5D:9B
+  name: Google-Home 2
+  picture:
+  track: true
+net_google_home_3:
+  hide_if_away: false
+  icon:
+  mac: 7C:2E:BD:58:AF:18
+  name: Google-Home 3
+  picture:
+  track: true
+net_google_home_hub:
+  hide_if_away: false
+  icon:
+  mac: 1C:F2:9A:08:AA:ED
+  name: Google-Home-Hub
+  picture:
+  track: true
+net_echo_dot:
+  hide_if_away: false
+  icon:
+  mac: 68:37:E9:40:C9:0A
+  name: Echo Dot
+  picture:
+  track: true
+  vendor: Amazon Technologies Inc.
+net_echo_show:
+  hide_if_away: false
+  icon:
+  mac: 00:FC:8B:B0:A4:7E
+  name: Chris's Echo Show
+  picture:
+  track: true
+  vendor: Amazon
 
-net_alred_cam_1:
+##########
+## Cameras
+##########
+net_alfred_cam_1:
   hide_if_away: false
   icon:
   mac: A8:81:95:31:BC:48
   name: Alfred Cam 1 (J7)
   picture:
   track: true
-
 net_alfred_cam_2:
   hide_if_away: false
   icon:
@@ -336,7 +302,6 @@ net_alfred_cam_2:
   name: Alfred Cam 2 (S6 Edge+)
   picture:
   track: true
-
 net_alfred_cam_3:
   hide_if_away: false
   icon:
@@ -346,54 +311,54 @@ net_alfred_cam_3:
   track: true
 
 ################
-## Misc
+## Game Consoles
 ################
-wii:
-  hide_if_away: false
-  icon:
-  mac: 00:1B:7A:C0:54:C7
-  name: Wii
-  picture:
-  track: true
-  vendor: unknown
-
-nintendo_3ds:
+net_nintendo_3ds_2:
   hide_if_away: false
   icon:
   mac: 40:D2:8A:25:92:2D
   name: Nintendo 3DS
   picture:
   track: true
-  vendor: Nintendo Co., Ltd.
-
-steamlink:
+net_ps3:
   hide_if_away: false
   icon:
-  mac: E0:31:9E:49:53:3A
-  name: steamlink
+  mac: 00:24:8D:B9:BA:3E
+  name: Playstation 3
   picture:
   track: true
-
-androida9f06b012d13dafc:
+  vendor: Sony Interactive Entertainment Inc.
+net_xbox_one:
   hide_if_away: false
   icon:
-  mac: DC:BF:E9:76:B1:D0
-  name: android-a9f06b012d13dafc
+  mac: 4C:0B:BE:79:A2:A2
+  name: Xbox One
   picture:
   track: true
-
-teresasiphone:
+  vendor: Microsoft
+net_xbox_one_x:
   hide_if_away: false
   icon:
-  mac: 9C:8B:A0:13:C0:94
-  name: Teresas-iPhone
+  mac: B8:31:B5:BB:7E:0D
+  name: Xbox one X (Chris)
   picture:
   track: true
-
-raspberrypi:
+################
+## Misc
+################
+esp_easy_0:
   hide_if_away: false
   icon:
-  mac: B8:27:EB:0B:92:A1
-  name: raspberrypi
+  mac: 5C:CF:7F:3C:85:AE
+  name: ESP Easy 0
   picture:
   track: true
+  vendor: unknown
+hassbian:
+  hide_if_away: false
+  icon:
+  mac: 00:C3:16:A1:D5:FB
+  name: hassbian
+  picture:
+  track: true
+  vendor: unknown

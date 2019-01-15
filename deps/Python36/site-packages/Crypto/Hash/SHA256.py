@@ -18,29 +18,13 @@
 # SOFTWARE.
 # ===================================================================
 
-"""SHA-256 cryptographic hash algorithm.
-
-SHA-256 belongs to the SHA-2_ family of cryptographic hashes.
-It produces the 256 bit digest of a message.
-
-    >>> from Crypto.Hash import SHA256
-    >>>
-    >>> h = SHA256.new()
-    >>> h.update(b'Hello')
-    >>> print h.hexdigest()
-
-*SHA* stands for Secure Hash Algorithm.
-
-.. _SHA-2: http://csrc.nist.gov/publications/fips/fips180-2/fips180-4.pdf
-"""
-
-from Crypto.Util.py3compat import *
+from Crypto.Util.py3compat import bord
 
 from Crypto.Util._raw_api import (load_pycryptodome_raw_lib,
                                   VoidPointer, SmartPointer,
                                   create_string_buffer,
                                   get_raw_buffer, c_size_t,
-                                  expect_byte_string)
+                                  c_uint8_ptr)
 
 _raw_sha256_lib = load_pycryptodome_raw_lib("Crypto.Hash._SHA256",
                         """
@@ -50,19 +34,38 @@ _raw_sha256_lib = load_pycryptodome_raw_lib("Crypto.Hash._SHA256",
                                           const uint8_t *buf,
                                           size_t len);
                         int SHA256_digest(const void *shaState,
-                                          uint8_t digest[32]);
+                                          uint8_t *digest,
+                                          size_t digest_size);
                         int SHA256_copy(const void *src, void *dst);
+
+                        int SHA256_pbkdf2_hmac_assist(const void *inner,
+                                            const void *outer,
+                                            const uint8_t *first_digest,
+                                            uint8_t *final_digest,
+                                            size_t iterations,
+                                            size_t digest_size);
                         """)
 
 class SHA256Hash(object):
-    """Class that implements a SHA-256 hash
+    """A SHA-256 hash object.
+    Do not instantiate directly. Use the :func:`new` function.
+
+    :ivar oid: ASN.1 Object ID
+    :vartype oid: string
+
+    :ivar block_size: the size in bytes of the internal message block,
+                      input to the compression function
+    :vartype block_size: integer
+
+    :ivar digest_size: the size in bytes of the resulting hash
+    :vartype digest_size: integer
     """
 
-    #: The size of the resulting hash in bytes.
+    # The size of the resulting hash in bytes.
     digest_size = 32
-    #: The internal block size of the hash algorithm in bytes.
+    # The internal block size of the hash algorithm in bytes.
     block_size = 64
-    #: ASN.1 Object ID
+    # ASN.1 Object ID
     oid = "2.16.840.1.101.3.4.2.1"
 
     def __init__(self, data=None):
@@ -79,43 +82,31 @@ class SHA256Hash(object):
     def update(self, data):
         """Continue hashing of a message by consuming the next chunk of data.
 
-        Repeated calls are equivalent to a single call with the concatenation
-        of all the arguments. In other words:
-
-           >>> m.update(a); m.update(b)
-
-        is equivalent to:
-
-           >>> m.update(a+b)
-
-        :Parameters:
-          data : byte string
-            The next chunk of the message being hashed.
+        Args:
+            data (byte string/byte array/memoryview): The next chunk of the message being hashed.
         """
 
-        expect_byte_string(data)
         result = _raw_sha256_lib.SHA256_update(self._state.get(),
-                                               data,
+                                               c_uint8_ptr(data),
                                                c_size_t(len(data)))
         if result:
-            raise ValueError("Error %d while instantiating SHA256"
+            raise ValueError("Error %d while hashing data with SHA256"
                              % result)
 
     def digest(self):
         """Return the **binary** (non-printable) digest of the message that has been hashed so far.
 
-        This method does not change the state of the hash object.
-        You can continue updating the object after calling this function.
-
-        :Return: A byte string of `digest_size` bytes. It may contain non-ASCII
-         characters, including null bytes.
+        :return: The hash digest, computed over the data processed so far.
+                 Binary form.
+        :rtype: byte string
         """
 
         bfr = create_string_buffer(self.digest_size)
         result = _raw_sha256_lib.SHA256_digest(self._state.get(),
-                                               bfr)
+                                               bfr,
+                                               c_size_t(self.digest_size))
         if result:
-            raise ValueError("Error %d while instantiating SHA256"
+            raise ValueError("Error %d while making SHA256 digest"
                              % result)
 
         return get_raw_buffer(bfr)
@@ -123,10 +114,9 @@ class SHA256Hash(object):
     def hexdigest(self):
         """Return the **printable** digest of the message that has been hashed so far.
 
-        This method does not change the state of the hash object.
-
-        :Return: A string of 2* `digest_size` characters. It contains only
-         hexadecimal ASCII digits.
+        :return: The hash digest, computed over the data processed so far.
+                 Hexadecimal encoded.
+        :rtype: string
         """
 
         return "".join(["%02x" % bord(x) for x in self.digest()])
@@ -139,7 +129,7 @@ class SHA256Hash(object):
         This can be used to efficiently compute the digests of strings that
         share a common initial substring.
 
-        :Return: A hash object of the same type
+        :return: A hash object of the same type
         """
 
         clone = SHA256Hash()
@@ -150,24 +140,46 @@ class SHA256Hash(object):
         return clone
 
     def new(self, data=None):
+        """Create a fresh SHA-256 hash object."""
+
         return SHA256Hash(data)
 
 def new(data=None):
-    """Return a fresh instance of the hash object.
+    """Create a new hash object.
 
-    :Parameters:
-       data : byte string
-        The very first chunk of the message to hash.
-        It is equivalent to an early call to `SHA256Hash.update()`.
-        Optional.
+    :parameter data:
+        Optional. The very first chunk of the message to hash.
+        It is equivalent to an early call to :meth:`SHA256Hash.update`.
+    :type data: byte string/byte array/memoryview
 
-    :Return: A `SHA256Hash` object
+    :Return: A :class:`SHA256Hash` hash object
     """
+
     return SHA256Hash().new(data)
 
-#: The size of the resulting hash in bytes.
+
+# The size of the resulting hash in bytes.
 digest_size = SHA256Hash.digest_size
 
-#: The internal block size of the hash algorithm in bytes.
+# The internal block size of the hash algorithm in bytes.
 block_size = SHA256Hash.block_size
 
+
+def _pbkdf2_hmac_assist(inner, outer, first_digest, iterations):
+    """Compute the expensive inner loop in PBKDF-HMAC."""
+
+    assert iterations > 0
+
+    bfr = create_string_buffer(len(first_digest));
+    result = _raw_sha256_lib.SHA256_pbkdf2_hmac_assist(
+                    inner._state.get(),
+                    outer._state.get(),
+                    first_digest,
+                    bfr,
+                    c_size_t(iterations),
+                    c_size_t(len(first_digest)))
+
+    if result:
+        raise ValueError("Error %d with PBKDF2-HMAC assist for SHA256" % result)
+
+    return get_raw_buffer(bfr)

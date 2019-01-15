@@ -1,0 +1,76 @@
+################################################################
+## Packages / Groups / Lights
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "groups/lights"
+
+##################################################
+## Light
+##################################################
+light:
+  - platform: group
+    name: Outside
+    entities:
+      - light.garage
+      - light.porch
+
+  - platform: group
+    name: Spare Room
+    entities:
+      - light.overhead_3
+
+  - platform: group
+    name: Model Room
+    entities:
+      - light.overhead_3
+      - light.model_desk
+
+  - platform: group
+    name: Computer Room
+    entities:
+      - light.computer_room_floor
+
+  - platform: group
+    name: Chris Room
+    entities:
+      - light.overhead
+      - light.reading
+
+  - platform: group
+    name: Living Room
+    entities:
+      - light.tree
+      - light.living_room_floor
+
+  - platform: group
+    name: Toy Room
+    entities:
+      - light.overhead_2
+
+  - platform: group
+    name: Downstairs
+    entities:
+      - light.computer_room_floor
+      - light.living_room_floor
+      - light.tree
+      - light.overhead_2
+
+  - platform: group
+    name: Upstairs
+    entities:
+      - light.overhead
+      - light.overhead_3
+      - light.reading
+      - light.model_desk

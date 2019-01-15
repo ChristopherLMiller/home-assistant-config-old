@@ -1,0 +1,22 @@
+################################################################
+## Packages / Intent Scripts
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "intent_scripts"
+
+intent_script:
+  GetTemperature:
+    speech:
+      text: The temperature in Chris's room is {{ states('sensor.chris_bedroom_temp') }} degrees.

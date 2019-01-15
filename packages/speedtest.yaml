@@ -14,22 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'speedtest'
-
-    group.speedtest:
-      <<: *customize
-      friendly_name: "Speedtest"
-
-################################################
-## Group
-################################################
-group:
-  speedtest:
-    control: hidden
-    entities:
-      - sensor.speedtest_ping
-      - sensor.speedtest_download
-      - sensor.speedtest_upload
+        package: "speedtest"
 
 ################################################
 ## Sensor

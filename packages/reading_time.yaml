@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'reading_time'
+        package: "reading_time"
 
     automation.reading_time_playlist_changed:
       <<: *customize
@@ -51,7 +51,7 @@ homeassistant:
       <<: *customize
       friendly_name: Reading Time
       icon: mdi:play
-    
+
     script.reading_time_off:
       <<: *customize
       friendly_name: Reading Done
@@ -85,14 +85,14 @@ input_number:
 input_select:
   reading_time_playlist:
     options:
-      - 'Classical'
-      - 'Christmas'
+      - "Classical"
+      - "Christmas"
 
   reading_time_source:
     options:
-      - Google Home 
+      - Google Home
       - Chris Laptop
-      - Echo Show 
+      - Echo Show
 
 ##################################################
 ## Script
@@ -102,18 +102,17 @@ script:
   reading_time:
     sequence:
       - service: light.turn_on
-        data: 
+        data:
           entity_id: light.reading
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.spotify
-          volume_level: '{{ states.input_number.reading_time_volume.state }}'
+          volume_level: "{{ states.input_number.reading_time_volume.state }}"
       - service: media_player.select_source
         data_template:
           entity_id: media_player.spotify
           source: >-
-            {% if is_state('input_select.reading_time_source', 'Google Home') %}Chris Bedroom Speaker
-            {% elif is_state('input_select.reading_time_source', 'Chris Laptop') %}CHRISMILLERPC
+            {% if is_state('input_select.reading_time_source', 'Chris Laptop') %}CHRISMILLERPC
             {% elif is_state('input_select.reading_time_source', 'Echo Show') %}Christopher's Echo Show
             {% endif %}
       - service: media_player.play_media
@@ -149,7 +148,7 @@ automation:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.spotify
-          volume_level: '{{ states.input_number.reading_time_volume.state }}'
+          volume_level: "{{ states.input_number.reading_time_volume.state }}"
 
   # Playlist changed
   - alias: reading_time_source_changed
@@ -162,8 +161,7 @@ automation:
         data_template:
           entity_id: media_player.spotify
           source: >-
-            {% if is_state('input_select.reading_time_source', 'Google Home') %}Chris Bedroom Speaker
-            {% elif is_state('input_select.reading_time_source', 'Chris Laptop') %}CHRISMILLERPC
+            {% if is_state('input_select.reading_time_source', 'Chris Laptop') %}CHRISMILLERPC
             {% elif is_state('input_select.reading_time_source', 'Echo Show') %}Christopher's Echo Show
             {% endif %}
 
@@ -180,4 +178,4 @@ automation:
           media_content_id: >-
             {% if is_state('input_select.reading_time_playlist', 'Classical') %}spotify:user:spotify:playlist:37i9dQZF1DX4sWSpwq3LiO
             {% elif is_state('input_select.reading_time_playlist', 'Christmas') %}spotify:user:spotify:playlist:37i9dQZF1DX6R7QUWePReA
-            {% endif %} 
+            {% endif %}

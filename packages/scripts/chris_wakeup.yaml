@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'scripts/chris_bedtime'
+        package: "scripts/chris_bedtime"
 
     script.chris_wakeup:
       <<: *customize
@@ -29,26 +29,28 @@ script:
       - service: script.notify_discord
         data_template:
           message: Waking Up Chris!
-      - service: input_boolean.turn_off
+      - service: input_boolean.turn_on
         data:
-          entity_id: input_boolean.chris_bed
+          entity_id: input_boolean.voice_enabled_chris
       - service: light.turn_on
         data:
-          entity_id: light.reading
-      - service: light.turn_on
-        data:
-          entity_id: light.outside
+          entity_id: light.overhead
+          transition: 5
+          brightness_pct: 100
+      - service: script.outside_lights_on
       - service: media_player.volume_set
         data_template:
-          entity_id: media_player.chris_bedroom_speaker
-          volume_level: '{{states.input_number.alarm_clock_volume}}'
+          entity_id: media_player.chris_bedroom_display
+          volume_level: 0.5
       - service: media_player.play_media
         data:
-          entity_id: media_player.chris_bedroom_speaker
+          entity_id: media_player.chris_bedroom_display
           media_content_type: MUSIC
-          media_content_id: 'https://millerresidence.site/local/audio/reveille.mp3'
-      - delay: '00:00:26'
-      - service: script.notify_voice
+          media_content_id: "https://millerresidence.site/local/audio/reveille.mp3"
+
+      ## check if nap or not
+      - delay: "00:00:26"
+      - service: script.notify_voice_chris
         data_template:
           message: >-
             {{ ["Good morning Chris.", "Rise and shine sleepyhead.", "Wake up Chris.", "Morning Chris."] | random }}
@@ -75,11 +77,7 @@ script:
             {%- endif -%}.
             {{-'  '-}}
             {{ ["Have a good night", "Enjoy your work night", "Go earn that money"] | random }}.
-      - delay: '00:15:00'
+      - delay: "00:15:00"
       - service: light.turn_off
         data:
-          entity_id: light.reading
-      - service: light.turn_off
-        data:
-          entity_id: light.outside
-      
+          entity_id: light.overhead

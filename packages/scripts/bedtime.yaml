@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'scripts/bedtime'
+        package: "scripts/bedtime"
 
     script.downstairs_bedtime:
       <<: *customize
@@ -28,10 +28,13 @@ script:
     sequence:
       - service: media_player.turn_off
         data:
-          entity_id: media_player.lg_tv_living_room
+          entity_id: media_player.lg_tv
       - service: light.turn_off
         data:
           entity_id: light.living_room
       - service: light.turn_off
         data:
           entity_id: light.outside
+      - service: script.notify_voice
+        data:
+          message: "Turning everything off. Goodnight!"

@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'views/rooms/chris_bedroom'
+        package: "views/rooms/chris_bedroom"
 
     group.chris_bedroom_view:
       <<: *customize
@@ -53,7 +53,6 @@ group:
   chris_bedroom_media_players:
     control: hidden
     entities:
-      - media_player.samsung_tv_chris_bedroom
+      - media_player.samsung_tv
       - media_player.spotify
-      - media_player.gpm_desktop_player
       - media_player.chris_bedroom_speaker

@@ -14,20 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'uptime'
-
-    group.uptime:
-      <<: *customize
-      friendly_name: Server Uptime
-
-##################################################
-## Group
-##################################################
-group:
-  uptime:
-    control: hidden
-    entities:
-      - sensor.uptime
+        package: "uptime"
 
 ##################################################
 ## Sensor

@@ -14,23 +14,12 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'house_mode'
-
-    group.house_mode:
-      <<: *customize
-      friendly_name: "House Mode"
-      icon: mdi:home-variant
-      order: 0
+        package: "house_mode"
 
     input_boolean.guest_mode:
       <<: *customize
       friendly_name: "Guest Mode"
       icon: mdi:account
-
-    input_boolean.vacation_mode:
-      <<: *customize
-      friendly_name: "Vacation Mode"
-      icon: mdi:beach
 
     sensor.household:
       <<: *customize
@@ -52,21 +41,16 @@ homeassistant:
       <<: *customize
       friendly_name: "Guest Mode"
 
-    scene.mode_vacation:
-      <<: *customize
-      friendly_name: "Vacation Mode"
-
 ################################################
 ## Group
 ################################################
 group:
-  house_mode:
+  household_members_source:
     control: hidden
     entities:
-      - sensor.house_mode
-      - input_boolean.guest_mode
-      - input_boolean.vacation_mode
-      - sensor.household
+      - device_tracker.chris_phone
+      - device_tracker.teresa_phone
+      - device_tracker.bruce_phone
 
 ################################################
 ## Input Boolean
@@ -109,8 +93,6 @@ sensor:
             guest
           {% elif is_state('sensor.household', 'home') %}
             home
-          {% elif is_state('input_boolean.vacation_mode', 'on') %}
-            vacation
           {% else %}
             away
           {% endif %}
@@ -119,8 +101,6 @@ sensor:
             mdi:account
           {% elif is_state('sensor.household', 'home') %}
             mdi:home
-          {% elif is_state('input_boolean.vacation_mode', 'on') %}
-            mdi:beach
           {% else %}
             mdi:home-outline
           {% endif %}
@@ -135,12 +115,8 @@ scene:
       input_boolean.vacation_mode: off
   - name: mode_guest
     entities:
-      input_boolean.guest_mode: on 
+      input_boolean.guest_mode: on
       input_boolean.vacation_mode: off
-  - name: mode_vacation
-    entities:
-      input_boolean.guest_mode: off
-      input_boolean.vacation_mode: on
 
 ##################################################
 ## Automation
@@ -155,6 +131,3 @@ automation:
       - service: script.notify_discord
         data_template:
           message: "Enabled {{ trigger.to_state.state }} Mode"
-      - service: script.notify_voice
-        data_template:
-          message: "House Mode changed to {{ trigger.to_state.state }}"

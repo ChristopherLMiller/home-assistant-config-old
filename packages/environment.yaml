@@ -1,0 +1,30 @@
+################################################################
+## Packages / Temperature & Humidity
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+    package.node_anchors:
+      customize: &customize
+        package: "environment"
+
+################################################
+## Sensor
+################################################
+sensor:
+  - platform: mqtt
+    name: chris_bedroom_temp
+    state_topic: "home/chris_bedroom_sensor/Environment/Temperature"
+    unit_of_measurement: "°F"
+
+  - platform: mqtt
+    name: chris_bedroom_humidity
+    state_topic: "home/chris_bedroom_sensor/Environment/Humidity"
+    unit_of_measurement: "%"

@@ -180,9 +180,18 @@ class SuiteRequirements(Requirements):
         return exclusions.closed()
 
     @property
+    def ctes_with_update_delete(self):
+        """target database supports CTES that ride on top of a normal UPDATE
+        or DELETE statement which refers to the CTE in a correlated subquery.
+
+        """
+
+        return exclusions.closed()
+
+    @property
     def ctes_on_dml(self):
         """target database supports CTES which consist of INSERT, UPDATE
-        or DELETE"""
+        or DELETE *within* the CTE, e.g. WITH x AS (UPDATE....)"""
 
         return exclusions.closed()
 
@@ -721,8 +730,8 @@ class SuiteRequirements(Requirements):
 
     @property
     def update_where_target_in_subquery(self):
-        """Target must support UPDATE where the same table is present in a
-        subquery in the WHERE clause.
+        """Target must support UPDATE (or DELETE) where the same table is
+        present in a subquery in the WHERE clause.
 
         This is an ANSI-standard syntax that apparently MySQL can't handle,
         such as:

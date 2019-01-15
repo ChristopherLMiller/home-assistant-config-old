@@ -641,6 +641,8 @@ class ColumnElement(operators.ColumnOperators, ClauseElement):
     """A flag that can be flipped to prevent a column from being resolvable
     by string label name."""
 
+    _is_implicitly_boolean = False
+
     _alt_names = ()
 
     def self_group(self, against=None):
@@ -1062,11 +1064,16 @@ class BindParameter(ColumnElement):
           This is to allow statement caching to be used in conjunction with
           an IN clause.
 
-          .. note:: The "expanding" feature does not support "executemany"-
-             style parameter sets, nor does it support empty IN expressions.
+          .. seealso::
 
-          .. note:: The "expanding" feature should be considered as
-             **experimental** within the 1.2 series.
+            :meth:`.ColumnOperators.in_`
+
+            :ref:`baked_in` - with baked queries
+
+          .. note:: The "expanding" feature does not support "executemany"-
+             style parameter sets.  In the 1.2 series it does not support
+             empty IN expressions, however it does support these in
+             version 1.3.
 
           .. versionadded:: 1.2
 
@@ -1229,6 +1236,7 @@ class TextClause(Executable, ClauseElement):
     _execution_options = \
         Executable._execution_options.union(
             {'autocommit': PARSE_AUTOCOMMIT})
+    _is_implicitly_boolean = False
 
     @property
     def _select_iterable(self):
@@ -1813,6 +1821,7 @@ class ClauseList(ClauseElement):
             self.clauses = [
                 text_converter(clause)
                 for clause in clauses]
+        self._is_implicitly_boolean = operators.is_boolean(self.operator)
 
     def __iter__(self):
         return iter(self.clauses)
@@ -1915,6 +1924,7 @@ class BooleanClauseList(ClauseList, ColumnElement):
         self.operator = operator
         self.group_contents = True
         self.type = type_api.BOOLEANTYPE
+        self._is_implicitly_boolean = True
         return self
 
     @classmethod
@@ -2923,6 +2933,7 @@ class AsBoolean(UnaryExpression):
         self.negate = negate
         self.modifier = None
         self.wraps_column_expression = True
+        self._is_implicitly_boolean = element._is_implicitly_boolean
 
     def self_group(self, against=None):
         return self
@@ -2950,6 +2961,12 @@ class BinaryExpression(ColumnElement):
 
     __visit_name__ = 'binary'
 
+    _is_implicitly_boolean = True
+    """Indicates that any database will know this is a boolean expression
+    even if the database does not have an explicit boolean datatype.
+
+    """
+
     def __init__(self, left, right, operator, type_=None,
                  negate=None, modifiers=None):
         # allow compatibility with libraries that
@@ -2962,6 +2979,7 @@ class BinaryExpression(ColumnElement):
         self.operator = operator
         self.type = type_api.to_instance(type_)
         self.negate = negate
+        self._is_implicitly_boolean = operators.is_boolean(operator)
 
         if modifiers is None:
             self.modifiers = {}
@@ -3065,6 +3083,10 @@ class Grouping(ColumnElement):
 
     def self_group(self, against=None):
         return self
+
+    @util.memoized_property
+    def _is_implicitly_boolean(self):
+        return self.element._is_implicitly_boolean
 
     @property
     def _key_label(self):
@@ -3351,7 +3373,7 @@ class WithinGroup(ColumnElement):
                 *util.to_list(order_by),
                 _literal_as_text=_literal_as_label_reference)
 
-    def over(self, partition_by=None, order_by=None):
+    def over(self, partition_by=None, order_by=None, range_=None, rows=None):
         """Produce an OVER clause against this :class:`.WithinGroup`
         construct.
 
@@ -3359,7 +3381,9 @@ class WithinGroup(ColumnElement):
         :meth:`.FunctionElement.over`.
 
         """
-        return Over(self, partition_by=partition_by, order_by=order_by)
+        return Over(
+            self, partition_by=partition_by, order_by=order_by,
+            range_=range_, rows=rows)
 
     @util.memoized_property
     def type(self):
@@ -3460,7 +3484,7 @@ class FunctionFilter(ColumnElement):
 
         return self
 
-    def over(self, partition_by=None, order_by=None):
+    def over(self, partition_by=None, order_by=None, range_=None, rows=None):
         """Produce an OVER clause against this filtered function.
 
         Used against aggregate or so-called "window" functions,
@@ -3478,7 +3502,9 @@ class FunctionFilter(ColumnElement):
         See :func:`~.expression.over` for a full description.
 
         """
-        return Over(self, partition_by=partition_by, order_by=order_by)
+        return Over(
+            self, partition_by=partition_by, order_by=order_by,
+            range_=range_, rows=rows)
 
     @util.memoized_property
     def type(self):
@@ -3549,6 +3575,10 @@ class Label(ColumnElement):
 
     def __reduce__(self):
         return self.__class__, (self.name, self._element, self._type)
+
+    @util.memoized_property
+    def _is_implicitly_boolean(self):
+        return self.element._is_implicitly_boolean
 
     @util.memoized_property
     def _allow_label_resolve(self):

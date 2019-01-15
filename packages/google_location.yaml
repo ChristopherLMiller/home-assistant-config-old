@@ -14,12 +14,12 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'google_location'
+        package: "google_location"
 
 ##################################################
 ## Device Tracker
 ##################################################
 device_tracker:
   - platform: google_maps
-    username: admin@moosemanstudios.com
-    password: Gordon24
+    username: !secret google_maps_username
+    password: !secret google_maps_password

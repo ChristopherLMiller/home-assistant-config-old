@@ -1,0 +1,37 @@
+################################################################
+## Packages / IFTTT
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "ifttt"
+
+    automation.ifttt_webhook:
+      <<: *customize
+      friendly_name: IFTTT Webhook
+
+################################################
+## Automation
+################################################
+automation:
+  - alias: ifttt_webhook
+    initial_state: on
+    trigger:
+      platform: event
+      event_type: ifttt_webhook_received
+      event_data:
+        action: call_service
+    action:
+      service_template: "{{ trigger.event.data.service }}"
+      data_template:
+        entity_id: "{{ trigger.event.data.entity_id }}"

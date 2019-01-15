@@ -1,17 +1,87 @@
+## Resources ##
+resources:
+  - url: /local/custom_ui/mini-media-player-bundle.js?v=0.9.8
+    type: module
+  - url: /local/custom_ui/mini-graph-card-bundle.js?v=0.1.0
+    type: module
+  - url: /local/custom_ui/button-card.js?v=0.1.0
+    type: module
+
+## Views ##
 title: Miller House
 views:
-  - icon: mdi:home
+  ## Home View ##
+  - id: home
     title: Home
-    id: home
-    theme: minimal
+    icon: mdi:home
     cards:
+      - type: picture-glance
+        title: House Mode
+        entity: sensor.house_mode
+        state_image:
+          "home": /local/images/house_home.jpg
+          "away": /local/images/house_away.jpg
+          "guest": /local/images/house_guest.jpg
+        entities:
+          - sensor.house_mode
+          - input_boolean.guest_mode
+      - type: horizontal-stack
+        cards:
+          - type: custom:button-card
+            entity: light.living_room
+            icon: mdi:lightbulb
+            color: auto
+            color_type: card
+            default_color: rgb(255, 233, 155)
+            name: Living Room
+
+          - type: custom:button-card
+            entity: light.outside
+            icon: mdi:lightbulb
+            color: auto
+            color_type: card
+            default_color: rgb(255, 233, 155)
+            name: Outside Drive
+
+          - type: custom:button-card
+            entity: light.toy_room
+            icon: mdi:lightbulb
+            color: auto
+            color_type: card
+            default_color: rgb(255, 233, 155)
+            name: Toy Room
+
+          - type: custom:button-card
+            entity: light.spare_room
+            icon: mdi:lightbulb
+            color: auto
+            color_type: card
+            default_color: rgb(255, 233, 155)
+            name: Spare Room
+
+          - type: custom:button-card
+            entity: light.chris_room
+            icon: mdi:lightbulb
+            color: auto
+            color_type: card
+            default_color: rgb(255, 233, 155)
+            name: Chris Bedroom
+
+          - type: custom:button-card
+            entity: light.model_room
+            icon: mdi:lightbulb
+            color: auto
+            color_type: card
+            default_color: rgb(255, 233, 155)
+            name: Model Room
+
       - type: entity-filter
         entities:
           - sensor.chris_location
           - sensor.teresa_location
           - sensor.bruce_location
         state_filter:
-          - 'Home'
+          - "Home"
         card:
           type: glance
           title: Household
@@ -23,22 +93,362 @@ views:
           - sensor.erin_location
           - sensor.kennady_location
           - sensor.mikayla_location
+          - sensor.kyrie_location
         state_filter:
-          - 'Visiting'
+          - "Visiting"
         card:
           type: glance
           title: Visitors
+      - type: weather-forecast
+        entity: weather.dark_sky
 
-  - icon: mdi:cog
-    title: Second View
+  ## Network ##
+  - id: network
+    title: Network
+    icon: mdi:switch
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entity: sensor.speedtest_download
+            name: Download
+            hours_to_show: 72
+            line_color: "#e74c3c"
+            line_width: 6
+          - type: custom:mini-graph-card
+            entity: sensor.speedtest_upload
+            name: Upload
+            hours_to_show: 72
+            line_color: "#3498db"
+            line_width: 6
+          - type: custom:mini-graph-card
+            entity: sensor.speedtest_ping
+            name: Ping
+            hours_to_show: 72
+            line_color: "#ec8245"
+            line-width: 6
+      - type: glance
+        title: Network Devices
+        entities:
+          - sensor.net_amazon_firestick
+          - sensor.net_amazon_firestick_2
+          - sensor.net_amazon_firestick_3
+          - sensor.net_amazon_kindle
+          - sensor.net_asus_laptop_gaming
+          - sensor.net_asus_tablet
+          - sensor.net_hp_laptop
+          - sensor.net_hp_printer
+          - sensor.net_lenovo_laptop
+          - sensor.net_lg_smart_tv
+          - sensor.net_samsung_smart_tv
+          - sensor.net_xbox_one
+          - sensor.net_xbox_one_x
+      - type: glance
+        title: Smart Home Devices
+        entities:
+          - sensor.net_hue_bridge
+          - sensor.net_sonoff_1
+          - sensor.net_sonoff_2
+          - sensor.net_sonoff_3
+          - sensor.net_sonoff_4
+          - sensor.net_sonoff_5
+          - sensor.net_sonoff_6
+          - sensor.net_google_home
+          - sensor.net_google_home_2
+          - sensor.net_google_home_3
+          - sensor.net_google_home_hub
+          - sensor.net_echo_dot
+          - sensor.net_echo_show
+      - type: glance
+        title: IP Cameras
+        entities:
+          - sensor.net_alfred_cam_1
+          - sensor.net_alfred_cam_2
+          - sensor.net_alfred_cam_3
+      - type: entities
+        title: PiHole
+        show_header_toggle: false
+        entities:
+          - sensor.pihole_ads_blocked_today
+          - sensor.pihole_ads_percentage_blocked_today
+          - sensor.pihole_dns_queries_cached
+          - sensor.pihole_dns_queries_forwarded
+          - sensor.pihole_dns_queries_today
+          - sensor.pihole_dns_unique_clients
+          - sensor.pihole_dns_unique_domains
+          - sensor.pihole_domains_blocked
+          - sensor.pihole_seen_clients
+      - type: entities
+        title: Server Uptime
+        show_header_toggle: false
+        entities:
+          - sensor.uptime
+      - type: entities
+        title: Cable Modem
+        show_header_toggle: false
+        entities:
+          - switch.modem
+          - binary_sensor.internet_ping
+
+  ## Misc ##
+  - id: misc
+    title: Misc
+    icon: mdi:puzzle
     cards:
       - type: entities
-        title: Example
+        title: Email Breaches
+        show_header_toggle: false
         entities:
-          - light.reading
-          - light.overhead
-      
-      - type: markdown
-        title: Lovelace
-        content: >
-          Welcome to your **Lovelace UI**.
+          - sensor.breaches_moose51789gmailcom
+          - sensor.breaches_lckyby517aolcom
+      - type: entities
+        title: Voice Notification Settings
+        show_header_toggle: false
+        entities:
+          - input_boolean.voice_enabled
+          - input_boolean.voice_enabled_chris
+          - input_number.voice_volume
+
+  ## Scripts/Automations
+  - id: automata
+    title: Automation
+    icon: mdi:settings
+    cards:
+      - type: entities
+        title: Automations
+        show_header_toggle: false
+        entities:
+          - automation.guests_visit
+          - automation.ifttt_webhook
+          - automation.morning_wakeup
+          - automation.morning_wakeup_turn_off_skip_day
+          - automation.network_status_change
+          - automation.notify_house_mode_changed
+          - automation.people_leaving_home
+          - automation.people_returning_home
+          - automation.reading_time_playlist_changed
+          - automation.reading_time_source_changed
+          - automation.reading_time_volume_changed
+          - automation.restart_cable_modem_crashed
+          - automation.sunrise
+          - automation.sunset
+      - type: entities
+        title: Scenes
+        show_header_toggle: false
+        entities:
+          - scene.mode_guest
+          - scene.mode_house
+      - type: entities
+        title: Scripts
+        show_header_toggle: false
+        entities:
+          - script.chris_bedtime
+          - script.chris_wakeup
+          - script.downstairs_bedtime
+          - script.good_morning
+          - script.movie_time
+          - script.nap_time
+          - script.notify_discord
+          - script.notify_html5
+          - script.notify_voice
+          - script.notify_voice_chris
+          - script.outside_lights_on
+          - script.people_arriving_home
+          - script.reading_time
+          - script.reading_time_off
+
+  ## Weather ##
+  - id: weather
+    title: Weather
+    icon: mdi:weather-partlycloudy
+    cards:
+      - type: entities
+        title: General Weather
+        show_header_toggle: false
+        entities:
+          - sun.sun
+          - sensor.moon
+          - sensor.season
+      - type: entities
+        title: Air Quality
+        show_header_toggle: false
+        entities:
+          - sensor.us_air_pollution_level
+          - sensor.us_air_quality_index
+          - sensor.us_main_pollutant
+      - type: entities
+        title: Current Weather
+        show_header_toggle: false
+        entities:
+          - sensor.dark_sky_summary
+          - sensor.dark_sky_minutely_summary
+          - sensor.dark_sky_hourly_summary
+          - sensor.dark_sky_temperature
+          - sensor.dark_sky_humidity
+          - sensor.dark_sky_apparent_temperature
+          - sensor.dark_sky_cloud_coverage
+          - sensor.dark_sky_precip
+          - sensor.dark_sky_precip_probability
+          - sensor.dark_sky_wind_bearing
+          - sensor.dark_sky_wind_speed
+      - type: iframe
+        url: !secret windy_url
+        aspect_ratio: 75%
+
+  ## Toy Room ##
+  - id: toy_room
+    title: Toy Room
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.toy_room
+          - type: light
+            entity: light.overhead_2
+
+  ## Spare Room ##
+  - id: spare_room
+    title: Spare Room
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.spare_room
+          - type: light
+            entity: light.overhead_3
+      - type: custom:mini-media-player
+        entity: media_player.spare_room_speaker
+        icon: mdi:google-home
+        artwork_border: true
+        show_source: true
+      - type: custom:mini-media-player
+        entity: media_player.spotify
+        name: Spotify Player
+        artwork: cover
+        power_color: true
+        hide_volume: true
+        show_progress: true
+
+  ## Outside ##
+  - id: outside
+    title: Outdoors
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.outside
+          - type: light
+            entity: light.garage
+          - type: light
+            entity: light.porch
+
+  ## Living Room ##
+  - id: living_room
+    title: Living Room
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.living_room
+          - type: light
+            entity: light.tree
+          - type: light
+            entity: light.living_room_floor
+      - type: custom:mini-media-player
+        entity: media_player.lg_tv
+        icon: mdi:television
+        show_source: true
+      - type: custom:mini-media-player
+        entity: media_player.living_room_speaker
+        icon: mdi:google-home
+        artwork_border: true
+        show_source: true
+
+  ## Computer Room ##
+  - id: computer_room
+    title: Computer Room
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.computer_room
+          - type: light
+            entity: light.computer_room_floor
+
+      - type: custom:mini-media-player
+        entity: media_player.computer_room_speaker
+        icon: mdi:google-home
+        artwork_border: true
+        show_source: true
+
+  ## Model Room ##
+  - id: model_room
+    title: Model Room
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.model_room
+          - type: light
+            entity: light.overhead_3
+          - type: light
+            entity: light.model_desk
+      - type: custom:mini-media-player
+        entity: media_player.spare_room_speaker
+        icon: mdi:google-home
+        artwork_border: true
+        show_source: true
+      - type: custom:mini-media-player
+        entity: media_player.spotify
+        name: Spotify Player
+        artwork: cover
+        power_color: true
+        hide_volume: true
+        show_progress: true
+      - type: custom:mini-media-player
+        entity: media_player.gpm_desktop_player
+        name: Google Music Player
+        icon: mdi:music-circle-outline
+        artwork: cover
+        power_color: true
+        hide_volume: true
+        show_progress: true
+
+  ## Chris Bedroom ##
+  - id: chris_bedroom
+    title: Chris Bedroom
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.chris_room
+          - type: light
+            entity: light.overhead
+          - type: light
+            entity: light.reading
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entity: sensor.chris_bedroom_temp
+            name: Temperature
+            hours_to_show: 72
+            line_color: "#e74c3c"
+            line_width: 6
+          - type: custom:mini-graph-card
+            entity: sensor.chris_bedroom_humidity
+            name: Humidity
+            hours_to_show: 72
+            line_color: "#3498db"
+            line_width: 6
+      - type: custom:mini-media-player
+        entity: media_player.chris_bedroom_display
+        show_source: true
+        artwork_border: true
+        icon: mdi:google-home
+      - type: custom:mini-media-player
+        entity: media_player.spotify
+        name: Spotify Player
+        artwork: cover
+        power_color: true
+        hide_volume: true
+        show_progress: true

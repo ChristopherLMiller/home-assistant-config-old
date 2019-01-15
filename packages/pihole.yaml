@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'pihole'
+        package: "pihole"
 
     group.pihole:
       <<: *customize
@@ -26,19 +26,13 @@ homeassistant:
 sensor:
   - platform: pi_hole
     host: !secret pihole_host
-
-##################################################
-## Group
-##################################################
-group:
-  pihole:
-    control: hidden
-    entities:
-      - sensor.pihole_ads_blocked_today
-      - sensor.pihole_ads_percentage_blocked_today
-      - sensor.pihole_dns_qeries_cached
-      - sensor.pihole_dns_queries_forwarded
-      - sensor.pihole_dns_queries_today
-      - sensor.pihole_dns_unique_clients
-      - sensor.pihole_dns_unique_domains
-      - sensor.pihole_domains_blocked
+    monitored_conditions:
+      - ads_blocked_today
+      - ads_percentage_today
+      - dns_queries_today
+      - domains_being_blocked
+      - queries_cached
+      - queries_forwarded
+      - unique_clients
+      - unique_domains
+      - clients_ever_seen

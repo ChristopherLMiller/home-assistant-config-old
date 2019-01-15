@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'scripts/chris_bedtime'
+        package: "scripts/chris_bedtime"
 
     script.chris_bedtime:
       <<: *customize
@@ -26,23 +26,19 @@ homeassistant:
 script:
   chris_bedtime:
     sequence:
+      # Pause media player
+      - service: media_player.media_pause
+        data:
+          entity_id: media_player.spotify
+
+      # Turn off bedroom lights
       - service: light.turn_off
         data:
           entity_id:
             - light.chris_room
-            - light.blue_room
-      - service: script.reading_time_off
-      - service: media_player.volume_set
-        data:
-          entity_id: media_player.chris_bedroom_speaker
-          volume_level: 0.3
-      - service: media_player.play_media
-        data:
-          entity_id: media_player.chris_bedroom_speaker
-          media_content_type: MUSIC
-          media_content_id: 'https://millerresidence.site/local/audio/taps.mp3'
-      - delay: '00:01:00'
-      - service: script.notify_voice
+
+      # Set speaker volume and play goodnight notification
+      - service: script.notify_voice_chris
         data_template:
           message: >-
             {%- set work_date = states.calendar.moose51789gmailcom.attributes.start_time.split(' ')[0] -%}
@@ -52,9 +48,24 @@ script:
             {%- else -%}
               Enjoy your night off.
             {%- endif -%}
+            {{' '}}
             Good night.
-
-      # must be last step or cuts out any TTS playback
-      - service: input_boolean.turn_on
+      # Turn off voice notifications
+      - delay: 00:00:10
+      - service: input_boolean.turn_off
         data:
-          entity_id: input_boolean.chris_bed
+          entity_id: input_boolean.voice_enabled_chris
+
+      # Lastly, play taps if enabled
+      - condition: state
+        entity_id: input_boolean.bedtime_music
+        state: "on"
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.chris_bedroom_display
+          volume_level: 0.3
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.chris_bedroom_display
+          media_content_type: MUSIC
+          media_content_id: "https://millerresidence.site/local/audio/taps.mp3"

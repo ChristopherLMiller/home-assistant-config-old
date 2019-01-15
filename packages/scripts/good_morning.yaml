@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'scripts/goodmorning'
+        package: "scripts/good_morning"
 
     script.good_morning:
       <<: *customize
@@ -28,7 +28,7 @@ script:
     sequence:
       - service: notify.discord
         data:
-          message: 'Morning wakeup initiated.'
+          message: "Morning wakeup initiated."
       - service: light.turn_on
         data:
           entity_id: light.tree

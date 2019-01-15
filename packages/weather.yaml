@@ -1,0 +1,88 @@
+################################################################
+## Packages / Weather
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "weather"
+
+    sensor.dark_sky_icon:
+      <<: *customize
+      hidden: true
+
+    sensor.dark_sky_cloud_coverage:
+      <<: *customize
+      friendly_name: "Cloud Coverage"
+      icon: mdi:weather-partlycloudy
+
+    sensor.dark_sky_humidity:
+      <<: *customize
+      friendly_name: "Humidity"
+      icon: mdi:water-percent
+
+    sensor.dark_sky_precip_probability:
+      <<: *customize
+      friendly_name: "Precipitation"
+      icon: mdi:weather-rainy
+
+    sensor.dark_sky_temperature:
+      <<: *customize
+      friendly_name: "Temperature"
+      icon: mdi:thermometer
+
+    sensor.season:
+      <<: *customize
+      friendly_name: "Season"
+      icon: mdi:weather-snowy-rainy
+
+    sensor.moon:
+      <<: *customize
+      friendly_name: "Moon Phase"
+
+################################################
+## Sensor
+################################################
+sensor:
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    monitored_conditions:
+      - cloud_cover
+      - humidity
+      - summary
+      - precip_type
+      - wind_speed
+      - wind_bearing
+      - precip_probability
+      - temperature
+      - icon
+      - apparent_temperature
+      - minutely_summary
+      - hourly_summary
+
+  - platform: season
+    type: astronomical
+
+  - platform: moon
+
+  - platform: airvisual
+    api_key: !secret air_visual_api_key
+    monitored_conditions:
+      - us
+    radius: 500
+
+##################################################
+## Weather
+##################################################
+weather:
+  - platform: darksky
+    api_key: !secret darksky_api_key

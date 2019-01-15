@@ -14,15 +14,20 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'switch/modem'
+        package: "switch/modem"
 
     switch.modem:
       <<: *customize
       friendly_name: Cable Modem
+      icon: mdi:wifi
 
     binary_sensor.internet_ping:
       <<: *customize
       friendly_name: Internet Pingable
+
+    automation.restart_cable_modem_crashed:
+      <<: *customize
+      friendly_name: Restart cable Modem Crashed
 
 ##################################################
 ## Switch
@@ -30,7 +35,7 @@ homeassistant:
 switch:
   - platform: mqtt
     name: modem
-    state_topic: "home/sonoff_5/stat/POWER"
+    state_topic: "home/sonoff_5/cmnd/power"
     command_topic: "home/sonoff_5/cmnd/POWER"
     availability_topic: "home/sonoff_5/tele/LWT"
     payload_on: "ON"
@@ -47,13 +52,25 @@ binary_sensor:
   - platform: ping
     host: 1.1.1.1
     name: internet_ping
+    scan_interval: 30
 
 ##################################################
-## Group
+## Automation
 ##################################################
-group:
-  modem:
-    control: hidden
-    entities:
-      - switch.modem
-      - binary_sensor.internet_ping
+automation:
+  - alias: restart_cable_modem_crashed
+    initial_state: false
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.internet_ping
+        to: "off"
+        for:
+          minutes: 1
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: "Cable modem went offline.  Restarting"
+      - service: switch.turn_off
+        entity_id: switch.modem
+      - service: switch.turn_on
+        entity_id: switch.modem

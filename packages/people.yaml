@@ -1,0 +1,176 @@
+################################################################
+## Packages / Groups / People
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "groups/people"
+
+    sensor.kennady_location:
+      <<: *customize
+      friendly_name: "Kennady"
+      icon: mdi:human-female
+
+    sensor.cassie_location:
+      <<: *customize
+      friendly_name: "Cassie"
+      icon: mdi:human-female
+
+    sensor.mikayla_location:
+      <<: *customize
+      friendly_name: "MiKayla"
+      icon: mdi:human-female
+
+    sensor.brandon_location:
+      <<: *customize
+      friendly_name: "Brandon"
+      icon: mdi:human-male
+
+    sensor.erin_location:
+      <<: *customize
+      friendly_name: "Erin"
+      icon: mdi:human-female
+
+    sensor.corey_location:
+      <<: *customize
+      friendly_name: "Corey"
+      icon: mdi:human-male
+
+    sensor.kyrie_location:
+      <<: *customize
+      friendly_name: "Kyrie"
+      icon: mdi:human-female
+
+    sensor.bruce_location:
+      <<: *customize
+      friendly_name: "Bruce"
+      icon: mdi:human-male
+
+    sensor.chris_location:
+      <<: *customize
+      friendly_name: "Chris"
+      icon: mdi:human-male
+
+    sensor.teresa_location:
+      <<: *customize
+      friendly_name: "Teresa"
+      icon: mdi:human-female
+
+    automation.guests_visit:
+      <<: *customize
+      friendly_name: "Guests Visit"
+
+    automation.people_leaving_home:
+      <<: *customize
+      friendly_name: "People Leaving Home"
+
+    automation.people_returning_home:
+      <<: *customize
+      friendly_name: "People Returning Home"
+
+################################################
+## Sensor
+################################################
+sensor:
+  - platform: template
+    sensors:
+      kennady_location:
+        value_template: "{{'Visiting' if is_state('device_tracker.kennady_phone', 'home') else 'Away'}}"
+
+      kyrie_location:
+        value_template: "{{'Visiting' if is_state('device_tracker.kyrie_phone', 'home') else 'Away'}}"
+
+      corey_location:
+        value_template: "{{'Visiting' if is_state('device_tracker.corey_phone', 'home') else 'Away'}}"
+
+      mikayla_location:
+        value_template: "{{'Visiting' if is_state('device_tracker.mikayla_phone', 'home') else 'Away'}}"
+
+      cassie_location:
+        value_template: "{{'Visiting' if is_state('device_tracker.cassie_phone', 'home') else 'Away'}}"
+
+      brandon_location:
+        value_template: "{{'Visiting' if is_state('device_tracker.brandon_phone', 'home') else 'Away'}}"
+
+      erin_location:
+        value_template: "{{'Visiting' if is_state('device_tracker.erin_phone', 'home') else 'Away'}}"
+
+      chris_location:
+        value_template: "{{'Home' if is_state('device_tracker.chris_phone', 'home') else 'Away'}}"
+
+      teresa_location:
+        value_template: "{{'Home' if is_state('device_tracker.teresa_phone', 'home') else 'Away'}}"
+
+      bruce_location:
+        value_template: "{{'Home' if is_state('device_tracker.bruce_phone', 'home') else 'Away'}}"
+
+################################################
+## Automations
+################################################
+automation:
+  - alias: people_leaving_home
+    initial_state: true
+    trigger:
+      - platform: state
+        from: "home"
+        to: "not_home"
+        for:
+          minutes: 1
+        entity_id: device_tracker.chris_phone, device_tracker.teresa_phone, device_tracker.bruce_phone
+    action:
+      - service: script.notify_discord
+        data_template:
+          message: >-
+            {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} has left home.
+
+  - alias: people_returning_home
+    initial_state: true
+    trigger:
+      - platform: state
+        from: "not_home"
+        to: "home"
+        entity_id: device_tracker.chris_phone, device_tracker.teresa_phone, device_tracker.bruce_phone
+    action:
+      - service: script.people_arriving_home
+        data_template:
+          person: >-
+            {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }}
+
+  - alias: guests_visit
+    initial_state: true
+    trigger:
+      - platform: state
+        from: "not_home"
+        to: "home"
+        entity_id:
+          - device_tracker.cassie_phone
+          - device_tracker.corey_phone
+          - device_tracker.kennady_phone
+          - device_tracker.kyrie_phone
+          - device_tracker.mikayla_phone
+          - device_tracker.brandon_phone
+          - device_tracker.erin_phone
+    action:
+      - service: script.notify_html5
+        data_template:
+          message: >-
+            {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is visiting
+      - service: script.notify_discord
+        data_template:
+          message: >-
+            {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is visiting
+      - service: script.notify_voice
+        data_template:
+          cache: true
+          message: >-
+            {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is here to visit.

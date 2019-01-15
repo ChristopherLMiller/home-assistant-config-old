@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'light/living_room_floor'
+        package: "light/living_room_floor"
 
     light.living_room_floor:
       <<: *customize
@@ -26,7 +26,7 @@ homeassistant:
 light:
   - platform: mqtt
     name: living_room_floor
-    state_topic: "home/sonoff_4/stat/POWER1"
+    state_topic: "home/sonoff_4/stat/POWER"
     command_topic: "home/sonoff_4/cmnd/POWER"
     availability_topic: "home/sonoff_4/tele/LWT"
     payload_on: "ON"

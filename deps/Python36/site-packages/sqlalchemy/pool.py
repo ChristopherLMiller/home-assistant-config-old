@@ -117,10 +117,10 @@ class Pool(log.Identified):
           connection object.  The function will be called with
           parameters.
 
-        :param recycle: If set to non -1, number of seconds between
-          connection recycling, which means upon checkout, if this
-          timeout is surpassed the connection will be closed and
-          replaced with a newly opened connection. Defaults to -1.
+        :param recycle: If set to a value other than -1, number of
+          seconds between connection recycling, which means upon
+          checkout, if this timeout is surpassed the connection will be
+          closed and replaced with a newly opened connection. Defaults to -1.
 
         :param logging_name:  String identifier which will be used within
           the "name" field of logging records generated within the
@@ -184,24 +184,21 @@ class Pool(log.Identified):
             any data changes present on the transaction
             are committed unconditionally.
           * ``None`` - don't do anything on the connection.
-            This setting should only be made on a database
+            This setting should generally only be made on a database
             that has no transaction support at all,
-            namely MySQL MyISAM.   By not doing anything,
-            performance can be improved.   This
-            setting should **never be selected** for a
-            database that supports transactions,
-            as it will lead to deadlocks and stale
-            state.
-          * ``"none"`` - same as ``None``
-
-            .. versionadded:: 0.9.10
+            namely MySQL MyISAM; when used on this backend, performance
+            can be improved as the "rollback" call is still expensive on
+            MySQL.   It is **strongly recommended** that this setting not be
+            used for transaction-supporting databases in conjunction with
+            a persistent pool such as :class:`.QueuePool`, as it opens
+            the possibility for connections still in a transaction to be
+            idle in the pool.   The setting may be appropriate in the
+            case of :class:`.NullPool` or special circumstances where
+            the connection pool in use is not being used to maintain connection
+            lifecycle.
 
           * ``False`` - same as None, this is here for
             backwards compatibility.
-
-          .. versionchanged:: 0.7.6
-              :paramref:`.Pool.reset_on_return` accepts ``"rollback"``
-              and ``"commit"`` arguments.
 
         :param events: a list of 2-tuples, each of the form
          ``(callable, target)`` which will be passed to :func:`.event.listen`

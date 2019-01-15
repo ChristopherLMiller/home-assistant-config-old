@@ -24,3 +24,8 @@ google_calendars.yaml
 /tts
 phue.conf
 .cloud/production_auth.json
+.google_maps_location_sharing.cookies
+home-assistant_v2.db-shm
+home-assistant_v2.db-wal
+/.storage
+/deps
