@@ -3,14 +3,6 @@ secrets.yaml
 .uuid
 home-assistant_v2.db
 home-assistant.log
-domain-crt.crt
-domain-csr.txt
-domain-key.key
-account-key.txt
-fedexdeliverymanager_cookies.pickle
-upsmychoice_cookies.pickle
-usps_cookies.pickle
-usps_cache.sqlite
 html5_push_registrations.conf
 .spotify-token-cache
 gpmpd.conf
@@ -25,7 +17,9 @@ google_calendars.yaml
 phue.conf
 .cloud/production_auth.json
 .google_maps_location_sharing.cookies
+google_maps_location_sharing.cookies
 home-assistant_v2.db-shm
 home-assistant_v2.db-wal
 /.storage
 /deps
+
