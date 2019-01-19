@@ -1,0 +1,175 @@
+################################################################
+## Packages / Scripts / Chris Sleep
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "scripts/chris_sleep"
+
+    script.chris_bedtime:
+      <<: *customize
+      friendly_name: Chris Bedtime
+
+    script.chris_wakeup:
+      <<: *customize
+      friendly_name: Chris Wakeup
+
+    script.nap_time:
+      <<: *customize
+      friendly_name: Nap Time
+
+##################################################
+## Script
+##################################################
+script:
+  # Bedtime Script
+  chris_bedtime:
+    sequence:
+      # Pause media player
+      - service: media_player.media_pause
+        data:
+          entity_id: media_player.chris_bedroom_display
+
+      # Turn off bedroom lights
+      - service: light.turn_off
+        data:
+          entity_id:
+            - light.chris_room
+
+      # Set speaker volume and play goodnight notification
+      - service: script.notify_voice_chris
+        data_template:
+          message: >-
+            {%- set work_date = states.calendar.moose51789gmailcom.attributes.start_time.split(' ')[0] -%}
+            {%- set work_start = as_timestamp(states.calendar.moose51789gmailcom.attributes.start_time) | timestamp_custom('%I:%M%p') -%}
+            {%- if work_date == states.sensor.date.state -%}
+              You have a shift starting at {{ work_start }}.
+            {%- else -%}
+              Enjoy your night off.
+            {%- endif -%}
+            {{-'  '-}}
+            Good night.
+      # Turn off voice notifications
+      - delay: 00:00:05
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.voice_enabled_chris
+
+      # Lastly, play taps if enabled
+      - condition: state
+        entity_id: input_boolean.bedtime_music
+        state: "on"
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.chris_bedroom_display
+          volume_level: 0.3
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.chris_bedroom_display
+          media_content_type: MUSIC
+          media_content_id: "https://millerresidence.site/local/audio/taps.mp3"
+
+  # Nap TIme
+  nap_time:
+    sequence:
+      # Turn off bedroom lights
+      - service: light.turn_off
+        data:
+          entity_id: light.chris_room
+
+      # Send voice notification to enjoy
+      - service: script.notify_voice_chris
+        data_template:
+          message: "Waking you up in an hour and a half.  Enjoy your nap"
+
+      # Wait 10 seconds before turning off voice notifications to allow previous to play fully
+      - delay: 00:00:05
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.voice_enabled_chris
+
+      # TODO: Wait 1.5 hours before triggering wakeup routine
+      - delay: 01:30:00
+
+      # Call Chris Wakeup Script
+      - service: script.chris_wakeup
+
+  # Wakeup
+  chris_wakeup:
+    sequence:
+      - service: script.notify_discord
+        data_template:
+          message: Waking Up Chris!
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.voice_enabled_chris
+      - service: light.turn_on
+        data:
+          entity_id: light.overhead
+          transition: 5
+          brightness_pct: 100
+      - service: script.outside_lights_on
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.chris_bedroom_display
+          volume_level: 0.5
+      - service: media_player.play_media
+        data:
+          entity_id: media_player.chris_bedroom_display
+          media_content_type: MUSIC
+          media_content_id: "https://millerresidence.site/local/audio/reveille.mp3"
+
+      ## check if nap or not
+      - delay: "00:00:26"
+      - service: script.notify_voice_chris
+        data_template:
+          message: >-
+            {{ ["Wakey wakey!.", "Rise and shine sleepyhead.", "Wake up Chris.", "Hello Chris."] | random }}
+            {{-'  '-}}
+              I hope that you slept well.
+            {{-'  '-}}
+              Here is the weather forecast as of recently, {{ states.sensor.dark_sky_hourly_summary.state }}
+            {{-'  '-}}
+            {%- if states.sensor.dark_sky_precip.state != 'unknown' -%}
+              It is also currently {{ states.sensor.dark_sky_precip.state}}ing outside.
+            {%- endif -%}
+            {{-'  '-}}
+              Current temperature outside is {{ states.sensor.dark_sky_temperature.state | round(0) }} degrees
+            {%- if states.sensor.season.state == 'summer' -%}
+              {{-' '-}}
+              with head index of {{ states.sensor.dark_sky_apparent_temperature.state | round(0) }} degrees.
+            {%- elif states.sensor.season.state == 'winter' -%}
+              {{-' '-}}
+              with a wind chill of {{ states.sensor.dark_sky_apparent_temperature.state | round(0) }} degrees so bundle up.
+            {%- else -%}
+              {{-'.'-}}
+            {%- endif -%}
+            {{-'  '-}}
+              Winds are currently {{ states.sensor.dark_sky_wind_speed.state | round(0) }} miles per hour and are out of the
+            {{-' '-}}
+            {%- set wind_direction =  states.sensor.dark_sky_wind_bearing.state | round(0) -%}
+            {%- if wind_direction >= 315 or wind_direction < 45-%}
+              north
+            {%- elif wind_direction >= 45 and wind_direction < 135 -%}
+              east
+            {%- elif wind_direction >= 135 and wind_direction < 225 -%}
+              south
+            {%- elif wind_direction >= 225 and wind_direction < 315 -%}
+              west
+            {%- endif -%}.
+            {{-'  '-}}
+            {{ ["Enjoy your day", "Have a good one"] | random }}.
+      - delay: "00:15:00"
+      - service: light.turn_off
+        data:
+          entity_id: light.overhead

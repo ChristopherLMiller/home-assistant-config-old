@@ -21,3 +21,5 @@ map:
 auth:
 updater:
   include_used_components: true
+
+custom_updater:

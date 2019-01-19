@@ -4,7 +4,9 @@ resources:
     type: module
   - url: /local/custom_ui/mini-graph-card-bundle.js?v=0.1.0
     type: module
-  - url: /local/custom_ui/button-card.js?v=0.1.0
+  - url: /local/custom_ui/button-card.js?v=0.0.4
+    type: module
+  - url: /local/custom_ui/tracker-card.js
     type: module
 
 ## Views ##
@@ -169,15 +171,15 @@ views:
         title: PiHole
         show_header_toggle: false
         entities:
-          - sensor.pihole_ads_blocked_today
-          - sensor.pihole_ads_percentage_blocked_today
-          - sensor.pihole_dns_queries_cached
-          - sensor.pihole_dns_queries_forwarded
-          - sensor.pihole_dns_queries_today
-          - sensor.pihole_dns_unique_clients
-          - sensor.pihole_dns_unique_domains
-          - sensor.pihole_domains_blocked
-          - sensor.pihole_seen_clients
+          - sensor.pi_hole_ads_blocked_today
+          - sensor.pi_hole_ads_percentage_blocked_today
+          - sensor.pi_hole_dns_queries_cached
+          - sensor.pi_hole_dns_queries_forwarded
+          - sensor.pi_hole_dns_queries_today
+          - sensor.pi_hole_dns_unique_clients
+          - sensor.pi_hole_dns_unique_domains
+          - sensor.pi_hole_domains_blocked
+          - sensor.pi_hole_seen_clients
       - type: entities
         title: Server Uptime
         show_header_toggle: false
@@ -199,8 +201,13 @@ views:
         title: Email Breaches
         show_header_toggle: false
         entities:
-          - sensor.breaches_moose51789gmailcom
-          - sensor.breaches_lckyby517aolcom
+          - sensor.breaches_moose51789_gmail_com
+          - sensor.breaches_lckyby517_aol_com
+          - sensor.breaches_chris_christopherleemiller_me
+          - sensor.breaches_admin_christopherleemiller_me
+          - sensor.breaches_social_christopherleemiller_me
+          - sensor.breaches_support_christopherleemiller_me
+          - sensor.breaches_info_christopherleemiller_me
       - type: entities
         title: Voice Notification Settings
         show_header_toggle: false
@@ -208,6 +215,9 @@ views:
           - input_boolean.voice_enabled
           - input_boolean.voice_enabled_chris
           - input_number.voice_volume
+      - type: custom:tracker-card
+        trackers:
+          - sensor.custom_component_tracker
 
   ## Scripts/Automations
   - id: automata

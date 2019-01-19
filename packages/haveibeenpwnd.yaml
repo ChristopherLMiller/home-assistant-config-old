@@ -16,6 +16,34 @@ homeassistant:
       customize: &customize
         package: "haveibeenpwned"
 
+    sensor.breaches_lckyby517_aol_com:
+      <<: *customize
+      icon: mdi:email
+
+    sensor.breaches_moose51789_gmail_com:
+      <<: *customize
+      icon: mdi:email
+
+    sensor.breaches_chris_christopherleemiller_me:
+      <<: *customize
+      icon: mdi:email
+
+    sensor.breaches_admin_christopherleemiller_me:
+      <<: *customize
+      icon: mdi:email
+
+    sensor.breaches_social_christopherleemiller_me:
+      <<: *customize
+      icon: mdi:email
+
+    sensor.breaches_support_christopherleemiller_me:
+      <<: *customize
+      icon: mdi:email
+
+    sensor.breaches_info_christopherleemiller_me:
+      <<: *customize
+      icon: mdi:email
+
 ##################################################
 ## Sensor
 ##################################################
@@ -24,3 +52,8 @@ sensor:
   email:
     - lckyby517@aol.com
     - moose51789@gmail.com
+    - chris@christopherleemiller.me
+    - admin@christopherleemiller.me
+    - social@christopherleemiller.me
+    - support@christopherleemiller.me
+    - info@christopherleemiller.me

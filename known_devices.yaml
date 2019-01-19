@@ -362,3 +362,11 @@ hassbian:
   picture:
   track: true
   vendor: unknown
+
+versa:
+  hide_if_away: false
+  icon:
+  mac: 18:00:DB:97:AC:B8
+  name: Versa
+  picture:
+  track: true

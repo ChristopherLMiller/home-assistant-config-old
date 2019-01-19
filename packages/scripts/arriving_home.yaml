@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'scripts/arriving_home'
+        package: "scripts/arriving_home"
 
     script.people_arriving_home:
       <<: *customize
@@ -47,4 +47,4 @@ script:
         data_template:
           cache: true
           message: >-
-            {{ person }} is home.
+            {{ person }} has arrived home.
