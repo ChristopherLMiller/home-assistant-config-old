@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'google_calendar'
+        package: "google_calendar"
 
 ##################################################
 ## Google Calendar

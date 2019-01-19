@@ -51,7 +51,7 @@ light:
   - platform: group
     name: Living Room
     entities:
-      - light.tree
+      - light.scentsy
       - light.living_room_floor
 
   - platform: group
@@ -64,7 +64,7 @@ light:
     entities:
       - light.computer_room_floor
       - light.living_room_floor
-      - light.tree
+      - light.scentsy
       - light.overhead_2
 
   - platform: group

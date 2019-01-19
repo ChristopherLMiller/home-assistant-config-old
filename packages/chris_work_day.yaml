@@ -14,31 +14,34 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'work_day'
+        package: "work_day"
 
-    group.work_day:
+    binary_sensor.work_day:
       <<: *customize
-      friendly_name: Work Day
+      friendly_name: Chris Work Day
 
-    sensor.next_work_day:
+    automation.chris_work_day_begin:
       <<: *customize
-      friendly_name: Next Shift
-      icon: mdi:briefcase
+      friendly_name: Chris Work Day Begin
 
 ##################################################
-## Sensor
+## Binary Sensor
 ##################################################
-sensor:
+binary_sensor:
   - platform: template
     sensors:
-      next_work_day:
-        value_template: "{{ as_timestamp(states.calendar.moose51789gmailcom.attributes['start_time']) | timestamp_custom('%A, %d %b @ %I:%M%p') }}"
+      work_day:
+        value_template: >-
+          {{ states.calendar.moose51789gmailcom.attributes['offset_reached'] }}
 
 ##################################################
-## Group
+## Automation
 ##################################################
-group:
-  work_day:
-    control: hidden
-    entities:
-      - sensor.next_work_day
+automation:
+  - alias: chris_work_day_begin
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.work_day
+    action:
+      - service: script.chris_wakeup

@@ -16,7 +16,7 @@ homeassistant:
       customize: &customize
         package: "switch/modem"
 
-    switch.modem:
+    switch.cable_modem:
       <<: *customize
       friendly_name: Cable Modem
       icon: mdi:wifi
@@ -34,7 +34,7 @@ homeassistant:
 ##################################################
 switch:
   - platform: mqtt
-    name: modem
+    name: cable_modem
     state_topic: "home/sonoff_5/cmnd/power"
     command_topic: "home/sonoff_5/cmnd/POWER"
     availability_topic: "home/sonoff_5/tele/LWT"
@@ -71,6 +71,6 @@ automation:
         data_template:
           message: "Cable modem went offline.  Restarting"
       - service: switch.turn_off
-        entity_id: switch.modem
+        entity_id: switch.cable_modem
       - service: switch.turn_on
-        entity_id: switch.modem
+        entity_id: switch.cable_modem

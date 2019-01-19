@@ -47,6 +47,7 @@ cloud:
         - script.notify_voice
         - script.people_arriving_home
         - script.outside_lights_on
+        - switch.cable_modem
       include_entities:
         - input_boolean.voice_enabled
         - input_boolean.voice_enabled_chris
@@ -56,4 +57,4 @@ cloud:
       script.chris_bedtime:
         name: Chris Bedtime
       script.downstairs_bedtime:
-        name: Bedtime
+        name: Downstairs Bedtime

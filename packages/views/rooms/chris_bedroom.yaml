@@ -20,14 +20,6 @@ homeassistant:
       <<: *customize
       friendly_name: "Chris's Bedroom"
 
-    group.chris_bedroom_lights:
-      <<: *customize
-      friendly_name: Lights
-
-    group.chris_bedroom_media_players:
-      <<: *customize
-      friendly_name: Media Players
-
 ##################################################
 ## Group
 ##################################################
@@ -42,17 +34,3 @@ group:
       - group.environment
       - group.chris_bed
       - group.chris_alarm_clock
-
-  chris_bedroom_lights:
-    control: hidden
-    entities:
-      - light.chris_room
-      - light.reading
-      - light.overhead
-
-  chris_bedroom_media_players:
-    control: hidden
-    entities:
-      - media_player.samsung_tv
-      - media_player.spotify
-      - media_player.chris_bedroom_speaker

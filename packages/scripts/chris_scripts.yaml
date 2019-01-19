@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Scripts / Chris Sleep
+## Packages / Scripts / Chris Scripts
 ################################################################
 
 ################################################
@@ -14,7 +14,7 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: "scripts/chris_sleep"
+        package: "scripts/chris_scripts"
 
     script.chris_bedtime:
       <<: *customize
@@ -144,7 +144,7 @@ script:
               It is also currently {{ states.sensor.dark_sky_precip.state}}ing outside.
             {%- endif -%}
             {{-'  '-}}
-              Current temperature outside is {{ states.sensor.dark_sky_temperature.state | round(0) }} degrees
+              Current temperature is {{ states.sensor.dark_sky_temperature.state | round(0) }} degrees
             {%- if states.sensor.season.state == 'summer' -%}
               {{-' '-}}
               with head index of {{ states.sensor.dark_sky_apparent_temperature.state | round(0) }} degrees.

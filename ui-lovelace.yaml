@@ -8,6 +8,10 @@ resources:
     type: module
   - url: /local/custom_ui/tracker-card.js
     type: module
+  - url: /local/custom_ui/calendar-card.js?v=0.1.0
+    type: module
+  - url: https://unpkg.com/moment@2.22.2/moment.js
+    type: js
 
 ## Views ##
 title: Miller House
@@ -87,6 +91,7 @@ views:
         card:
           type: glance
           title: Household
+
       - type: entity-filter
         entities:
           - sensor.brandon_location
@@ -101,8 +106,15 @@ views:
         card:
           type: glance
           title: Visitors
+
       - type: weather-forecast
         entity: weather.dark_sky
+
+      - type: custom:calendar-card
+        name: "Holidays"
+        showProgressbar: true
+        entities:
+          - calendar.holidays_in_united_states
 
   ## Network ##
   - id: network
@@ -189,7 +201,7 @@ views:
         title: Cable Modem
         show_header_toggle: false
         entities:
-          - switch.modem
+          - switch.cable_modem
           - binary_sensor.internet_ping
 
   ## Misc ##
@@ -228,6 +240,7 @@ views:
         title: Automations
         show_header_toggle: false
         entities:
+          - automation.chris_work_day_begin
           - automation.guests_visit
           - automation.ifttt_webhook
           - automation.morning_wakeup
@@ -305,6 +318,55 @@ views:
         url: !secret windy_url
         aspect_ratio: 75%
 
+  ## Chris Bedroom ##
+  - id: chris_bedroom
+    title: Chris Bedroom
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: light
+            entity: light.chris_room
+          - type: light
+            entity: light.overhead
+          - type: light
+            entity: light.reading
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entity: sensor.chris_bedroom_temp
+            name: Temperature
+            hours_to_show: 168
+            line_color: "#e74c3c"
+            line_width: 6
+          - type: custom:mini-graph-card
+            entity: sensor.chris_bedroom_humidity
+            name: Humidity
+            hours_to_show: 168
+            line_color: "#3498db"
+            line_width: 6
+
+      - type: custom:calendar-card
+        name: "Work Schedule"
+        showProgressbar: true
+        entities:
+          - calendar.moose51789gmailcom
+          - calendar.contacts
+
+      - type: custom:mini-media-player
+        entity: media_player.chris_bedroom_display
+        show_source: true
+        artwork_border: true
+        icon: mdi:google-home
+
+      - type: custom:mini-media-player
+        entity: media_player.spotify
+        name: Spotify Player
+        artwork: cover
+        power_color: true
+        hide_volume: true
+        show_progress: true
+
   ## Toy Room ##
   - id: toy_room
     title: Toy Room
@@ -361,9 +423,9 @@ views:
           - type: light
             entity: light.living_room
           - type: light
-            entity: light.tree
-          - type: light
             entity: light.living_room_floor
+          - type: light
+            entity: light.scentsy
       - type: custom:mini-media-player
         entity: media_player.lg_tv
         icon: mdi:television
@@ -419,45 +481,6 @@ views:
         entity: media_player.gpm_desktop_player
         name: Google Music Player
         icon: mdi:music-circle-outline
-        artwork: cover
-        power_color: true
-        hide_volume: true
-        show_progress: true
-
-  ## Chris Bedroom ##
-  - id: chris_bedroom
-    title: Chris Bedroom
-    cards:
-      - type: horizontal-stack
-        cards:
-          - type: light
-            entity: light.chris_room
-          - type: light
-            entity: light.overhead
-          - type: light
-            entity: light.reading
-      - type: horizontal-stack
-        cards:
-          - type: custom:mini-graph-card
-            entity: sensor.chris_bedroom_temp
-            name: Temperature
-            hours_to_show: 72
-            line_color: "#e74c3c"
-            line_width: 6
-          - type: custom:mini-graph-card
-            entity: sensor.chris_bedroom_humidity
-            name: Humidity
-            hours_to_show: 72
-            line_color: "#3498db"
-            line_width: 6
-      - type: custom:mini-media-player
-        entity: media_player.chris_bedroom_display
-        show_source: true
-        artwork_border: true
-        icon: mdi:google-home
-      - type: custom:mini-media-player
-        entity: media_player.spotify
-        name: Spotify Player
         artwork: cover
         power_color: true
         hide_volume: true

@@ -14,21 +14,21 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: "scripts/movie_time"
+        package: "scripts/game_time"
 
-    script.movie_time:
+    script.game_time:
       <<: *customize
-      friendly_name: Movie Time
+      friendly_name: Game Time
 
 ##################################################
 ## Script
 ##################################################
 script:
-  movie_time:
+  game_time:
     sequence:
       - service: script.notify_voice_chris
         data:
-          message: "Enjoy the movie."
+          message: "Don't have too much fun with that game."
       - delay: 00:00:05
       - service: input_boolean.turn_off
         data:
@@ -39,7 +39,3 @@ script:
       - service: light.turn_on
         data:
           entity_id: light.reading
-      - delay: 02:00:00
-      - service: input_boolean.turn_on
-        data:
-          entity_id: input_boolean.voice_enabled_chris

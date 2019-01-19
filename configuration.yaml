@@ -11,7 +11,6 @@ homeassistant:
 
 lovelace:
   mode: yaml
-## INCLUDE ##
 discovery:
 dialogflow:
 history:
@@ -23,3 +22,8 @@ updater:
   include_used_components: true
 
 custom_updater:
+  card_urls:
+    - https://raw.githubusercontent.com/rdehuyss/homeassistant-lovelace-google-calendar-card/master/custom_updater.json
+    - https://raw.githubusercontent.com/kuuji/button-card/master/tracker.json
+    - https://raw.githubusercontent.com/kalkih/mini-graph-card/master/tracker.json
+    - https://raw.githubusercontent.com/kalkih/mini-media-player/master/tracker.json

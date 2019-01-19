@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Light / Tree
+## Packages / Light / Scentsy
 ################################################################
 
 ################################################
@@ -14,18 +14,18 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: 'light/tree'
+        package: "light/scentsy"
 
-    light.tree:
+    light.scentsy:
       <<: *customize
-      friendly_name: Tree Light
+      friendly_name: Scentsy
 
 #################################################
 ## Light
 #################################################
 light:
   - platform: mqtt
-    name: tree
+    name: scentsy
     state_topic: "home/sonoff_2/stat/POWER1"
     command_topic: "home/sonoff_2/cmnd/POWER"
     availability_topic: "home/sonoff_2/tele/LWT"
