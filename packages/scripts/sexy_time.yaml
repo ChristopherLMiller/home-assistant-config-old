@@ -1,0 +1,41 @@
+################################################################
+## Packages / Scripts / Sexy Time
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "scripts/sexy_time"
+
+    script.sexy_time:
+      <<: *customize
+      friendly_name: Sexy Time
+
+##################################################
+## Script
+##################################################
+script:
+  sexy_time:
+    sequence:
+      - service: script.notify_voice_chris
+        data:
+          message: "Get some!"
+      - service: light.turn_off
+        data:
+          entity_id: light.overhead
+      - service: light.turn_on
+        data:
+          entity_id: light.reading
+      - delay: 00:00:05
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.voice_enabled_chris
