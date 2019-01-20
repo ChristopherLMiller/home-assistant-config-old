@@ -22,6 +22,9 @@ updater:
   include_used_components: true
 
 custom_updater:
+  track:
+    - cards
+    - components
   card_urls:
     - https://raw.githubusercontent.com/rdehuyss/homeassistant-lovelace-google-calendar-card/master/custom_updater.json
     - https://raw.githubusercontent.com/kuuji/button-card/master/tracker.json

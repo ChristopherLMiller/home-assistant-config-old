@@ -20,6 +20,10 @@ homeassistant:
       <<: *customize
       friendly_name: "Network Status Change"
 
+    sensor.net_bedroom_esp_1:
+      <<: *customize
+      friendly_name: "ESP #1"
+
     sensor.net_hp_printer:
       <<: *customize
       friendly_name: "HP Printer (Computer Room)"
@@ -150,6 +154,10 @@ sensor:
         value_template: "{{ 'online' if is_state('device_tracker.net_hp_printer', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_hp_printer', 'home') else 'mdi:alert-circle' }}"
 
+      net_bedroom_esp_1:
+        value_template: "{{ 'online' if is_state('device_tracker.net_bedroom_esp_1', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_bedroom_esp_1', 'home') else 'mdi:alert-circle' }}"
+
       net_echo_show:
         value_template: "{{ 'online' if is_state('device_tracker.net_echo_show', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_echo_show', 'home') else 'mdi:alert-circle' }}"
@@ -271,6 +279,7 @@ automation:
     trigger:
       - platform: state
         entity_id:
+          - sensor.net_bedroom_esp_1
           - sensor.net_printer_computer_room
           - sensor.net_echo_show
           - sensor.net_echo_dot

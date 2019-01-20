@@ -66,7 +66,7 @@ frontend:
       sidebar-icon-color: "hsl(var(--huesat) 50%)" #iron-icon-fill-color
       # Paper card
       paper-item-icon-color: "hsl(var(--huesat) 40%)"
-      paper-item-icon-active-color: "var(--paper-item-icon-color)"
+      #paper-item-icon-active-color: "var(--paper-item-icon-color)"
       paper-item-icon_-_color: "var(--paper-item-icon-color)"
       paper-item-selected_-_background-color: "hsla(0, 0%, 0%, 0.2)"
       paper-item-selected_-_color: "hsl(var(--huesat) 20%)" #?
@@ -96,32 +96,6 @@ frontend:
       paper-slider-disabled-active-color: "hsl(var(--base-hue), 80%, 25%)"
       paper-slider-disabled-secondary-color: "hsl(var(--base-hue), 80%, 25%)"
       paper-dialog-color: "hsl(var(--base-hue), 20%, 80%)"
-    teal:
-      # Main Stuff #
-      primary-color: "#1DE9B6" # Primary (most of the UI)
-      primary-background-color: "#303030" # Primary background colour (dialogs, e.t.c)
-      secondary-background-color: "#303030" # Secondary background colour (main UI background)
-      paper-card-background-color: "#424242" # Card background colour
-      paper-item-icon-color: "#1DE9B6" # Icon colour
-      primary-text-color: "#FFFFFF" # Primary text colour
-      secondary-text-color: "rgba(255, 255, 255, 0.7)" # Secondary text colour
-      disabled-text-color: "rgba(255, 255, 255, 0.5)" # Disabled text colour
-      divider-color: "rgba(255, 255, 255, 0.12)" # Divider colour
-      paper-card-header-color: "#FFFFFF" # Card header text colour
-      # Nav Menu #
-      paper-listbox-background-color: "#424242" # Listbox background colour
-      paper-listbox-color: "#FFFFFF" # Listbox text colour
-      paper-grey-200: "#616161" # Listbox selected item background colour
-      # Switches #
-      paper-toggle-button-checked-ink-color: "#1DE9B6"
-      paper-toggle-button-checked-button-color: "#1DE9B6"
-      paper-toggle-button-checked-bar-color: "#1DE9B6"
-      # Sliders #
-      paper-slider-knob-color: "#1DE9B6"
-      paper-slider-knob-start-color: "#1DE9B6"
-      paper-slider-pin-color: "#1DE9B6"
-      paper-slider-active-color: "#1DE9B6"
-      paper-slider-secondary-color: "#33F2D8"
     DarkOrange:
       primary-color: "#ff9800"
       light-primary-color: "#ffc947"
@@ -160,7 +134,7 @@ frontend:
       label-badge-grey: "var(--paper-grey-500)"
       table-row-background-color: "var(--paper-card-background-color)"
       table-row-alternative-background-color: "var(--sidebar-text_-_background)"
-    darkred:
+    DarkRed:
       # Main colors that can be changed
       dark-primary-color: "#c66900"
       disabled-text-color: "#545454"
@@ -193,7 +167,7 @@ frontend:
       secondary-text-color: "var(--primary-color)"
       table-row-background-color: "var(--paper-card-background-color)"
       table-row-alternative-background-color: "var(--sidebar-text_-_background)"
-    darkcyan:
+    DarkCyan:
       # Main colors that can be changed
       primary-color: "#00bcd4"
       disabled-text-color: "#545454"
@@ -223,7 +197,7 @@ frontend:
       paper-toggle-button-checked-button-color: "var(--primary-color)"
       paper-toggle-button-checked-bar-color: "var(--light-primary-color)"
       paper-toggle-button-unchecked-bar-color: "var(--primary-text-color)"
-    minimal:
+    Minimal:
       dark-primary-color: "#192231"
       primary-color: "#98878f"
       light-primary-color: "#98878f"
@@ -234,41 +208,7 @@ frontend:
       paper-slider-knob-start-color: "#494e6b"
       paper-slider-pin-color: "#494e6b"
       paper-slider-active-color: "#494e6b"
-    stormy_hues:
-      dark-primary-color: "#192231"
-      primary-color: "#98878f"
-      light-primary-color: "#98878f"
-      paper-toggle-button-checked-ink-color: "#494e6b"
-      paper-toggle-button-checked-button-color: "#494e6b"
-      paper-toggle-button-checked-bar-color: "#494e6b"
-      paper-slider-knob-color: "#494e6b"
-      paper-slider-knob-start-color: "#494e6b"
-      paper-slider-pin-color: "#494e6b"
-      paper-slider-active-color: "#494e6b"
-    vintage:
-      dark-primary-color: "#373f27"
-      primary-color: "#636b46"
-      light-primary-color: "#e9e7da"
-      paper-toggle-button-checked-ink-color: "#cda34f"
-      paper-toggle-button-checked-button-color: "#cda34f"
-      paper-toggle-button-checked-bar-color: "#cda34f"
-      paper-slider-knob-color: "#cda34f"
-      paper-slider-knob-start-color: "#cda34f"
-      paper-slider-pin-color: "#cda34f"
-      paper-slider-active-color: "#cda34f"
-    done1:
-      dark-primary-color: "#565656"
-      primary-color: "#C09F80"
-      light-primary-color: "#D7CEC7"
-      paper-toggle-button-checked-ink-color: "#76323F"
-      paper-toggle-button-checked-button-color: "#76323F"
-      paper-toggle-button-checked-bar-color: "#76323F"
-      paper-slider-knob-color: "#76323F"
-      paper-slider-knob-start-color: "#76323F"
-      paper-slider-pin-color: "#76323F"
-      paper-slider-active-color: "#76323F"
-      paper-slider-secondary-color: "#FFE0B2"
-    halloween:
+    Halloween:
       # orange: dd5800; black: 000000; white: ffffff; coffee: 7a4901
       primary-color: "#dd5800"
       disabled-text-color: "#242424"

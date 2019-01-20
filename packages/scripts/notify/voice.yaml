@@ -46,10 +46,8 @@ input_number:
 ##################################################
 input_boolean:
   voice_enabled:
-    initial: on
     icon: mdi:voice
   voice_enabled_chris:
-    initial: on
     icon: mdi:voice
 
 ##################################################

@@ -8,7 +8,9 @@ resources:
     type: module
   - url: /local/custom_ui/tracker-card.js
     type: module
-  - url: /local/custom_ui/calendar-card.js?v=0.1.0
+  - url: /local/custom_ui/calendar-card.js?v=1.0.1
+    type: module
+  - url: /local/custom_ui/gauge-card.js?v=0.2.0
     type: module
   - url: https://unpkg.com/moment@2.22.2/moment.js
     type: js
@@ -179,6 +181,10 @@ views:
           - sensor.net_alfred_cam_1
           - sensor.net_alfred_cam_2
           - sensor.net_alfred_cam_3
+      - type: glance
+        title: Environment Monitors
+        entities:
+          - sensor.net_bedroom_esp_1
       - type: entities
         title: PiHole
         show_header_toggle: false
@@ -193,16 +199,66 @@ views:
           - sensor.pi_hole_domains_blocked
           - sensor.pi_hole_seen_clients
       - type: entities
-        title: Server Uptime
-        show_header_toggle: false
-        entities:
-          - sensor.uptime
-      - type: entities
         title: Cable Modem
         show_header_toggle: false
         entities:
           - switch.cable_modem
           - binary_sensor.internet_ping
+
+  ## System ##
+  - id: system
+    title: System
+    icon: mdi:desktop-classic
+    cards:
+      - type: entities
+        title: Server Uptime
+        show_header_toggle: false
+        entities:
+          - sensor.uptime
+      - type: custom:gauge-card
+        title: Processor Usage
+        entity: sensor.processor_use
+        severity:
+          green: 0
+          amber: 60
+          red: 85
+      - type: horizontal-stack
+        cards:
+          - type: custom:gauge-card
+            title: Memory Usage
+            entity: sensor.memory_use_percent
+            severity:
+              green: 0
+              amber: 60
+              red: 85
+          - type: custom:gauge-card
+            title: Swap Usage
+            entity: sensor.swap_use_percent
+            severity:
+              green: 0
+              amber: 60
+              red: 85
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entity: sensor.memory_free
+            name: Memory Free
+            hours_to_show: 24
+            line_width: 6
+          - type: custom:mini-graph-card
+            entity: sensor.memory_use
+            hours_to_show: 24
+            line_width: 6
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entity: sensor.network_in_wi_fi
+            hours_to_show: 24
+            line_width: 6
+          - type: custom:mini-graph-card
+            entity: sensor.network_out_wi_fi
+            hours_to_show: 24
+            line_width: 6
 
   ## Misc ##
   - id: misc
@@ -230,6 +286,7 @@ views:
       - type: custom:tracker-card
         trackers:
           - sensor.custom_component_tracker
+          - sensor.custom_card_tracker
 
   ## Scripts/Automations
   - id: automata
@@ -268,6 +325,7 @@ views:
           - script.chris_bedtime
           - script.chris_wakeup
           - script.downstairs_bedtime
+          - script.game_time
           - script.good_morning
           - script.movie_time
           - script.nap_time

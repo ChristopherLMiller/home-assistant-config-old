@@ -239,6 +239,14 @@ net_sonoff_6:
   picture:
   track: true
   vendor: Espressif Inc.
+net_bedroom_esp_1:
+  hide_if_away: false
+  icon:
+  mac: 5C:CF:7F:3C:85:AE
+  name: "ESP #1"
+  picture:
+  track: true
+  vendor: unknown
 net_google_home:
   hide_if_away: false
   icon:
@@ -346,14 +354,7 @@ net_xbox_one_x:
 ################
 ## Misc
 ################
-esp_easy_0:
-  hide_if_away: false
-  icon:
-  mac: 5C:CF:7F:3C:85:AE
-  name: ESP Easy 0
-  picture:
-  track: true
-  vendor: unknown
+
 hassbian:
   hide_if_away: false
   icon:
