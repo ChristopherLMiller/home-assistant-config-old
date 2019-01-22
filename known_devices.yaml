@@ -180,6 +180,27 @@ brandon_phone:
   picture:
   track: true
   vendor: Apple, Inc.
+google_maps_116702972761683534887:
+  hide_if_away: false
+  icon:
+  mac:
+  name: Google Maps Chris
+  picture: https://lh3.googleusercontent.com/a-/AAuE7mAyQAYh3yOe2dVFuwDmkvAoOP8ls72lvxnGKSJWyQ
+  track: true
+google_maps_103489025913573967412:
+  hide_if_away: false
+  icon:
+  mac:
+  name: Google Maps Teresa
+  picture: https://lh5.googleusercontent.com/-BXuRXjrCh_M/AAAAAAAAAAI/AAAAAAAAAAA/AKxrwcbK_UyNHN5MFssgWNRxn-17hd1BSQ/mo/photo.jpg
+  track: true
+google_maps_101109004782011634458:
+  hide_if_away: false
+  icon:
+  mac:
+  name: Google Maps Kyrie
+  picture: https://lh3.googleusercontent.com/-i43NDPXTeew/AAAAAAAAAAI/AAAAAAAAAAA/AKxrwcbSgXscPUsRXfvM6iqoOhXzLI6bPg/mo/photo.jpg
+  track: true
 
 #############################
 ## Smart Devices
@@ -370,28 +391,4 @@ versa:
   mac: 18:00:DB:97:AC:B8
   name: Versa
   picture:
-  track: true
-
-google_maps_116702972761683534887:
-  hide_if_away: false
-  icon:
-  mac:
-  name: Google Maps Chris
-  picture: https://lh3.googleusercontent.com/a-/AAuE7mAyQAYh3yOe2dVFuwDmkvAoOP8ls72lvxnGKSJWyQ
-  track: true
-
-google_maps_103489025913573967412:
-  hide_if_away: false
-  icon:
-  mac:
-  name: Google Maps Teresa
-  picture: https://lh5.googleusercontent.com/-BXuRXjrCh_M/AAAAAAAAAAI/AAAAAAAAAAA/AKxrwcbK_UyNHN5MFssgWNRxn-17hd1BSQ/mo/photo.jpg
-  track: true
-
-google_maps_101109004782011634458:
-  hide_if_away: false
-  icon:
-  mac:
-  name: Google Maps Kyrie
-  picture: https://lh3.googleusercontent.com/-i43NDPXTeew/AAAAAAAAAAI/AAAAAAAAAAA/AKxrwcbSgXscPUsRXfvM6iqoOhXzLI6bPg/mo/photo.jpg
   track: true

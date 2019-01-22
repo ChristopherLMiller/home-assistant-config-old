@@ -88,7 +88,16 @@ sensor:
         value_template: "{{'Visiting' if is_state('device_tracker.kennady_phone', 'home') else 'Away'}}"
 
       kyrie_location:
-        value_template: "{{'Visiting' if is_state('device_tracker.kyrie_phone', 'home') else 'Away'}}"
+        value_template: >-
+          {% if states('device_tracker.kyrie_phone') == "home" %}
+          Visiting
+          {% else %}
+          {% if states('device_tracker.google_maps_101109004782011634458') == "home" %}
+          Visiting
+          {% else %}
+          Away
+          {% endif %}
+          {% endif %}
 
       corey_location:
         value_template: "{{'Visiting' if is_state('device_tracker.corey_phone', 'home') else 'Away'}}"
@@ -106,10 +115,20 @@ sensor:
         value_template: "{{'Visiting' if is_state('device_tracker.erin_phone', 'home') else 'Away'}}"
 
       chris_location:
-        value_template: "{{'Home' if is_state('device_tracker.google_maps_116702972761683534887', 'home') else 'Away'}}"
+        value_template: >-
+          {% if states('device_tracker.chris_phone') == "home" %}
+          Home
+          {% else %}
+          {{ states('device_tracker.google_maps_116702972761683534887')|title }}
+          {% endif %}
 
       teresa_location:
-        value_template: "{{'Home' if is_state('device_tracker.google_maps_103489025913573967412', 'home') else 'Away'}}"
+        value_template: >-
+          {% if states('device_tracker.teresa_phone') == "home" %}
+          Home
+          {% else %}
+          {{ states('device_tracker.google_maps_103489025913573967412')|title }}
+          {% endif %}
 
       bruce_location:
         value_template: "{{'Home' if is_state('device_tracker.bruce_phone', 'home') else 'Away'}}"
