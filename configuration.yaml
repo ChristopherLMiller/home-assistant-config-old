@@ -25,7 +25,7 @@ zone:
   - name: Home
     latitude: !secret zone_home_lat
     longitude: !secret zone_home_long
-    radius: 200cmd
+    radius: 200
 
 custom_updater:
   track:

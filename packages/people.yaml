@@ -173,4 +173,4 @@ automation:
         data_template:
           cache: true
           message: >-
-            {{ trigger.to_state.attributes.friendly_name.split(' ')[0] }} is here to visit.
+            A new guest has arrived.  Welcome,{{ trigger.to_state.attributes.friendly_name.split(' ')[0] }}.

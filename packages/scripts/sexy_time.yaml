@@ -27,8 +27,9 @@ script:
   sexy_time:
     sequence:
       - service: script.notify_voice_chris
-        data:
-          message: "Get some!"
+        data_template:
+          message: >-
+            {{ ["Time to get your freak on.", "Get some mister!", "Hanky panky time."] | random }}
       - service: light.turn_off
         data:
           entity_id: light.overhead

@@ -36,5 +36,6 @@ script:
         data:
           entity_id: light.outside
       - service: script.notify_voice
-        data:
-          message: "Turning everything off. Goodnight!"
+        data_template:
+          message: >-
+            {{ ["I'm turning everything off.  Have a wonderful night!", "I've taken the liberty of turning everything off for you.  Goodnight", "Sleep tight.  I'll close up shop."] | random }}

@@ -53,7 +53,7 @@ script:
             {%- set work_date = states.calendar.moose51789gmailcom.attributes.start_time.split(' ')[0] -%}
             {%- set work_start = as_timestamp(states.calendar.moose51789gmailcom.attributes.start_time) | timestamp_custom('%I:%M%p') -%}
             {%- if work_date == states.sensor.date.state -%}
-              You have a shift starting at {{ work_start }}.
+              You have a shift starting at {{ work_start }} tonight.
             {%- else -%}
               Enjoy your night off.
             {%- endif -%}

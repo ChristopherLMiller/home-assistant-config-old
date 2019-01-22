@@ -42,7 +42,7 @@ script:
       - service: script.notify_html5
         data_template:
           message: >-
-            {{ person }} is home
+            {{ person }} has returned home.
       - service: script.notify_voice
         data_template:
           cache: true

@@ -208,7 +208,6 @@ views:
           - binary_sensor.hscresteds_com
           - binary_sensor.miller_house
           - binary_sensor.moosecraft_us_app
-          - binary_sensor.moosecraft_us_static
       - type: entities
         title: Cable Modem
         show_header_toggle: false
@@ -505,10 +504,6 @@ views:
         icon: mdi:google-home
         artwork_border: true
         show_source: true
-      - type: entities
-        title: TV Remote
-        entities:
-          - remote.lg_tv_remote
 
   ## Computer Room ##
   - id: computer_room
