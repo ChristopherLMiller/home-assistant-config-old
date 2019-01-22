@@ -21,6 +21,12 @@ auth:
 updater:
   include_used_components: true
 
+zone:
+  - name: Home
+    latitude: !secret zone_home_lat
+    longitude: !secret zone_home_long
+    radius: 200cmd
+
 custom_updater:
   track:
     - cards

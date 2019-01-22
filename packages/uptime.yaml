@@ -22,3 +22,10 @@ homeassistant:
 sensor:
   - platform: uptime
     unit_of_measurement: hours
+
+##################################################
+## Binary Sensor
+##################################################
+binary_sensor:
+  - platform: uptimerobot
+    api_key: !secret uptime_robot_key

@@ -43,5 +43,6 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.work_day
+        to: "on"
     action:
       - service: script.chris_wakeup

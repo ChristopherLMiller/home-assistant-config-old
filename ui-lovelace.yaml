@@ -4,7 +4,7 @@ resources:
     type: module
   - url: /local/custom_ui/mini-graph-card-bundle.js?v=0.1.0
     type: module
-  - url: /local/custom_ui/button-card.js?v=0.0.4
+  - url: /local/custom_ui/button-card.js?v=0.0.5
     type: module
   - url: /local/custom_ui/tracker-card.js
     type: module
@@ -199,6 +199,17 @@ views:
           - sensor.pi_hole_domains_blocked
           - sensor.pi_hole_seen_clients
       - type: entities
+        title: Web Services Status
+        show_header_toggle: false
+        entities:
+          - binary_sensor.clm_me
+          - binary_sensor.clm_me_api
+          - binary_sensor.clm_me_invoicing
+          - binary_sensor.hscresteds_com
+          - binary_sensor.miller_house
+          - binary_sensor.moosecraft_us_app
+          - binary_sensor.moosecraft_us_static
+      - type: entities
         title: Cable Modem
         show_header_toggle: false
         entities:
@@ -337,6 +348,7 @@ views:
           - script.people_arriving_home
           - script.reading_time
           - script.reading_time_off
+          - script.sexy_time
 
   ## Weather ##
   - id: weather
@@ -493,6 +505,10 @@ views:
         icon: mdi:google-home
         artwork_border: true
         show_source: true
+      - type: entities
+        title: TV Remote
+        entities:
+          - remote.lg_tv_remote
 
   ## Computer Room ##
   - id: computer_room

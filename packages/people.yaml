@@ -106,10 +106,10 @@ sensor:
         value_template: "{{'Visiting' if is_state('device_tracker.erin_phone', 'home') else 'Away'}}"
 
       chris_location:
-        value_template: "{{'Home' if is_state('device_tracker.chris_phone', 'home') else 'Away'}}"
+        value_template: "{{'Home' if is_state('device_tracker.google_maps_116702972761683534887', 'home') else 'Away'}}"
 
       teresa_location:
-        value_template: "{{'Home' if is_state('device_tracker.teresa_phone', 'home') else 'Away'}}"
+        value_template: "{{'Home' if is_state('device_tracker.google_maps_103489025913573967412', 'home') else 'Away'}}"
 
       bruce_location:
         value_template: "{{'Home' if is_state('device_tracker.bruce_phone', 'home') else 'Away'}}"
