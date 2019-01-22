@@ -109,6 +109,14 @@ views:
           type: glance
           title: Visitors
 
+      - type: entities
+        show_header_toggle: false
+        title: Phone Battery Levels
+        entities:
+          - sensor.chris_phone_battery
+          - sensor.kyrie_phone_battery
+          - sensor.teresa_phone_battery
+
       - type: weather-forecast
         entity: weather.dark_sky
 

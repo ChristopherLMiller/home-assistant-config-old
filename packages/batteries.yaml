@@ -1,0 +1,120 @@
+################################################################
+## Packages / Batteries
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "batteries"
+
+    sensor.chris_phone_battery:
+      <<: *customize
+      friendly_name: Chris's Phone
+
+    sensor.kyrie_phone_battery:
+      <<: *customize
+      friendly_name: Kyries Phone
+
+    sensor.teresa_phone_battery:
+      <<: *customize
+      friendly_name: Teresa Phone
+
+###################################################
+## Sensor
+###################################################
+sensor:
+  - platform: template
+    sensors:
+      chris_phone_battery:
+        value_template: >-
+          {%- if states.device_tracker.google_maps_116702972761683534887.attributes['battery_level'] -%}
+            {{ states.device_tracker.google_maps_116702972761683534887.attributes['battery_level']| int('unknown') }}
+          {%- else -%}
+            Unknown
+          {%- endif -%}
+        unit_of_measurement: "%"
+        icon_template: >-
+          {%- if states.device_tracker.google_maps_116702972761683534887.attributes['battery_level'] -%}
+            {% set battery_level = states.device_tracker.google_maps_116702972761683534887.attributes['battery_level']| int('unknown') %}
+            {% set battery_charging = states.device_tracker.google_maps_116702972761683534887.attributes['battery_charging'] %}
+            {% if battery_level == 'unknown' %}
+              mdi:battery-unknown
+            {% else %}
+              {% set battery_round = (battery_level|int / 10)|int * 10 %}
+
+              {% if battery_round >= 100 %}
+                mdi:battery{{ '-charging' if battery_charging }}
+              {% elif battery_round > 0 %}
+                mdi:battery{{ '-charging-' if battery_charging else '-' }}{{ battery_round }}
+              {% else %}
+                mdi:battery-alert
+              {% endif %}
+            {% endif %}
+          {%- else -%}
+            mdi:battery-unknown
+          {%- endif -%}
+      teresa_phone_battery:
+        value_template: >-
+          {%- if states.device_tracker.google_maps_103489025913573967412.attributes['battery_level'] -%}
+            {{ states.device_tracker.google_maps_103489025913573967412.attributes['battery_level']| int('unknown') }}
+          {%- else -%}
+            Unknown
+          {%- endif -%}
+        unit_of_measurement: "%"
+        icon_template: >-
+          {%- if states.device_tracker.google_maps_103489025913573967412.attributes['battery_level'] -%}
+            {% set battery_level = states.device_tracker.google_maps_103489025913573967412.attributes['battery_level']| int('unknown') %}
+            {% set battery_charging = states.device_tracker.google_maps_103489025913573967412.attributes['battery_charging'] %}
+            {% if battery_level == 'unknown' %}
+              mdi:battery-unknown
+            {% else %}
+              {% set battery_round = (battery_level|int / 10)|int * 10 %}
+
+              {% if battery_round >= 100 %}
+                mdi:battery{{ '-charging' if battery_charging }}
+              {% elif battery_round > 0 %}
+                mdi:battery{{ '-charging-' if battery_charging else '-' }}{{ battery_round }}
+              {% else %}
+                mdi:battery-alert
+              {% endif %}
+            {% endif %}
+          {%- else -%}
+            mdi:battery-unknown
+          {%- endif -%}
+      kyrie_phone_battery:
+        value_template: >-
+          {%- if states.device_tracker.google_maps_101109004782011634458.attributes['battery_level'] -%}
+            {{ states.device_tracker.google_maps_101109004782011634458.attributes['battery_level']| int('unknown') }}
+          {%- else -%}
+            Unknown
+          {%- endif -%}
+        unit_of_measurement: "%"
+        icon_template: >-
+          {%- if states.device_tracker.google_maps_101109004782011634458.attributes['battery_level'] -%}
+            {% set battery_level = states.device_tracker.google_maps_101109004782011634458.attributes['battery_level']| int('unknown') %}
+            {% set battery_charging = states.device_tracker.google_maps_101109004782011634458.attributes['battery_charging'] %}
+            {% if battery_level == 'unknown' %}
+              mdi:battery-unknown
+            {% else %}
+              {% set battery_round = (battery_level|int / 10)|int * 10 %}
+
+              {% if battery_round >= 100 %}
+                mdi:battery{{ '-charging' if battery_charging }}
+              {% elif battery_round > 0 %}
+                mdi:battery{{ '-charging-' if battery_charging else '-' }}{{ battery_round }}
+              {% else %}
+                mdi:battery-alert
+              {% endif %}
+            {% endif %}
+          {%- else -%}
+            mdi:battery-unknown
+          {%- endif -%}
