@@ -83,16 +83,12 @@ views:
             default_color: rgb(255, 233, 155)
             name: Model Room
 
-      - type: entity-filter
+      - type: glance
+        title: Household
         entities:
           - sensor.chris_location
           - sensor.teresa_location
           - sensor.bruce_location
-        state_filter:
-          - "Home"
-        card:
-          type: glance
-          title: Household
 
       - type: entity-filter
         entities:
@@ -151,12 +147,10 @@ views:
             hours_to_show: 72
             line_color: "#ec8245"
             line-width: 6
-      - type: glance
-        title: Network Devices
+      - type: entities
+        title: Network Devices (MISC)
+        show_header_toggle: false
         entities:
-          - sensor.net_amazon_firestick
-          - sensor.net_amazon_firestick_2
-          - sensor.net_amazon_firestick_3
           - sensor.net_amazon_kindle
           - sensor.net_asus_laptop_gaming
           - sensor.net_asus_tablet
@@ -167,34 +161,49 @@ views:
           - sensor.net_samsung_smart_tv
           - sensor.net_xbox_one
           - sensor.net_xbox_one_x
-      - type: glance
-        title: Smart Home Devices
-        entities:
           - sensor.net_hue_bridge
+      - type: entities
+        title: Streaming Devices
+        show_header_toggle: false
+        entities:
+          - sensor.net_amazon_firestick
+          - sensor.net_amazon_firestick_2
+          - sensor.net_amazon_firestick_3
+      - type: entities
+        title: Smart Switches
+        show_header_toggle: false
+        entities:
           - sensor.net_sonoff_1
           - sensor.net_sonoff_2
           - sensor.net_sonoff_3
           - sensor.net_sonoff_4
           - sensor.net_sonoff_5
           - sensor.net_sonoff_6
+      - type: entities
+        title: Smart Speakers
+        show_header_toggle: false
+        entities:
           - sensor.net_google_home
           - sensor.net_google_home_2
           - sensor.net_google_home_3
           - sensor.net_google_home_hub
           - sensor.net_echo_dot
           - sensor.net_echo_show
-      - type: glance
+          - sensor.net_chromecast_audio
+          - sensor.net_chromecast_audio_2
+      - type: entities
         title: IP Cameras
+        show_header_toggle: false
         entities:
           - sensor.net_alfred_cam_1
           - sensor.net_alfred_cam_2
           - sensor.net_alfred_cam_3
-      - type: glance
+      - type: entities
         title: Environment Monitors
         entities:
           - sensor.net_bedroom_esp_1
       - type: entities
-        title: PiHole
+        title: Pi-Hole
         show_header_toggle: false
         entities:
           - sensor.pi_hole_ads_blocked_today
@@ -299,8 +308,9 @@ views:
         show_header_toggle: false
         entities:
           - input_boolean.voice_enabled
-          - input_boolean.voice_enabled_chris
           - input_number.voice_volume
+          - input_boolean.voice_enabled_chris
+          - input_number.voice_volume_chris
       - type: custom:tracker-card
         trackers:
           - sensor.custom_component_tracker
@@ -343,9 +353,7 @@ views:
           - script.chris_bedtime
           - script.chris_wakeup
           - script.downstairs_bedtime
-          - script.game_time
           - script.good_morning
-          - script.movie_time
           - script.nap_time
           - script.notify_discord
           - script.notify_html5
@@ -356,6 +364,8 @@ views:
           - script.reading_time
           - script.reading_time_off
           - script.sexy_time
+          - script.xbox_activity_start
+          - script.xbox_activity_end
 
   ## Weather ##
   - id: weather
@@ -431,10 +441,28 @@ views:
           - calendar.contacts
 
       - type: custom:mini-media-player
+        entity: media_player.samsungtv
+        show_source: true
+        artwork_border: true
+        icon: mdi:television
+
+      - type: custom:mini-media-player
+        entity: media_player.xboxone
+        show_source: true
+        artwork_border: true
+        icon: mdi:xbox
+
+      - type: custom:mini-media-player
         entity: media_player.chris_bedroom_display
         show_source: true
         artwork_border: true
         icon: mdi:google-home
+
+      - type: custom:mini-media-player
+        entity: media_player.chris_chromecast_audio
+        show_source: true
+        artwork_border: true
+        icon: mdi:google-chrome
 
       - type: custom:mini-media-player
         entity: media_player.spotify
@@ -477,6 +505,11 @@ views:
         power_color: true
         hide_volume: true
         show_progress: true
+      - type: custom:mini-media-player
+        entity: media_player.spare_room_chromecast
+        show_source: true
+        artwork_border: true
+        icon: mdi:google-chrome
 
   ## Outside ##
   - id: outside

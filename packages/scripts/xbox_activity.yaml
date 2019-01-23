@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Scripts / Movie Time
+## Packages / Scripts / Xbox Activity
 ################################################################
 
 ################################################
@@ -14,23 +14,22 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: "scripts/game_time"
+        package: "scripts/xbox_activity"
 
-    script.game_time:
+    script.xbox_activity_start:
       <<: *customize
-      friendly_name: Game Time
+      friendly_name: Xbox Activity Started
+
+    script.xbox_activity_end:
+      <<: *customize
+      friendly_name: Xbox Activity Ended
 
 ##################################################
 ## Script
 ##################################################
 script:
-  game_time:
+  xbox_activity_start:
     sequence:
-      - service: script.notify_voice_chris
-        data_template:
-          message: >-
-            {{ ["Enjoy your game.  But don't forget to take breaks!", "Game Time! Right on!", "Don't have too much fun with that game!"] | random }}
-      - delay: 00:00:05
       - service: input_boolean.turn_off
         data:
           entity_id: input_boolean.voice_enabled_chris
@@ -40,3 +39,15 @@ script:
       - service: light.turn_on
         data:
           entity_id: light.reading
+
+  xbox_activity_end:
+    sequence:
+      - service: light.turn_off
+        data:
+          entity_id: light.reading
+      - service: light.turn_on
+        data:
+          entity_id: light.overhead
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.voice_enabled_chris

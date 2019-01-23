@@ -92,10 +92,12 @@ sensor:
           {% if states('device_tracker.kyrie_phone') == "home" %}
           Visiting
           {% else %}
-          {% if states('device_tracker.google_maps_101109004782011634458') == "home" %}
+          {% if states('device_tracker.google_maps_101109004782011634458') == "not_home" %}
+          Away
+          {% elif states('device_tracker.google_maps_101109004782011634458') %}
           Visiting
           {% else %}
-          Away
+          {{ states('device_tracker.google_maps_101109004782011634458')|title }}
           {% endif %}
           {% endif %}
 
@@ -119,7 +121,11 @@ sensor:
           {% if states('device_tracker.chris_phone') == "home" %}
           Home
           {% else %}
+          {% if states('device_tracker.google_maps_116702972761683534887') == "not_home" %}
+          Away
+          {% else %}
           {{ states('device_tracker.google_maps_116702972761683534887')|title }}
+          {% endif %}
           {% endif %}
 
       teresa_location:
@@ -127,7 +133,11 @@ sensor:
           {% if states('device_tracker.teresa_phone') == "home" %}
           Home
           {% else %}
+          {% if states('device_tracker.google_maps_103489025913573967412') == "not_home" %}
+          Away
+          {% else %}
           {{ states('device_tracker.google_maps_103489025913573967412')|title }}
+          {% endif %}
           {% endif %}
 
       bruce_location:

@@ -69,7 +69,7 @@ net_amazon_firestick_2:
   hide_if_away: false
   icon:
   mac: AC:63:BE:CC:9D:F3
-  name: amazon-355e9c176
+  name: Amazon Firestick (Toy Room)
   picture:
   track: true
   vendor: Amazon Technologies Inc.
@@ -77,7 +77,7 @@ net_amazon_firestick_3:
   hide_if_away: false
   icon:
   mac: 34:D2:70:BB:75:84
-  name: amazon-7ece98dc1
+  name: Amazon Firestick (Master Bedroom)
   picture:
   track: true
   vendor: Amazon Technologies Inc.
@@ -295,6 +295,20 @@ net_google_home_hub:
   icon:
   mac: 1C:F2:9A:08:AA:ED
   name: Google-Home-Hub
+  picture:
+  track: true
+net_chromecast_audio:
+  hide_if_away: false
+  icon:
+  mac: 54:60:09:F5:D0:4E
+  name: Chromecast-Audio
+  picture:
+  track: true
+net_chromecast_audio_2:
+  hide_if_away: false
+  icon:
+  mac: 54:60:09:F5:D7:84
+  name: Chromecast
   picture:
   track: true
 net_echo_dot:

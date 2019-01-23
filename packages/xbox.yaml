@@ -1,0 +1,49 @@
+################################################################
+## Packages / Xbox
+## Description: Packages relating to automations dealing with
+##              Xbox one, either movies, games or whatever
+################################################################
+
+################################################
+## Customize
+################################################
+
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+
+    package.node_anchors:
+      customize: &customize
+        package: "xbox"
+
+    automation.xbox_playing:
+      <<: *customize
+      friendly_name: Xbox Playing
+
+    automation.xbox_paused:
+      <<: *customize
+      friendly_name: Xbox Paused
+
+###################################################
+## Automation
+###################################################
+automation:
+  - alias: xbox_playing
+    initial_state: True
+    trigger:
+      - platform: state
+        entity_id: media_player.xboxone
+        to: "playing"
+    action:
+      - service: script.xbox_activity_start
+
+  - alias: xbox_paused
+    initial_state: True
+    trigger:
+      - platform: state
+        entity_id: media_player.xboxone
+        to: "paused"
+    action:
+      - service: script.xbox_activity_end

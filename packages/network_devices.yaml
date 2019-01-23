@@ -124,6 +124,14 @@ homeassistant:
       <<: *customize
       friendly_name: "Google Home Mini #3"
 
+    sensor.net_chromecast_audio:
+      <<: *customize
+      friendly_name: "Chromecast Audio #1"
+
+    sensor.net_chromecast_audio_2:
+      <<: *customize
+      friendly_name: "Chromecast Audio #2"
+
     sensor.net_google_home_hub:
       <<: *customize
       friendly_name: "Google Home Hub"
@@ -246,6 +254,14 @@ sensor:
         value_template: "{{ 'online' if is_state('device_tracker.net_google_home_3', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_google_home_3', 'home') else 'mdi:alert-circle' }}"
 
+      net_chromecast_audio:
+        value_template: "{{ 'online' if is_state('device_tracker.net_chromecast_audio', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_chromecast_audio', 'home') else 'mdi:alert-circle' }}"
+
+      net_chromecast_audio_2:
+        value_template: "{{ 'online' if is_state('device_tracker.net_chromecast_audio_2', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_chromecast_audio_2', 'home') else 'mdi:alert-circle' }}"
+
       net_google_home_hub:
         value_template: "{{ 'online' if is_state('device_tracker.net_google_home_hub', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_google_home_hub', 'home') else 'mdi:alert-circle' }}"
@@ -280,20 +296,17 @@ automation:
       - platform: state
         entity_id:
           - sensor.net_bedroom_esp_1
-          - sensor.net_printer_computer_room
           - sensor.net_echo_show
           - sensor.net_echo_dot
-          - sensor.net_asus_tablet
-          - sensor.net_asus_laptop_gaming
-          - sensor.net_samsung_smart_tv
           - sensor.net_amazon_firestick
           - sensor.net_amazon_firestick_2
           - sensor.net_amazon_firestick_3
-          - sensor.net_lg_smart_tv
           - sensor.net_google_home
           - sensor.net_google_home_2
           - sensor.net_google_home_3
           - sensor.net_google_home_hub
+          - sensor.net_chromecast_audio
+          - sensor.net_chromecast_audio_2
           - sensor.net_sonoff_1
           - sensor.net_sonoff_2
           - sensor.net_sonoff_3
@@ -306,5 +319,8 @@ automation:
           - sensor.net_alfred_cam_3
     action:
       - service: script.notify_discord
+        data_template:
+          message: "{{ trigger.to_state.attributes.friendly_name }} is now {{ trigger.to_state.state }}"
+      - service: script.notify_voice_chris
         data_template:
           message: "{{ trigger.to_state.attributes.friendly_name }} is now {{ trigger.to_state.state }}"
