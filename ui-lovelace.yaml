@@ -340,6 +340,9 @@ views:
           - automation.restart_cable_modem_crashed
           - automation.sunrise
           - automation.sunset
+          - automation.website_status_change
+          - automation.xbox_playing
+          - automation.xbox_paused
       - type: entities
         title: Scenes
         show_header_toggle: false
@@ -580,6 +583,11 @@ views:
         icon: mdi:google-home
         artwork_border: true
         show_source: true
+      - type: custom:mini-media-player
+        entity: media_player.spare_room_chromecast
+        show_source: true
+        artwork_border: true
+        icon: mdi:google-chrome
       - type: custom:mini-media-player
         entity: media_player.spotify
         name: Spotify Player
