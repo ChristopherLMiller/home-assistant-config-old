@@ -28,6 +28,53 @@ homeassistant:
       <<: *customize
       friendly_name: Teresa Phone
 
+    automation.warn_battery_low:
+      <<: *customize
+      friendly_name: Warn Battery Low
+
+    automation.warn_battery_low_chris:
+      <<: *customize
+      friendly_name: Warn Battery Low Chris
+
+###################################################
+## Automation
+###################################################
+automation:
+  - alias: warn_battery_low
+    initial_state: on
+    trigger:
+      - platform: numeric_state
+        entity_id:
+          - sensor.teresa_phone_battery
+        below: 50
+      - platform: numeric_state
+        entity_id:
+          - sensor.teresa_phone_battery
+        below: 30
+    action:
+      - service: script.notify_voice
+        data_template:
+          message: "Teresa, you're phone battery is at {{ states('sensor.teresa_phone_battery') }} percent.  Might want to plug it in."
+  - alias: warn_battery_low_chris
+    initial_state: on
+    trigger:
+      - platform: numeric_state
+        entity_id:
+          - sensor.chris_phone_battery
+          - sensor.kyrie_phone_battery
+        below: 50
+      - platform: numeric_state
+        entity_id:
+          - sensor.chris_phone_battery
+          - sensor.kyrie_phone_battery
+        below: 30
+    action:
+      - service: script.notify_html5
+        data_template:
+          message: "{{ trigger.to_state.attributes.friendly_name.split('/'')[0] }}, you're phone battery is at {{ trigger.to_state.state }} percent.  Might want to plug it in."
+      - service: script.notify_voice_chris
+        data_template:
+          message: "{{ trigger.to_state.attributes.friendly_name.split('/'')[0] }}, you're phone battery is at {{ trigger.to_state.state }} percent.  Might want to plug it in."
 ###################################################
 ## Sensor
 ###################################################

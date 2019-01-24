@@ -340,6 +340,8 @@ views:
           - automation.restart_cable_modem_crashed
           - automation.sunrise
           - automation.sunset
+          - automation.warn_battery_low
+          - automation.warn_battery_low_chris
           - automation.website_status_change
           - automation.xbox_playing
           - automation.xbox_paused

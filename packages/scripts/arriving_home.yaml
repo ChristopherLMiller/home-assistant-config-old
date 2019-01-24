@@ -32,7 +32,7 @@ script:
       # Next interior lights
       - service: light.turn_on
         data:
-          entity_id: light.living_room_floor
+          entity_id: light.scentsy
 
       # do notifications
       - service: script.notify_discord
