@@ -16,15 +16,26 @@ homeassistant:
       customize: &customize
         package: "speedtest"
 
+    binary_sensor.internet_ping:
+      <<: *customize
+      friendly_name: Internet Pingable
+
 ################################################
-## Sensor
+## Speed Test
 ################################################
-sensor:
-  - platform: speedtest
-    monitored_conditions:
-      - ping
-      - download
-      - upload
-    minute:
-      - 0
-      - 30
+speedtestdotnet:
+  scan_interval:
+    minutes: 30
+  monitored_conditions:
+    - ping
+    - download
+    - upload
+
+##################################################
+## Binary Sensor
+##################################################
+binary_sensor:
+  - platform: ping
+    host: 1.1.1.1
+    name: internet_ping
+    scan_interval: 30

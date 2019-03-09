@@ -31,7 +31,7 @@ script:
           message: "Morning wakeup initiated."
       - service: light.turn_on
         data:
-          entity_id: light.scentsy
+          entity_id: light.sonoff_2
       - service: light.turn_on
         data:
           entity_id: light.outside

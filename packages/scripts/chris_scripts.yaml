@@ -65,6 +65,10 @@ script:
         data:
           entity_id: input_boolean.voice_enabled_chris
 
+      - service: switch.turn_on
+        data:
+          entity_id: switch.sonoff_7
+
       # Lastly, play taps if enabled
       - condition: state
         entity_id: input_boolean.bedtime_music
@@ -119,6 +123,9 @@ script:
           transition: 5
           brightness_pct: 100
       - service: script.outside_lights_on
+      - service: switch.turn_off
+        data:
+          entity_id: switch.sonoff_7
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.chris_bedroom_display

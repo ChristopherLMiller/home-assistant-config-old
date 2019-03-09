@@ -21,6 +21,9 @@ homeassistant:
 ##################################################
 media_player:
   - platform: plex
+    entity_namespace: 'plex'
+    scan_interval: 5
+    remove_unavailable_clients: false
 
 ##################################################
 ## Sensor

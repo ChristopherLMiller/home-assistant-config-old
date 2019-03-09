@@ -1,5 +1,5 @@
 ################################################################
-## Packages / Alexa
+## Packages / Cloud
 ################################################################
 
 ################################################
@@ -14,10 +14,10 @@ homeassistant:
 
     package.node_anchors:
       customize: &customize
-        package: "google_assistant"
+        package: "cloud"
 
 ##################################################
-## Alexa
+## Cloud
 ##################################################
 cloud:
   google_actions:
@@ -42,8 +42,8 @@ cloud:
         - light.chris_room
         - light.living_room
         - light.other
-        - script.xbox_activity_start
-        - script.xbox_activity_end
+        - script.movie_activity_start
+        - script.movie_activity_end
         - script.notify_discord
         - script.notify_html5
         - script.notify_voice
@@ -53,6 +53,7 @@ cloud:
       include_entities:
         - input_boolean.voice_enabled
         - input_boolean.voice_enabled_chris
+        - input_boolean.reading_time
     entity_config:
       script.chris_wakeup:
         name: Chris Wake Up

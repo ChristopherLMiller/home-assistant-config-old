@@ -18,11 +18,11 @@ homeassistant:
 
     sensor.chris_phone_battery:
       <<: *customize
-      friendly_name: Chris's Phone
+      friendly_name: Chris Phone
 
     sensor.kyrie_phone_battery:
       <<: *customize
-      friendly_name: Kyries Phone
+      friendly_name: Kyrie Phone
 
     sensor.teresa_phone_battery:
       <<: *customize
@@ -46,15 +46,15 @@ automation:
       - platform: numeric_state
         entity_id:
           - sensor.teresa_phone_battery
-        below: 50
+        below: 30
       - platform: numeric_state
         entity_id:
           - sensor.teresa_phone_battery
-        below: 30
+        below: 20
     action:
       - service: script.notify_voice
         data_template:
-          message: "Teresa, you're phone battery is at {{ states('sensor.teresa_phone_battery') }} percent.  Might want to plug it in."
+          message: "Teresa, your phone battery is at {{ states('sensor.teresa_phone_battery') }} percent.  Might want to plug it in."
   - alias: warn_battery_low_chris
     initial_state: on
     trigger:
@@ -62,19 +62,19 @@ automation:
         entity_id:
           - sensor.chris_phone_battery
           - sensor.kyrie_phone_battery
-        below: 50
+        below: 30
       - platform: numeric_state
         entity_id:
           - sensor.chris_phone_battery
           - sensor.kyrie_phone_battery
-        below: 30
+        below: 20
     action:
       - service: script.notify_html5
         data_template:
-          message: "{{ trigger.to_state.attributes.friendly_name.split('/'')[0] }}, you're phone battery is at {{ trigger.to_state.state }} percent.  Might want to plug it in."
+          message: "{{ trigger.to_state.attributes.friendly_name.split(' ')[0] }}, your phone battery is at {{ trigger.to_state.state }} percent.  Might want to plug it in."
       - service: script.notify_voice_chris
         data_template:
-          message: "{{ trigger.to_state.attributes.friendly_name.split('/'')[0] }}, you're phone battery is at {{ trigger.to_state.state }} percent.  Might want to plug it in."
+          message: "{{ trigger.to_state.attributes.friendly_name.split(' ')[0] }}, your phone battery is at {{ trigger.to_state.state }} percent.  Might want to plug it in."
 ###################################################
 ## Sensor
 ###################################################
@@ -165,3 +165,18 @@ sensor:
           {%- else -%}
             mdi:battery-unknown
           {%- endif -%}
+
+###################################################
+## Input Number
+###################################################
+input_number:
+  battery_first_warn:
+    initial: 30
+    min: 0
+    max: 100
+    step: 1
+  battery_second_warn:
+    initial: 20
+    min: 0
+    max: 100
+    step: 1

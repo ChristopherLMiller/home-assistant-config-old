@@ -35,24 +35,24 @@ light:
     name: Model Room
     entities:
       - light.overhead_3
-      - light.model_desk
+      - light.sonoff_6
 
   - platform: group
     name: Computer Room
     entities:
-      - light.computer_room_floor
+      - light.sonoff_3
 
   - platform: group
     name: Chris Room
     entities:
       - light.overhead
-      - light.reading
+      - light.sonoff_1
 
   - platform: group
     name: Living Room
     entities:
-      - light.scentsy
-      - light.living_room_floor
+      - light.sonoff_2
+      - light.sonoff_4
 
   - platform: group
     name: Toy Room
@@ -62,9 +62,9 @@ light:
   - platform: group
     name: Downstairs
     entities:
-      - light.computer_room_floor
-      - light.living_room_floor
-      - light.scentsy
+      - light.sonoff_3
+      - light.sonoff_4
+      - light.sonoff_2
       - light.overhead_2
 
   - platform: group
@@ -72,5 +72,5 @@ light:
     entities:
       - light.overhead
       - light.overhead_3
-      - light.reading
-      - light.model_desk
+      - light.sonoff_1
+      - light.sonoff_6

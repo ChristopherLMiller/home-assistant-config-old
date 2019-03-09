@@ -76,6 +76,10 @@ homeassistant:
       <<: *customize
       friendly_name: "Amazon Fire Stick (Master Bedroom)"
 
+    sensor.net_amazon_firestick_4:
+      <<: *customize
+      friendly_name: "Amazon Fire Stick 4K (Chris Bedroom)"
+
     sensor.net_lg_smart_tv:
       <<: *customize
       friendly_name: "LG Smart TV (Living Room)"
@@ -111,6 +115,22 @@ homeassistant:
     sensor.net_sonoff_6:
       <<: *customize
       friendly_name: "Sonoff SV #1"
+
+    sensor.net_sonoff_7:
+      <<: *customize
+      friendly_name: "Sonoff Basic #7"
+
+    sensor.net_sonoff_8:
+      <<: *customize
+      friendly_name: "Sonoff Basic #8"
+
+    sensor.net_sonoff_9:
+      <<: *customize
+      friendly_name: "Sonoff Basic #9"
+
+    sensor.net_sonoff_10:
+      <<: *customize
+      friendly_name: "Sonoff Basic #10"
 
     sensor.net_google_home:
       <<: *customize
@@ -214,6 +234,10 @@ sensor:
         value_template: "{{ 'online' if is_state('device_tracker.net_amazon_firestick_3', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_amazon_firestick_3', 'home') else 'mdi:alert-circle' }}"
 
+      net_amazon_firestick_4:
+        value_template: "{{ 'online' if is_state('device_tracker.net_amazon_firestick_4', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_amazon_firestick_4', 'home') else 'mdi:alert-circle' }}"
+
       net_lg_smart_tv:
         value_template: "{{ 'online' if is_state('device_tracker.net_lg_smart_tv', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_lg_smart_tv', 'home') else 'mdi:alert-circle' }}"
@@ -241,6 +265,22 @@ sensor:
       net_sonoff_6:
         value_template: "{{ 'online' if is_state('device_tracker.net_sonoff_6', 'home') else 'offline' }}"
         icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_sonoff_6', 'home') else 'mdi:alert-circle' }}"
+
+      net_sonoff_7:
+        value_template: "{{ 'online' if is_state('device_tracker.net_sonoff_7', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_sonoff_7', 'home') else 'mdi:alert-circle' }}"
+
+      net_sonoff_8:
+        value_template: "{{ 'online' if is_state('device_tracker.net_sonoff_8', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_sonoff_8', 'home') else 'mdi:alert-circle' }}"
+
+      net_sonoff_9:
+        value_template: "{{ 'online' if is_state('device_tracker.net_sonoff_9', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_sonoff_9', 'home') else 'mdi:alert-circle' }}"
+
+      net_sonoff_10:
+        value_template: "{{ 'online' if is_state('device_tracker.net_sonoff_10', 'home') else 'offline' }}"
+        icon_template: "{{ 'mdi:check-circle-outline' if is_state('device_tracker.net_sonoff_10', 'home') else 'mdi:alert-circle' }}"
 
       net_google_home:
         value_template: "{{ 'online' if is_state('device_tracker.net_google_home', 'home') else 'offline' }}"
@@ -301,6 +341,7 @@ automation:
           - sensor.net_amazon_firestick
           - sensor.net_amazon_firestick_2
           - sensor.net_amazon_firestick_3
+          - sensor.net_amazon_firestick_4
           - sensor.net_google_home
           - sensor.net_google_home_2
           - sensor.net_google_home_3
@@ -313,6 +354,10 @@ automation:
           - sensor.net_sonoff_4
           - sensor.net_sonoff_5
           - sensor.net_sonoff_6
+          - sensor.net_sonoff_7
+          - sensor.net_sonoff_8
+          - sensor.net_sonoff_9
+          - sensor.net_sonoff_10
           - sensor.net_hue_bridge
           - sensor.net_alfred_cam_1
           - sensor.net_alfred_cam_2

@@ -81,6 +81,13 @@ net_amazon_firestick_3:
   picture:
   track: true
   vendor: Amazon Technologies Inc.
+net_amazon_firestick_4:
+  hide_if_away: false
+  icon:
+  mac: 3C:5C:C4:38:98:C8
+  name: Amazon Firestick 4k (Chris Bedroom)
+  picture:
+  track: true
 net_hp_laptop:
   hide_if_away: false
   icon:
@@ -104,7 +111,7 @@ net_cassie_laptop:
 bruce_phone:
   hide_if_away: false
   icon:
-  mac: A8:81:95:31:BB:76
+  mac: 44:91:60:D4:21:8C
   name: Bruce Phone
   picture:
   track: true
@@ -145,14 +152,6 @@ mikayla_phone:
   icon:
   mac: A0:CC:2B:1B:6F:D3
   name: MiKayla Phone
-  picture:
-  track: true
-  vendor: Samsung Electronics Co.,Ltd
-corey_phone:
-  hide_if_away: false
-  icon:
-  mac: C0:17:4D:7A:D0:E6
-  name: Corey Phone
   picture:
   track: true
   vendor: Samsung Electronics Co.,Ltd
@@ -260,6 +259,34 @@ net_sonoff_6:
   picture:
   track: true
   vendor: Espressif Inc.
+net_sonoff_7:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:DF:BE:AB
+  name: Sonoff Basic
+  picture:
+  track: true
+net_sonoff_8:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:DF:BF:43
+  name: Sonoff Basic
+  picture:
+  track: true
+net_sonoff_9:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:DF:B7:8D
+  name: Sonoff Basic
+  picture:
+  track: true
+net_sonoff_10:
+  hide_if_away: false
+  icon:
+  mac: DC:4F:22:DF:BD:3F
+  name: Sonoff Basic
+  picture:
+  track: true
 net_bedroom_esp_1:
   hide_if_away: false
   icon:
@@ -390,14 +417,13 @@ net_xbox_one_x:
 ## Misc
 ################
 
-hassbian:
+android_3ffa3a2223b7cacd:
   hide_if_away: false
   icon:
-  mac: 00:C3:16:A1:D5:FB
-  name: hassbian
+  mac: A8:81:95:31:BB:76
+  name: android-3ffa3a2223b7cacd
   picture:
   track: true
-  vendor: unknown
 
 versa:
   hide_if_away: false

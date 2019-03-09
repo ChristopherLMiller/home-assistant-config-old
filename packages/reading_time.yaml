@@ -28,9 +28,10 @@ homeassistant:
       <<: *customize
       friendly_name: Reading Time Volume Changed
 
-    group.reading_time:
+    input_boolean.reading_time:
       <<: *customize
       friendly_name: Reading Time
+      icon: mdi:book
 
     input_number.reading_time_volume:
       <<: *customize
@@ -47,27 +48,11 @@ homeassistant:
       friendly_name: Source
       icon: mdi:speaker-wireless
 
-    script.reading_time:
-      <<: *customize
-      friendly_name: Reading Time
-      icon: mdi:play
-
-    script.reading_time_off:
-      <<: *customize
-      friendly_name: Reading Done
-      icon: mdi:stop
-
 ##################################################
-## Group
+## Input Boolean
 ##################################################
-group:
+input_boolean:
   reading_time:
-    control: hidden
-    entities:
-      - input_select.reading_time_playlist
-      - input_select.reading_time_source
-      - input_number.reading_time_volume
-      - script.reading_time
 
 ##################################################
 ## Input Number
@@ -95,46 +80,6 @@ input_select:
       - Echo Show
 
 ##################################################
-## Script
-##################################################
-script:
-  # Turn on
-  reading_time:
-    sequence:
-      - service: light.turn_on
-        data:
-          entity_id: light.reading
-      - service: media_player.volume_set
-        data_template:
-          entity_id: media_player.spotify
-          volume_level: "{{ states.input_number.reading_time_volume.state }}"
-      - service: media_player.select_source
-        data_template:
-          entity_id: media_player.spotify
-          source: >-
-            {% if is_state('input_select.reading_time_source', 'Chris Laptop') %}CHRISMILLERPC
-            {% elif is_state('input_select.reading_time_source', 'Echo Show') %}Christopher's Echo Show
-            {% endif %}
-      - service: media_player.play_media
-        data_template:
-          entity_id: media_player.spotify
-          media_content_type: playlist
-          media_content_id: >-
-            {% if is_state('input_select.reading_time_playlist', 'Classical') %}spotify:user:spotify:playlist:37i9dQZF1DX4sWSpwq3LiO
-            {% elif is_state('input_select.reading_time_playlist', 'Christmas') %}spotify:user:spotify:playlist:37i9dQZF1DX6R7QUWePReA
-            {% endif %}
-
-  # Turn Off
-  reading_time_off:
-    sequence:
-      - service: light.turn_off
-        data:
-          entity_id: light.reading
-      - service: media_player.media_pause
-        data:
-          entity_id: media_player.spotify
-
-##################################################
 ## Automation
 ##################################################
 automation:
@@ -150,7 +95,7 @@ automation:
           entity_id: media_player.spotify
           volume_level: "{{ states.input_number.reading_time_volume.state }}"
 
-  # Playlist changed
+  # Source changed
   - alias: reading_time_source_changed
     initial_state: true
     trigger:
@@ -165,6 +110,7 @@ automation:
             {% elif is_state('input_select.reading_time_source', 'Echo Show') %}Christopher's Echo Show
             {% endif %}
 
+  # Playlist Changed
   - alias: reading_time_playlist_changed
     initial_state: true
     trigger:

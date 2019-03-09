@@ -35,7 +35,7 @@ script:
           entity_id: light.overhead
       - service: light.turn_on
         data:
-          entity_id: light.reading
+          entity_id: light.sonoff_1
       - delay: 00:00:05
       - service: input_boolean.turn_off
         data:

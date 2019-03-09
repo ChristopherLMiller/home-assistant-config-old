@@ -28,15 +28,5 @@ media_player:
   - platform: lg_netcast
     name: lg_tv
     host: !secret lg_tv_living_room_host
-    port: 8001
     access_token: !secret lg_tv_living_room_access_token
-    mac: !secret lg_tv_living_room_mac
-##################################################
-## Remote
-##################################################
-#remote:
-#  - platform: lg_netcast
-#    name: lg_tv_remote
-#    host: !secret lg_tv_living_room_host
-#    port: 8001
-#    access_token: !secret lg_tv_living_room_access_token
+

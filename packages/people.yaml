@@ -41,11 +41,6 @@ homeassistant:
       friendly_name: "Erin"
       icon: mdi:human-female
 
-    sensor.corey_location:
-      <<: *customize
-      friendly_name: "Corey"
-      icon: mdi:human-male
-
     sensor.kyrie_location:
       <<: *customize
       friendly_name: "Kyrie"
@@ -94,15 +89,12 @@ sensor:
           {% else %}
           {% if states('device_tracker.google_maps_101109004782011634458') == "not_home" %}
           Away
-          {% elif states('device_tracker.google_maps_101109004782011634458') %}
+          {% elif states('device_tracker.google_maps_101109004782011634458') == "home" %}
           Visiting
           {% else %}
           {{ states('device_tracker.google_maps_101109004782011634458')|title }}
           {% endif %}
           {% endif %}
-
-      corey_location:
-        value_template: "{{'Visiting' if is_state('device_tracker.corey_phone', 'home') else 'Away'}}"
 
       mikayla_location:
         value_template: "{{'Visiting' if is_state('device_tracker.mikayla_phone', 'home') else 'Away'}}"
@@ -183,7 +175,6 @@ automation:
         to: "home"
         entity_id:
           - device_tracker.cassie_phone
-          - device_tracker.corey_phone
           - device_tracker.kennady_phone
           - device_tracker.kyrie_phone
           - device_tracker.mikayla_phone
